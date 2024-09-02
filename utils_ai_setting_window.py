@@ -256,6 +256,8 @@ def run_ms_ai(self):
         if self.camera_page_worker is not None:
             self.camera_page_worker.ai_active = False
 
+    self.live_refresh_live_viewer()
+
 def check_camera_viewer(self):
     for camera_name, camera_info in self.camera_info_dict_temp.items():
         if len(camera_info["IP"]):

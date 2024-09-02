@@ -125,6 +125,7 @@ class LoginWindow(QMainWindow):
                     f.write(json.dumps(self.ai_server_info))
                 
             else:
+                print(receive_data)
                 self.create_fade_out_msg(msg = receive_data["data"])
                 
         except Exception as e:
@@ -370,14 +371,13 @@ class MainWindow(QMainWindow):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.check_camera_connect_status)
 
-        # if self.setting_info["NOTICE"]["active"] or self.setting_info["EMAIL"]["active"] or self.setting_info["VIDEO_SAVE"]["active"]:
-        if self.setting_info_temp["NOTICE"]["active"]:
-            #누적된 알람 초기화
-            data = {"msg" : str(" ")}
-            url = f'http://{self.HOST}:{self.PORT}/get-alarm-info'
-            receive_data = requests.get(url, json=data).json()
+        # if self.setting_info_temp["NOTICE"]["active"]:
+        #     #누적된 알람 초기화
+        #     data = {"msg" : str(" ")}
+        #     url = f'http://{self.HOST}:{self.PORT}/get-alarm-info'
+        #     receive_data = requests.get(url, json=data).json()
             
-            self.timer.timeout.connect(self.Notification_alarm)
+        #     self.timer.timeout.connect(self.Notification_alarm)
 
         self.timer.start(1000)  # 타이머 시작 5초에 한번씩
 
@@ -758,12 +758,15 @@ class MainWindow(QMainWindow):
 
     def live_refresh_live_viewer(self):
         try:
+            print("refresh live viwer")
             for worker in self.camera_worker_dict.values():
                 worker.stop()
                 del worker
                 gc.collect()
 
             self.connect_live_page_camera()
+            print("finish refresh live viwer")
+
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             tb = traceback.format_exc()
@@ -802,7 +805,7 @@ class MainWindow(QMainWindow):
                     }
                     camera_viewers[thread_index][camera_name] = viewer
 
-                    if len(cameras_grouped[thread_index]) >= 4:
+                    if len(cameras_grouped[thread_index]) >= 1:
                         thread_index += 1
 
             for idx, cameras in cameras_grouped.items():
@@ -903,7 +906,7 @@ class MainWindow(QMainWindow):
                 self.camera_page_worker = None
 
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
-            self.live_refresh_live_viewer()
+            # self.live_refresh_live_viewer()
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             tb = traceback.format_exc()

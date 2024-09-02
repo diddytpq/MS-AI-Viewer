@@ -272,6 +272,9 @@ background-color: rgba(191, 64, 64, 0);</string>
 
 </string>
    </property>
+   <property name="buttonSymbols">
+    <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+   </property>
    <property name="currentSection">
     <enum>QDateTimeEdit::Section::YearSection</enum>
    </property>
