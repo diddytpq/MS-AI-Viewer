@@ -150,7 +150,7 @@ class Video_Buffer:
             if self.video_pipe:
                 self.video_pipe.set_state(Gst.State.NULL)
 
-            self.run()  # 파이프라인이 NULL 상태가 된 후에 재시작
+            # self.run()  # 파이프라인이 NULL 상태가 된 후에 재시작
 
 
 
