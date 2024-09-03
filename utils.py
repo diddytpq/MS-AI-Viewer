@@ -176,6 +176,7 @@ class Video_Buffer:
         if self.video_pipe:
             self.video_pipe.set_state(Gst.State.NULL)  # 파이프라인을 중지 상태로 설정
             self.connection_status = False  # 연결 상태를 False로 설정
+            self.video_pipe = None
             # print("RTSP stream stopped.")
 
 
@@ -293,21 +294,15 @@ class Connect_Camera_Group(QThread):
                     frame = cv2.resize(frame_ori, dsize=(self.viewers_widget.width()//4 - 5, self.viewers_widget.height()//4 - 5))
 
                     if camera_info["ai_active"] and (self.settings["plot_bbox"] or self.settings["plot_label"]):
-                        # try:
-                        #     receive_data = sessions[camera_name].get(camera_info['back_url'], json={"msg": camera_name}).json()
-                        #     if receive_data[camera_name]:
-                        #         frame = plot_detect_info(img=frame, detect_info=receive_data[camera_name],
-                        #                                  roi_thickness=camera_info["roi_thickness"],
-                        #                                  plot_bbox=self.settings["plot_bbox"],
-                        #                                  plot_label=self.settings["plot_label"])
-                        # except:
-                        #     pass
-                        receive_data = sessions[camera_name].get(camera_info['back_url'], json={"msg": camera_name}).json()
-                        if receive_data[camera_name]:
-                            frame = plot_detect_info(img=frame, detect_info=receive_data[camera_name],
+                        try:
+                            receive_data = sessions[camera_name].get(camera_info['back_url'], json={"msg": camera_name}).json()
+                            if receive_data[camera_name]:
+                                frame = plot_detect_info(img=frame, detect_info=receive_data[camera_name],
                                                         roi_thickness=camera_info["roi_thickness"],
                                                         plot_bbox=self.settings["plot_bbox"],
                                                         plot_label=self.settings["plot_label"])
+                        except requests.RequestException as e:
+                            print(f"Network error occurred while fetching data for {camera_name}: {e}")
                             
  
                     height, width, channels = frame.shape
@@ -320,11 +315,14 @@ class Connect_Camera_Group(QThread):
                 else:
                     self.camera_connect_flag["camera_name"] = False
 
-                time.sleep(0.011)
+                time.sleep(0.033)
 
         for cap in self.caps.values():
             cap.stop()
             del cap
+        for session in sessions.values():
+            session.close()
+    
         self.quit()
 
     def stop(self) -> None:

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.7.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -39,7 +39,7 @@ class Ui_MainWindow(object):
         MainWindow.setMaximumSize(QSize(3840, 2160))
         MainWindow.setContextMenuPolicy(Qt.ContextMenuPolicy.PreventContextMenu)
         icon = QIcon()
-        icon.addFile(u":/newPrefix/ui/images/ino2.ico", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/newPrefix/ui/images/ino2.ico", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"background-color: rgb(3, 3, 13);")
         self.centralwidget = QWidget(MainWindow)
@@ -191,7 +191,7 @@ class Ui_MainWindow(object):
         font3.setPointSize(10)
         font3.setBold(False)
         self.sever_login_bnt.setFont(font3)
-        self.sever_login_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.sever_login_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.sever_login_bnt.setStyleSheet(u"\n"
 "background-color: rgb(30, 195, 55);\n"
 "\n"
@@ -214,7 +214,7 @@ class Ui_MainWindow(object):
         font4.setPointSize(10)
         font4.setBold(False)
         self.shutdown_bnt.setFont(font4)
-        self.shutdown_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.shutdown_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.shutdown_bnt.setStyleSheet(u"background-color: rgb(255, 49, 38);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 15px;\n"
@@ -616,7 +616,7 @@ class Ui_MainWindow(object):
         self.camera_remove_bn.setMinimumSize(QSize(76, 39))
         self.camera_remove_bn.setMaximumSize(QSize(76, 39))
         self.camera_remove_bn.setFont(font2)
-        self.camera_remove_bn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.camera_remove_bn.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_remove_bn.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 19px;\n"
@@ -631,7 +631,7 @@ class Ui_MainWindow(object):
         self.camera_add_bn.setMinimumSize(QSize(76, 39))
         self.camera_add_bn.setMaximumSize(QSize(76, 39))
         self.camera_add_bn.setFont(font2)
-        self.camera_add_bn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.camera_add_bn.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_add_bn.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 19px;\n"
@@ -650,7 +650,7 @@ class Ui_MainWindow(object):
         self.camera_save_bn.setMinimumSize(QSize(76, 39))
         self.camera_save_bn.setMaximumSize(QSize(76, 39))
         self.camera_save_bn.setFont(font2)
-        self.camera_save_bn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.camera_save_bn.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_save_bn.setStyleSheet(u"\n"
 "background-color: rgb(30, 195, 55);\n"
 "\n"
@@ -703,7 +703,7 @@ class Ui_MainWindow(object):
         self.live_bnt.setMinimumSize(QSize(163, 28))
         self.live_bnt.setMaximumSize(QSize(163, 28))
         self.live_bnt.setFont(font8)
-        self.live_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.live_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.live_bnt.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "border: 1px solid rgba(0, 0, 0, 0);\n"
 "background-color: rgba(191, 64, 64, 0);")
@@ -736,7 +736,7 @@ class Ui_MainWindow(object):
         self.camera_bnt.setMinimumSize(QSize(163, 28))
         self.camera_bnt.setMaximumSize(QSize(163, 28))
         self.camera_bnt.setFont(font8)
-        self.camera_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.camera_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_bnt.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "border: 1px solid rgba(0, 0, 0, 0);\n"
 "background-color: rgba(191, 64, 64, 0);")
@@ -763,7 +763,7 @@ class Ui_MainWindow(object):
         self.setting_bnt.setMinimumSize(QSize(163, 28))
         self.setting_bnt.setMaximumSize(QSize(163, 28))
         self.setting_bnt.setFont(font8)
-        self.setting_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.setting_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.setting_bnt.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "background-color: rgba(191, 64, 64, 0);\n"
 "border: 1px solid rgba(0, 0, 0, 0);")
@@ -790,7 +790,7 @@ class Ui_MainWindow(object):
         self.admin_bnt.setMinimumSize(QSize(163, 28))
         self.admin_bnt.setMaximumSize(QSize(163, 28))
         self.admin_bnt.setFont(font8)
-        self.admin_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.admin_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.admin_bnt.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "border: 1px solid rgba(0, 0, 0, 0);\n"
 "background-color: rgba(191, 64, 64, 0);")
@@ -821,14 +821,14 @@ class Ui_MainWindow(object):
         self.camera_refresh_bnt.setMinimumSize(QSize(37, 52))
         self.camera_refresh_bnt.setMaximumSize(QSize(37, 52))
         self.camera_refresh_bnt.setFont(font2)
-        self.camera_refresh_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.camera_refresh_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_refresh_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
 "color: rgb(255, 255, 255);\n"
 "\n"
 "")
         icon1 = QIcon()
-        icon1.addFile(u":/newPrefix/ui/images/ico_refresh.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(u":/newPrefix/ui/images/ico_refresh.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.camera_refresh_bnt.setIcon(icon1)
         self.camera_refresh_bnt.setIconSize(QSize(31, 50))
 
@@ -838,14 +838,14 @@ class Ui_MainWindow(object):
         self.labeling_bnt.setObjectName(u"labeling_bnt")
         self.labeling_bnt.setMinimumSize(QSize(37, 52))
         self.labeling_bnt.setFont(font2)
-        self.labeling_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.labeling_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.labeling_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
 "color: rgb(255, 255, 255);\n"
 "\n"
 "")
         icon2 = QIcon()
-        icon2.addFile(u":/newPrefix/ui/images/ico_ai_setting.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(u":/newPrefix/ui/images/ico_ai_setting.png", QSize(), QIcon.Normal, QIcon.Off)
         self.labeling_bnt.setIcon(icon2)
         self.labeling_bnt.setIconSize(QSize(31, 50))
 
@@ -855,14 +855,14 @@ class Ui_MainWindow(object):
         self.camera_schedule_bnt.setObjectName(u"camera_schedule_bnt")
         self.camera_schedule_bnt.setMinimumSize(QSize(37, 52))
         self.camera_schedule_bnt.setFont(font2)
-        self.camera_schedule_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.camera_schedule_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_schedule_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
 "color: rgb(255, 255, 255);\n"
 "\n"
 "")
         icon3 = QIcon()
-        icon3.addFile(u":/newPrefix/ui/images/ico_timer.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(u":/newPrefix/ui/images/ico_timer.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.camera_schedule_bnt.setIcon(icon3)
         self.camera_schedule_bnt.setIconSize(QSize(31, 50))
 
@@ -872,14 +872,14 @@ class Ui_MainWindow(object):
         self.alarm_search_bnt.setObjectName(u"alarm_search_bnt")
         self.alarm_search_bnt.setMinimumSize(QSize(37, 52))
         self.alarm_search_bnt.setFont(font2)
-        self.alarm_search_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.alarm_search_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.alarm_search_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
 "color: rgb(255, 255, 255);\n"
 "\n"
 "")
         icon4 = QIcon()
-        icon4.addFile(u":/newPrefix/ui/images/search_ico.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon4.addFile(u":/newPrefix/ui/images/search_ico.png", QSize(), QIcon.Normal, QIcon.Off)
         self.alarm_search_bnt.setIcon(icon4)
         self.alarm_search_bnt.setIconSize(QSize(31, 50))
 
@@ -1252,14 +1252,14 @@ class Ui_MainWindow(object):
         self.camera_page_detect_add_bnt.setSizePolicy(sizePolicy1)
         self.camera_page_detect_add_bnt.setMinimumSize(QSize(31, 31))
         self.camera_page_detect_add_bnt.setFont(font2)
-        self.camera_page_detect_add_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.camera_page_detect_add_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_page_detect_add_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
 "color: rgb(255, 255, 255);\n"
 "\n"
 "")
         icon5 = QIcon()
-        icon5.addFile(u":/newPrefix/ui/images/ico_add_circle.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon5.addFile(u":/newPrefix/ui/images/ico_add_circle.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.camera_page_detect_add_bnt.setIcon(icon5)
         self.camera_page_detect_add_bnt.setIconSize(QSize(31, 50))
 
@@ -1350,7 +1350,7 @@ class Ui_MainWindow(object):
         self.camera_page_detect_area_del_bnt.setMinimumSize(QSize(61, 31))
         self.camera_page_detect_area_del_bnt.setMaximumSize(QSize(61, 31))
         self.camera_page_detect_area_del_bnt.setFont(font2)
-        self.camera_page_detect_area_del_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.camera_page_detect_area_del_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_page_detect_area_del_bnt.setStyleSheet(u"background-color: rgb(255, 49, 38);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
@@ -1460,7 +1460,7 @@ class Ui_MainWindow(object):
         self.camera_page_ai_bnt.setSizePolicy(sizePolicy1)
         self.camera_page_ai_bnt.setMinimumSize(QSize(141, 41))
         self.camera_page_ai_bnt.setFont(font2)
-        self.camera_page_ai_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.camera_page_ai_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_page_ai_bnt.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 20px;\n"
@@ -1583,7 +1583,7 @@ class Ui_MainWindow(object):
         self.setting_alarm_bnt.setMinimumSize(QSize(171, 41))
         self.setting_alarm_bnt.setMaximumSize(QSize(171, 41))
         self.setting_alarm_bnt.setFont(font13)
-        self.setting_alarm_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.setting_alarm_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.setting_alarm_bnt.setStyleSheet(u"border-radius: 15px;\n"
 "\n"
 "color: rgb(255, 255, 255);\n"
@@ -1599,7 +1599,7 @@ class Ui_MainWindow(object):
         self.setting_user_setting_bnt.setMinimumSize(QSize(171, 41))
         self.setting_user_setting_bnt.setMaximumSize(QSize(171, 41))
         self.setting_user_setting_bnt.setFont(font13)
-        self.setting_user_setting_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.setting_user_setting_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.setting_user_setting_bnt.setStyleSheet(u"border-radius: 15px;\n"
 "color: rgb(255, 255, 255);\n"
 "background-color: rgb(36, 39, 44);\n"
@@ -1615,7 +1615,7 @@ class Ui_MainWindow(object):
         self.setting_ai_bnt.setMinimumSize(QSize(171, 41))
         self.setting_ai_bnt.setMaximumSize(QSize(171, 41))
         self.setting_ai_bnt.setFont(font13)
-        self.setting_ai_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.setting_ai_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.setting_ai_bnt.setStyleSheet(u"border-radius: 15px;\n"
 "\n"
 "color: rgb(255, 255, 255);\n"
@@ -1713,8 +1713,8 @@ class Ui_MainWindow(object):
         self.setting_detect_bbox_active_bnt.setMinimumSize(QSize(61, 25))
         self.setting_detect_bbox_active_bnt.setMaximumSize(QSize(61, 25))
         icon6 = QIcon()
-        icon6.addFile(u":/newPrefix/ui/images/icon-switch-off.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        icon6.addFile(u":/newPrefix/ui/images/icon-switch-on.png", QSize(), QIcon.Mode.Normal, QIcon.State.On)
+        icon6.addFile(u":/newPrefix/ui/images/icon-switch-off.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon6.addFile(u":/newPrefix/ui/images/icon-switch-on.png", QSize(), QIcon.Normal, QIcon.On)
         self.setting_detect_bbox_active_bnt.setIcon(icon6)
         self.setting_detect_bbox_active_bnt.setIconSize(QSize(55, 103))
         self.setting_detect_bbox_active_bnt.setCheckable(True)
@@ -1746,9 +1746,9 @@ class Ui_MainWindow(object):
         self.setting_detect_label_active_bnt.setMinimumSize(QSize(61, 25))
         self.setting_detect_label_active_bnt.setMaximumSize(QSize(61, 25))
         icon7 = QIcon()
-        icon7.addFile(u":/newPrefix/ui/images/icon-switch-off.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        icon7.addFile(u":/newPrefix/ui/images/icon-switch-on.png", QSize(), QIcon.Mode.Normal, QIcon.State.On)
-        icon7.addFile(u":/newPrefix/images/icon-switch-on.png", QSize(), QIcon.Mode.Disabled, QIcon.State.On)
+        icon7.addFile(u":/newPrefix/ui/images/icon-switch-off.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon7.addFile(u":/newPrefix/ui/images/icon-switch-on.png", QSize(), QIcon.Normal, QIcon.On)
+        icon7.addFile(u":/newPrefix/images/icon-switch-on.png", QSize(), QIcon.Disabled, QIcon.On)
         self.setting_detect_label_active_bnt.setIcon(icon7)
         self.setting_detect_label_active_bnt.setIconSize(QSize(55, 103))
         self.setting_detect_label_active_bnt.setCheckable(True)
@@ -2186,7 +2186,7 @@ class Ui_MainWindow(object):
         self.setting_email_save_bnt.setMinimumSize(QSize(91, 41))
         self.setting_email_save_bnt.setMaximumSize(QSize(91, 41))
         self.setting_email_save_bnt.setFont(font2)
-        self.setting_email_save_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.setting_email_save_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.setting_email_save_bnt.setStyleSheet(u"\n"
 "background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
@@ -2237,12 +2237,17 @@ class Ui_MainWindow(object):
         self.verticalLayout_29.setObjectName(u"verticalLayout_29")
         self.horizontalLayout_40 = QHBoxLayout()
         self.horizontalLayout_40.setObjectName(u"horizontalLayout_40")
-        self.horizontalSpacer_35 = QSpacerItem(40, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_35 = QSpacerItem(48, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_40.addItem(self.horizontalSpacer_35)
 
         self.setting_user_id_label = QLabel(self.setting_user_setting_tab)
         self.setting_user_id_label.setObjectName(u"setting_user_id_label")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.setting_user_id_label.sizePolicy().hasHeightForWidth())
+        self.setting_user_id_label.setSizePolicy(sizePolicy5)
         self.setting_user_id_label.setMinimumSize(QSize(43, 22))
         self.setting_user_id_label.setMaximumSize(QSize(43, 22))
         self.setting_user_id_label.setFont(font13)
@@ -2256,16 +2261,21 @@ class Ui_MainWindow(object):
         self.verticalLayout_20.setObjectName(u"verticalLayout_20")
         self.setting_user_id_input = QLineEdit(self.setting_user_setting_tab)
         self.setting_user_id_input.setObjectName(u"setting_user_id_input")
-        self.setting_user_id_input.setMinimumSize(QSize(439, 19))
-        self.setting_user_id_input.setMaximumSize(QSize(439, 19))
+        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.setting_user_id_input.sizePolicy().hasHeightForWidth())
+        self.setting_user_id_input.setSizePolicy(sizePolicy6)
+        self.setting_user_id_input.setMinimumSize(QSize(246, 19))
+        self.setting_user_id_input.setMaximumSize(QSize(9999, 19))
         self.setting_user_id_input.setStyleSheet(u"color: rgb(255, 255, 255);")
 
         self.verticalLayout_20.addWidget(self.setting_user_id_input)
 
         self.setting_user_id_input_line = QFrame(self.setting_user_setting_tab)
         self.setting_user_id_input_line.setObjectName(u"setting_user_id_input_line")
-        self.setting_user_id_input_line.setMinimumSize(QSize(439, 3))
-        self.setting_user_id_input_line.setMaximumSize(QSize(439, 3))
+        self.setting_user_id_input_line.setMinimumSize(QSize(246, 3))
+        self.setting_user_id_input_line.setMaximumSize(QSize(246, 3))
         self.setting_user_id_input_line.setFont(font9)
         self.setting_user_id_input_line.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
         self.setting_user_id_input_line.setAutoFillBackground(False)
@@ -2283,8 +2293,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_39 = QHBoxLayout()
         self.horizontalLayout_39.setObjectName(u"horizontalLayout_39")
+        self.horizontalSpacer_60 = QSpacerItem(5, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_39.addItem(self.horizontalSpacer_60)
+
         self.setting_user_pw_label = QLabel(self.setting_user_setting_tab)
         self.setting_user_pw_label.setObjectName(u"setting_user_pw_label")
+        sizePolicy5.setHeightForWidth(self.setting_user_pw_label.sizePolicy().hasHeightForWidth())
+        self.setting_user_pw_label.setSizePolicy(sizePolicy5)
         self.setting_user_pw_label.setMinimumSize(QSize(87, 22))
         self.setting_user_pw_label.setMaximumSize(QSize(104, 22))
         self.setting_user_pw_label.setFont(font13)
@@ -2298,8 +2314,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_19.setObjectName(u"verticalLayout_19")
         self.setting_user_pw_input = QLineEdit(self.setting_user_setting_tab)
         self.setting_user_pw_input.setObjectName(u"setting_user_pw_input")
-        self.setting_user_pw_input.setMinimumSize(QSize(439, 19))
-        self.setting_user_pw_input.setMaximumSize(QSize(439, 19))
+        sizePolicy6.setHeightForWidth(self.setting_user_pw_input.sizePolicy().hasHeightForWidth())
+        self.setting_user_pw_input.setSizePolicy(sizePolicy6)
+        self.setting_user_pw_input.setMinimumSize(QSize(246, 19))
+        self.setting_user_pw_input.setMaximumSize(QSize(9999, 19))
         self.setting_user_pw_input.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.setting_user_pw_input.setEchoMode(QLineEdit.EchoMode.Password)
 
@@ -2307,8 +2325,8 @@ class Ui_MainWindow(object):
 
         self.setting_user_pw_input_line = QFrame(self.setting_user_setting_tab)
         self.setting_user_pw_input_line.setObjectName(u"setting_user_pw_input_line")
-        self.setting_user_pw_input_line.setMinimumSize(QSize(439, 3))
-        self.setting_user_pw_input_line.setMaximumSize(QSize(439, 3))
+        self.setting_user_pw_input_line.setMinimumSize(QSize(246, 3))
+        self.setting_user_pw_input_line.setMaximumSize(QSize(246, 3))
         self.setting_user_pw_input_line.setFont(font9)
         self.setting_user_pw_input_line.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
         self.setting_user_pw_input_line.setAutoFillBackground(False)
@@ -2326,8 +2344,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_37 = QHBoxLayout()
         self.horizontalLayout_37.setObjectName(u"horizontalLayout_37")
+        self.horizontalSpacer_61 = QSpacerItem(6, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_37.addItem(self.horizontalSpacer_61)
+
         self.setting_user_new_pw_label = QLabel(self.setting_user_setting_tab)
         self.setting_user_new_pw_label.setObjectName(u"setting_user_new_pw_label")
+        sizePolicy5.setHeightForWidth(self.setting_user_new_pw_label.sizePolicy().hasHeightForWidth())
+        self.setting_user_new_pw_label.setSizePolicy(sizePolicy5)
         self.setting_user_new_pw_label.setMinimumSize(QSize(87, 22))
         self.setting_user_new_pw_label.setMaximumSize(QSize(97, 22))
         self.setting_user_new_pw_label.setFont(font13)
@@ -2341,8 +2365,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_17.setObjectName(u"verticalLayout_17")
         self.setting_user_new_pw_input = QLineEdit(self.setting_user_setting_tab)
         self.setting_user_new_pw_input.setObjectName(u"setting_user_new_pw_input")
-        self.setting_user_new_pw_input.setMinimumSize(QSize(439, 19))
-        self.setting_user_new_pw_input.setMaximumSize(QSize(439, 19))
+        sizePolicy6.setHeightForWidth(self.setting_user_new_pw_input.sizePolicy().hasHeightForWidth())
+        self.setting_user_new_pw_input.setSizePolicy(sizePolicy6)
+        self.setting_user_new_pw_input.setMinimumSize(QSize(246, 19))
+        self.setting_user_new_pw_input.setMaximumSize(QSize(9999, 19))
         self.setting_user_new_pw_input.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.setting_user_new_pw_input.setFrame(True)
         self.setting_user_new_pw_input.setEchoMode(QLineEdit.EchoMode.Password)
@@ -2351,8 +2377,8 @@ class Ui_MainWindow(object):
 
         self.setting_user_new_pw_input_line = QFrame(self.setting_user_setting_tab)
         self.setting_user_new_pw_input_line.setObjectName(u"setting_user_new_pw_input_line")
-        self.setting_user_new_pw_input_line.setMinimumSize(QSize(439, 3))
-        self.setting_user_new_pw_input_line.setMaximumSize(QSize(439, 3))
+        self.setting_user_new_pw_input_line.setMinimumSize(QSize(246, 3))
+        self.setting_user_new_pw_input_line.setMaximumSize(QSize(246, 3))
         self.setting_user_new_pw_input_line.setFont(font9)
         self.setting_user_new_pw_input_line.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
         self.setting_user_new_pw_input_line.setAutoFillBackground(False)
@@ -2370,8 +2396,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_33 = QHBoxLayout()
         self.horizontalLayout_33.setObjectName(u"horizontalLayout_33")
+        self.horizontalSpacer_62 = QSpacerItem(7, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_33.addItem(self.horizontalSpacer_62)
+
         self.setting_user_new_pw_label2 = QLabel(self.setting_user_setting_tab)
         self.setting_user_new_pw_label2.setObjectName(u"setting_user_new_pw_label2")
+        sizePolicy5.setHeightForWidth(self.setting_user_new_pw_label2.sizePolicy().hasHeightForWidth())
+        self.setting_user_new_pw_label2.setSizePolicy(sizePolicy5)
         self.setting_user_new_pw_label2.setMinimumSize(QSize(87, 27))
         self.setting_user_new_pw_label2.setMaximumSize(QSize(98, 27))
         self.setting_user_new_pw_label2.setFont(font13)
@@ -2385,8 +2417,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_18.setObjectName(u"verticalLayout_18")
         self.setting_user_new_pw_input2 = QLineEdit(self.setting_user_setting_tab)
         self.setting_user_new_pw_input2.setObjectName(u"setting_user_new_pw_input2")
-        self.setting_user_new_pw_input2.setMinimumSize(QSize(439, 19))
-        self.setting_user_new_pw_input2.setMaximumSize(QSize(439, 19))
+        sizePolicy6.setHeightForWidth(self.setting_user_new_pw_input2.sizePolicy().hasHeightForWidth())
+        self.setting_user_new_pw_input2.setSizePolicy(sizePolicy6)
+        self.setting_user_new_pw_input2.setMinimumSize(QSize(246, 19))
+        self.setting_user_new_pw_input2.setMaximumSize(QSize(9999, 19))
         self.setting_user_new_pw_input2.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.setting_user_new_pw_input2.setEchoMode(QLineEdit.EchoMode.Password)
 
@@ -2394,8 +2428,8 @@ class Ui_MainWindow(object):
 
         self.setting_user_new_pw_input2_line = QFrame(self.setting_user_setting_tab)
         self.setting_user_new_pw_input2_line.setObjectName(u"setting_user_new_pw_input2_line")
-        self.setting_user_new_pw_input2_line.setMinimumSize(QSize(439, 3))
-        self.setting_user_new_pw_input2_line.setMaximumSize(QSize(439, 3))
+        self.setting_user_new_pw_input2_line.setMinimumSize(QSize(246, 3))
+        self.setting_user_new_pw_input2_line.setMaximumSize(QSize(246, 3))
         self.setting_user_new_pw_input2_line.setFont(font9)
         self.setting_user_new_pw_input2_line.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
         self.setting_user_new_pw_input2_line.setAutoFillBackground(False)
@@ -2413,7 +2447,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_41 = QHBoxLayout()
         self.horizontalLayout_41.setObjectName(u"horizontalLayout_41")
-        self.horizontalSpacer_36 = QSpacerItem(442, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_36 = QSpacerItem(280, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_41.addItem(self.horizontalSpacer_36)
 
@@ -2422,7 +2456,7 @@ class Ui_MainWindow(object):
         self.setting_user_save_bnt.setMinimumSize(QSize(71, 41))
         self.setting_user_save_bnt.setMaximumSize(QSize(71, 41))
         self.setting_user_save_bnt.setFont(font2)
-        self.setting_user_save_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.setting_user_save_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.setting_user_save_bnt.setStyleSheet(u"background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 20px;\n"
@@ -2444,7 +2478,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_33)
 
-        self.horizontalSpacer_44 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_44 = QSpacerItem(452, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_44)
 
@@ -2460,12 +2494,21 @@ class Ui_MainWindow(object):
         self.horizontalLayout_59.setObjectName(u"horizontalLayout_59")
         self.verticalLayout_54 = QVBoxLayout()
         self.verticalLayout_54.setObjectName(u"verticalLayout_54")
-        self.verticalLayout_54.setContentsMargins(20, -1, -1, -1)
+        self.verticalLayout_54.setContentsMargins(7, -1, -1, -1)
         self.verticalLayout_56 = QVBoxLayout()
         self.verticalLayout_56.setObjectName(u"verticalLayout_56")
         self.verticalLayout_56.setContentsMargins(0, -1, -1, -1)
         self.horizontalLayout_53 = QHBoxLayout()
         self.horizontalLayout_53.setObjectName(u"horizontalLayout_53")
+
+        self.verticalLayout_56.addLayout(self.horizontalLayout_53)
+
+        self.horizontalLayout_56 = QHBoxLayout()
+        self.horizontalLayout_56.setObjectName(u"horizontalLayout_56")
+        self.horizontalSpacer_54 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_56.addItem(self.horizontalSpacer_54)
+
         self.setting_ai_weight_label = QLabel(self.setting_ai_tab)
         self.setting_ai_weight_label.setObjectName(u"setting_ai_weight_label")
         self.setting_ai_weight_label.setMinimumSize(QSize(176, 28))
@@ -2475,7 +2518,7 @@ class Ui_MainWindow(object):
 "background-color: rgba(255, 255, 255, 0);")
         self.setting_ai_weight_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_53.addWidget(self.setting_ai_weight_label)
+        self.horizontalLayout_56.addWidget(self.setting_ai_weight_label)
 
         self.setting_setting_ai_weight_box = QComboBox(self.setting_ai_tab)
         self.setting_setting_ai_weight_box.addItem("")
@@ -2491,27 +2534,58 @@ class Ui_MainWindow(object):
         self.setting_setting_ai_weight_box.setCurrentText(u"2024-07-24")
         self.setting_setting_ai_weight_box.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContentsOnFirstShow)
 
-        self.horizontalLayout_53.addWidget(self.setting_setting_ai_weight_box)
+        self.horizontalLayout_56.addWidget(self.setting_setting_ai_weight_box)
 
 
-        self.verticalLayout_56.addLayout(self.horizontalLayout_53)
+        self.verticalLayout_56.addLayout(self.horizontalLayout_56)
 
-        self.horizontalLayout_55 = QHBoxLayout()
-        self.horizontalLayout_55.setObjectName(u"horizontalLayout_55")
-        self.horizontalSpacer_54 = QSpacerItem(26, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_66 = QHBoxLayout()
+        self.horizontalLayout_66.setSpacing(0)
+        self.horizontalLayout_66.setObjectName(u"horizontalLayout_66")
+        self.horizontalSpacer_59 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_55.addItem(self.horizontalSpacer_54)
+        self.horizontalLayout_66.addItem(self.horizontalSpacer_59)
+
+        self.setting_self_training_auto_labeling_label = QLabel(self.setting_ai_tab)
+        self.setting_self_training_auto_labeling_label.setObjectName(u"setting_self_training_auto_labeling_label")
+        self.setting_self_training_auto_labeling_label.setMinimumSize(QSize(250, 28))
+        self.setting_self_training_auto_labeling_label.setMaximumSize(QSize(9999, 28))
+        self.setting_self_training_auto_labeling_label.setFont(font13)
+        self.setting_self_training_auto_labeling_label.setStyleSheet(u"color: rgb(179,179,179);\n"
+"background-color: rgba(255, 255, 255, 0);")
+        self.setting_self_training_auto_labeling_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_66.addWidget(self.setting_self_training_auto_labeling_label)
+
+        self.setting_self_training_auto_labeling_bnt = QPushButton(self.setting_ai_tab)
+        self.setting_self_training_auto_labeling_bnt.setObjectName(u"setting_self_training_auto_labeling_bnt")
+        self.setting_self_training_auto_labeling_bnt.setMinimumSize(QSize(61, 25))
+        self.setting_self_training_auto_labeling_bnt.setMaximumSize(QSize(61, 25))
+        self.setting_self_training_auto_labeling_bnt.setIcon(icon6)
+        self.setting_self_training_auto_labeling_bnt.setIconSize(QSize(55, 103))
+        self.setting_self_training_auto_labeling_bnt.setCheckable(True)
+
+        self.horizontalLayout_66.addWidget(self.setting_self_training_auto_labeling_bnt)
+
+
+        self.verticalLayout_56.addLayout(self.horizontalLayout_66)
+
+        self.horizontalLayout_65 = QHBoxLayout()
+        self.horizontalLayout_65.setObjectName(u"horizontalLayout_65")
+        self.horizontalSpacer_58 = QSpacerItem(37, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_65.addItem(self.horizontalSpacer_58)
 
         self.setting_self_training_zeroshot_label = QLabel(self.setting_ai_tab)
         self.setting_self_training_zeroshot_label.setObjectName(u"setting_self_training_zeroshot_label")
-        self.setting_self_training_zeroshot_label.setMinimumSize(QSize(192, 28))
+        self.setting_self_training_zeroshot_label.setMinimumSize(QSize(0, 28))
         self.setting_self_training_zeroshot_label.setMaximumSize(QSize(9999, 28))
         self.setting_self_training_zeroshot_label.setFont(font13)
         self.setting_self_training_zeroshot_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
         self.setting_self_training_zeroshot_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_55.addWidget(self.setting_self_training_zeroshot_label)
+        self.horizontalLayout_65.addWidget(self.setting_self_training_zeroshot_label)
 
         self.setting_self_training_zeroshot_bnt = QPushButton(self.setting_ai_tab)
         self.setting_self_training_zeroshot_bnt.setObjectName(u"setting_self_training_zeroshot_bnt")
@@ -2521,147 +2595,81 @@ class Ui_MainWindow(object):
         self.setting_self_training_zeroshot_bnt.setIconSize(QSize(55, 103))
         self.setting_self_training_zeroshot_bnt.setCheckable(True)
 
-        self.horizontalLayout_55.addWidget(self.setting_self_training_zeroshot_bnt)
+        self.horizontalLayout_65.addWidget(self.setting_self_training_zeroshot_bnt)
 
+
+        self.verticalLayout_56.addLayout(self.horizontalLayout_65)
+
+        self.horizontalLayout_55 = QHBoxLayout()
+        self.horizontalLayout_55.setObjectName(u"horizontalLayout_55")
 
         self.verticalLayout_56.addLayout(self.horizontalLayout_55)
 
-        self.setting_page_email_info_label_3 = QLabel(self.setting_ai_tab)
-        self.setting_page_email_info_label_3.setObjectName(u"setting_page_email_info_label_3")
-        sizePolicy1.setHeightForWidth(self.setting_page_email_info_label_3.sizePolicy().hasHeightForWidth())
-        self.setting_page_email_info_label_3.setSizePolicy(sizePolicy1)
-        self.setting_page_email_info_label_3.setMinimumSize(QSize(193, 21))
-        self.setting_page_email_info_label_3.setMaximumSize(QSize(9999, 21))
-        self.setting_page_email_info_label_3.setFont(font2)
-        self.setting_page_email_info_label_3.setStyleSheet(u"color: rgb(242, 18, 94);")
+        self.verticalLayout_58 = QVBoxLayout()
+        self.verticalLayout_58.setObjectName(u"verticalLayout_58")
+        self.horizontalLayout_63 = QHBoxLayout()
+        self.horizontalLayout_63.setObjectName(u"horizontalLayout_63")
+        self.setting_page_email_info_label_5 = QLabel(self.setting_ai_tab)
+        self.setting_page_email_info_label_5.setObjectName(u"setting_page_email_info_label_5")
+        sizePolicy3.setHeightForWidth(self.setting_page_email_info_label_5.sizePolicy().hasHeightForWidth())
+        self.setting_page_email_info_label_5.setSizePolicy(sizePolicy3)
+        self.setting_page_email_info_label_5.setMinimumSize(QSize(273, 21))
+        self.setting_page_email_info_label_5.setMaximumSize(QSize(9999, 21))
+        self.setting_page_email_info_label_5.setFont(font2)
+        self.setting_page_email_info_label_5.setStyleSheet(u"color: rgb(242, 18, 94);")
 
-        self.verticalLayout_56.addWidget(self.setting_page_email_info_label_3)
+        self.horizontalLayout_63.addWidget(self.setting_page_email_info_label_5)
+
+        self.horizontalSpacer_56 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_63.addItem(self.horizontalSpacer_56)
+
+
+        self.verticalLayout_58.addLayout(self.horizontalLayout_63)
+
+        self.horizontalLayout_64 = QHBoxLayout()
+        self.horizontalLayout_64.setObjectName(u"horizontalLayout_64")
+        self.setting_page_email_info_label_6 = QLabel(self.setting_ai_tab)
+        self.setting_page_email_info_label_6.setObjectName(u"setting_page_email_info_label_6")
+        sizePolicy3.setHeightForWidth(self.setting_page_email_info_label_6.sizePolicy().hasHeightForWidth())
+        self.setting_page_email_info_label_6.setSizePolicy(sizePolicy3)
+        self.setting_page_email_info_label_6.setMinimumSize(QSize(1, 21))
+        self.setting_page_email_info_label_6.setMaximumSize(QSize(9999, 21))
+        self.setting_page_email_info_label_6.setFont(font2)
+        self.setting_page_email_info_label_6.setStyleSheet(u"color: rgb(242, 18, 94);")
+
+        self.horizontalLayout_64.addWidget(self.setting_page_email_info_label_6)
+
+        self.horizontalSpacer_57 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_64.addItem(self.horizontalSpacer_57)
+
+
+        self.verticalLayout_58.addLayout(self.horizontalLayout_64)
+
+
+        self.verticalLayout_56.addLayout(self.verticalLayout_58)
 
         self.horizontalLayout_57 = QHBoxLayout()
         self.horizontalLayout_57.setObjectName(u"horizontalLayout_57")
-        self.setting_self_training_label = QLabel(self.setting_ai_tab)
-        self.setting_self_training_label.setObjectName(u"setting_self_training_label")
-        self.setting_self_training_label.setMinimumSize(QSize(1, 28))
-        self.setting_self_training_label.setMaximumSize(QSize(9999, 28))
-        self.setting_self_training_label.setFont(font13)
-        self.setting_self_training_label.setStyleSheet(u"color: rgb(179,179,179);\n"
-"background-color: rgba(255, 255, 255, 0);")
-        self.setting_self_training_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.horizontalLayout_57.addWidget(self.setting_self_training_label)
-
-        self.horizontalLayout_56 = QHBoxLayout()
-        self.horizontalLayout_56.setObjectName(u"horizontalLayout_56")
-        self.setting_self_training_start_box = QComboBox(self.setting_ai_tab)
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.addItem("")
-        self.setting_self_training_start_box.setObjectName(u"setting_self_training_start_box")
-        sizePolicy3.setHeightForWidth(self.setting_self_training_start_box.sizePolicy().hasHeightForWidth())
-        self.setting_self_training_start_box.setSizePolicy(sizePolicy3)
-        self.setting_self_training_start_box.setMinimumSize(QSize(56, 18))
-        self.setting_self_training_start_box.setMaximumSize(QSize(120, 16777215))
-        self.setting_self_training_start_box.setFont(font7)
-        self.setting_self_training_start_box.setStyleSheet(u"color: rgb(255, 255, 255);\n"
-"selection-background-color: rgb(53, 132, 228);\n"
-"")
-        self.setting_self_training_start_box.setEditable(True)
-        self.setting_self_training_start_box.setMinimumContentsLength(0)
-
-        self.horizontalLayout_56.addWidget(self.setting_self_training_start_box)
-
-        self.time_tilde = QLabel(self.setting_ai_tab)
-        self.time_tilde.setObjectName(u"time_tilde")
-        sizePolicy1.setHeightForWidth(self.time_tilde.sizePolicy().hasHeightForWidth())
-        self.time_tilde.setSizePolicy(sizePolicy1)
-        font18 = QFont()
-        font18.setFamilies([u"Sans"])
-        font18.setPointSize(12)
-        self.time_tilde.setFont(font18)
-        self.time_tilde.setStyleSheet(u"color: rgb(179,179,179);\n"
-"background-color: rgba(191, 64, 64, 0);")
-        self.time_tilde.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.horizontalLayout_56.addWidget(self.time_tilde)
-
-        self.setting_self_training_end_box = QComboBox(self.setting_ai_tab)
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.addItem("")
-        self.setting_self_training_end_box.setObjectName(u"setting_self_training_end_box")
-        self.setting_self_training_end_box.setMinimumSize(QSize(56, 18))
-        self.setting_self_training_end_box.setFont(font7)
-        self.setting_self_training_end_box.setStyleSheet(u"color: rgb(255, 255, 255);\n"
-"selection-background-color: rgb(53, 132, 228);\n"
-"")
-        self.setting_self_training_end_box.setEditable(True)
-        self.setting_self_training_end_box.setMinimumContentsLength(0)
-
-        self.horizontalLayout_56.addWidget(self.setting_self_training_end_box)
-
-
-        self.horizontalLayout_57.addLayout(self.horizontalLayout_56)
-
 
         self.verticalLayout_56.addLayout(self.horizontalLayout_57)
 
         self.horizontalLayout_60 = QHBoxLayout()
         self.horizontalLayout_60.setObjectName(u"horizontalLayout_60")
-        self.horizontalSpacer_53 = QSpacerItem(240, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_53 = QSpacerItem(219, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_60.addItem(self.horizontalSpacer_53)
 
-        self.setting_ai_setting_svae_bnt = QPushButton(self.setting_ai_tab)
-        self.setting_ai_setting_svae_bnt.setObjectName(u"setting_ai_setting_svae_bnt")
-        sizePolicy.setHeightForWidth(self.setting_ai_setting_svae_bnt.sizePolicy().hasHeightForWidth())
-        self.setting_ai_setting_svae_bnt.setSizePolicy(sizePolicy)
-        self.setting_ai_setting_svae_bnt.setMinimumSize(QSize(76, 39))
-        self.setting_ai_setting_svae_bnt.setMaximumSize(QSize(76, 39))
-        self.setting_ai_setting_svae_bnt.setFont(font2)
-        self.setting_ai_setting_svae_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.setting_ai_setting_svae_bnt.setStyleSheet(u"\n"
+        self.setting_ai_setting_save_bnt = QPushButton(self.setting_ai_tab)
+        self.setting_ai_setting_save_bnt.setObjectName(u"setting_ai_setting_save_bnt")
+        sizePolicy.setHeightForWidth(self.setting_ai_setting_save_bnt.sizePolicy().hasHeightForWidth())
+        self.setting_ai_setting_save_bnt.setSizePolicy(sizePolicy)
+        self.setting_ai_setting_save_bnt.setMinimumSize(QSize(76, 39))
+        self.setting_ai_setting_save_bnt.setMaximumSize(QSize(76, 39))
+        self.setting_ai_setting_save_bnt.setFont(font2)
+        self.setting_ai_setting_save_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.setting_ai_setting_save_bnt.setStyleSheet(u"\n"
 "\n"
 "background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
@@ -2669,7 +2677,7 @@ class Ui_MainWindow(object):
 "\n"
 "")
 
-        self.horizontalLayout_60.addWidget(self.setting_ai_setting_svae_bnt)
+        self.horizontalLayout_60.addWidget(self.setting_ai_setting_save_bnt)
 
 
         self.verticalLayout_56.addLayout(self.horizontalLayout_60)
@@ -2719,6 +2727,9 @@ class Ui_MainWindow(object):
         self.admin_pw_label.setObjectName(u"admin_pw_label")
         self.admin_pw_label.setMinimumSize(QSize(115, 46))
         self.admin_pw_label.setMaximumSize(QSize(115, 46))
+        font18 = QFont()
+        font18.setFamilies([u"Sans"])
+        font18.setPointSize(12)
         self.admin_pw_label.setFont(font18)
         self.admin_pw_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
@@ -2764,7 +2775,7 @@ class Ui_MainWindow(object):
         self.admin_page_bnt.setMinimumSize(QSize(71, 41))
         self.admin_page_bnt.setMaximumSize(QSize(71, 41))
         self.admin_page_bnt.setFont(font2)
-        self.admin_page_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.admin_page_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.admin_page_bnt.setStyleSheet(u"\n"
 "background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
@@ -2807,7 +2818,7 @@ class Ui_MainWindow(object):
         self.admin_license_bnt.setMinimumSize(QSize(171, 41))
         self.admin_license_bnt.setMaximumSize(QSize(171, 41))
         self.admin_license_bnt.setFont(font13)
-        self.admin_license_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.admin_license_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.admin_license_bnt.setStyleSheet(u"border-radius: 20px;\n"
 "border: 1px solid rgb(179,179,179);\n"
 "color: rgb(255, 255, 255);\n"
@@ -2826,7 +2837,7 @@ class Ui_MainWindow(object):
         self.admin_fn_permission_bnt.setMinimumSize(QSize(171, 41))
         self.admin_fn_permission_bnt.setMaximumSize(QSize(171, 41))
         self.admin_fn_permission_bnt.setFont(font13)
-        self.admin_fn_permission_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.admin_fn_permission_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.admin_fn_permission_bnt.setStyleSheet(u"border-radius: 20px;\n"
 "border: 1px solid rgb(179,179,179);\n"
 "color: rgb(255, 255, 255);\n"
@@ -2978,14 +2989,14 @@ class Ui_MainWindow(object):
         self.license_add_bnt.setMinimumSize(QSize(41, 41))
         self.license_add_bnt.setMaximumSize(QSize(41, 41))
         self.license_add_bnt.setFont(font17)
-        self.license_add_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.license_add_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.license_add_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
 "color: rgb(255, 255, 255);\n"
 "\n"
 "")
         icon8 = QIcon()
-        icon8.addFile(u":/newPrefix/ui/images/ico_arrow_right.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon8.addFile(u":/newPrefix/ui/images/ico_arrow_right.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.license_add_bnt.setIcon(icon8)
         self.license_add_bnt.setIconSize(QSize(31, 50))
 
@@ -2996,7 +3007,7 @@ class Ui_MainWindow(object):
         self.license_remove_bnt.setMinimumSize(QSize(41, 41))
         self.license_remove_bnt.setMaximumSize(QSize(41, 41))
         self.license_remove_bnt.setFont(font17)
-        self.license_remove_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.license_remove_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.license_remove_bnt.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.license_remove_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
@@ -3004,7 +3015,7 @@ class Ui_MainWindow(object):
 "\n"
 "Rotation: ( origin.x: 25; origin.y: 25; angle: 45);")
         icon9 = QIcon()
-        icon9.addFile(u":/newPrefix/ui/images/ico_arrow_left.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon9.addFile(u":/newPrefix/ui/images/ico_arrow_left.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.license_remove_bnt.setIcon(icon9)
         self.license_remove_bnt.setIconSize(QSize(31, 50))
 
@@ -3110,7 +3121,7 @@ class Ui_MainWindow(object):
         self.license_save_bnt.setMinimumSize(QSize(71, 41))
         self.license_save_bnt.setMaximumSize(QSize(71, 41))
         self.license_save_bnt.setFont(font17)
-        self.license_save_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.license_save_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.license_save_bnt.setStyleSheet(u"\n"
 "background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
@@ -3356,62 +3367,13 @@ class Ui_MainWindow(object):
         self.setting_setting_ai_weight_box.setItemText(0, QCoreApplication.translate("MainWindow", u"2024-07-24", None))
 
         self.setting_setting_ai_weight_box.setPlaceholderText("")
-        self.setting_self_training_zeroshot_label.setText(QCoreApplication.translate("MainWindow", u"zeroshot detetcion \ud65c\uc131\ud654", None))
+        self.setting_self_training_auto_labeling_label.setText(QCoreApplication.translate("MainWindow", u"\uc9c0\ub2a5\ud615 \uc2e4\ud589\uc2dc Auto Labeling \ud65c\uc131\ud654", None))
+        self.setting_self_training_auto_labeling_bnt.setText("")
+        self.setting_self_training_zeroshot_label.setText(QCoreApplication.translate("MainWindow", u"Zeroshot labeling mode \ud65c\uc131\ud654", None))
         self.setting_self_training_zeroshot_bnt.setText("")
-        self.setting_page_email_info_label_3.setText(QCoreApplication.translate("MainWindow", u"\u203bzeroshot detection\ub294 \ucd08\uae30 \ud559\uc2b5 \ubaa8\ub378\uc5d0 \uc131\ub2a5 \uac1c\uc120\uc5d0 \ub3c4\uc6c0\uc744 \uc90d\ub2c8\ub2e4", None))
-        self.setting_self_training_label.setText(QCoreApplication.translate("MainWindow", u"\uc790\uac00\ud559\uc2b5 \uc2a4\ucf00\uc904 \uc124\uc815", None))
-        self.setting_self_training_start_box.setItemText(0, QCoreApplication.translate("MainWindow", u"00:00", None))
-        self.setting_self_training_start_box.setItemText(1, QCoreApplication.translate("MainWindow", u"01:00", None))
-        self.setting_self_training_start_box.setItemText(2, QCoreApplication.translate("MainWindow", u"02:00", None))
-        self.setting_self_training_start_box.setItemText(3, QCoreApplication.translate("MainWindow", u"03:00", None))
-        self.setting_self_training_start_box.setItemText(4, QCoreApplication.translate("MainWindow", u"04:00", None))
-        self.setting_self_training_start_box.setItemText(5, QCoreApplication.translate("MainWindow", u"05:00", None))
-        self.setting_self_training_start_box.setItemText(6, QCoreApplication.translate("MainWindow", u"06:00", None))
-        self.setting_self_training_start_box.setItemText(7, QCoreApplication.translate("MainWindow", u"07:00", None))
-        self.setting_self_training_start_box.setItemText(8, QCoreApplication.translate("MainWindow", u"08:00", None))
-        self.setting_self_training_start_box.setItemText(9, QCoreApplication.translate("MainWindow", u"09:00", None))
-        self.setting_self_training_start_box.setItemText(10, QCoreApplication.translate("MainWindow", u"10:00", None))
-        self.setting_self_training_start_box.setItemText(11, QCoreApplication.translate("MainWindow", u"11:00", None))
-        self.setting_self_training_start_box.setItemText(12, QCoreApplication.translate("MainWindow", u"12:00", None))
-        self.setting_self_training_start_box.setItemText(13, QCoreApplication.translate("MainWindow", u"13:00", None))
-        self.setting_self_training_start_box.setItemText(14, QCoreApplication.translate("MainWindow", u"14:00", None))
-        self.setting_self_training_start_box.setItemText(15, QCoreApplication.translate("MainWindow", u"15:00", None))
-        self.setting_self_training_start_box.setItemText(16, QCoreApplication.translate("MainWindow", u"16:00", None))
-        self.setting_self_training_start_box.setItemText(17, QCoreApplication.translate("MainWindow", u"17:00", None))
-        self.setting_self_training_start_box.setItemText(18, QCoreApplication.translate("MainWindow", u"18:00", None))
-        self.setting_self_training_start_box.setItemText(19, QCoreApplication.translate("MainWindow", u"19:00", None))
-        self.setting_self_training_start_box.setItemText(20, QCoreApplication.translate("MainWindow", u"20:00", None))
-        self.setting_self_training_start_box.setItemText(21, QCoreApplication.translate("MainWindow", u"21:00", None))
-        self.setting_self_training_start_box.setItemText(22, QCoreApplication.translate("MainWindow", u"22:00", None))
-        self.setting_self_training_start_box.setItemText(23, QCoreApplication.translate("MainWindow", u"23:00", None))
-
-        self.time_tilde.setText(QCoreApplication.translate("MainWindow", u"~", None))
-        self.setting_self_training_end_box.setItemText(0, QCoreApplication.translate("MainWindow", u"00:00", None))
-        self.setting_self_training_end_box.setItemText(1, QCoreApplication.translate("MainWindow", u"01:00", None))
-        self.setting_self_training_end_box.setItemText(2, QCoreApplication.translate("MainWindow", u"02:00", None))
-        self.setting_self_training_end_box.setItemText(3, QCoreApplication.translate("MainWindow", u"03:00", None))
-        self.setting_self_training_end_box.setItemText(4, QCoreApplication.translate("MainWindow", u"04:00", None))
-        self.setting_self_training_end_box.setItemText(5, QCoreApplication.translate("MainWindow", u"05:00", None))
-        self.setting_self_training_end_box.setItemText(6, QCoreApplication.translate("MainWindow", u"06:00", None))
-        self.setting_self_training_end_box.setItemText(7, QCoreApplication.translate("MainWindow", u"07:00", None))
-        self.setting_self_training_end_box.setItemText(8, QCoreApplication.translate("MainWindow", u"08:00", None))
-        self.setting_self_training_end_box.setItemText(9, QCoreApplication.translate("MainWindow", u"09:00", None))
-        self.setting_self_training_end_box.setItemText(10, QCoreApplication.translate("MainWindow", u"10:00", None))
-        self.setting_self_training_end_box.setItemText(11, QCoreApplication.translate("MainWindow", u"11:00", None))
-        self.setting_self_training_end_box.setItemText(12, QCoreApplication.translate("MainWindow", u"12:00", None))
-        self.setting_self_training_end_box.setItemText(13, QCoreApplication.translate("MainWindow", u"13:00", None))
-        self.setting_self_training_end_box.setItemText(14, QCoreApplication.translate("MainWindow", u"14:00", None))
-        self.setting_self_training_end_box.setItemText(15, QCoreApplication.translate("MainWindow", u"15:00", None))
-        self.setting_self_training_end_box.setItemText(16, QCoreApplication.translate("MainWindow", u"16:00", None))
-        self.setting_self_training_end_box.setItemText(17, QCoreApplication.translate("MainWindow", u"17:00", None))
-        self.setting_self_training_end_box.setItemText(18, QCoreApplication.translate("MainWindow", u"18:00", None))
-        self.setting_self_training_end_box.setItemText(19, QCoreApplication.translate("MainWindow", u"19:00", None))
-        self.setting_self_training_end_box.setItemText(20, QCoreApplication.translate("MainWindow", u"20:00", None))
-        self.setting_self_training_end_box.setItemText(21, QCoreApplication.translate("MainWindow", u"21:00", None))
-        self.setting_self_training_end_box.setItemText(22, QCoreApplication.translate("MainWindow", u"22:00", None))
-        self.setting_self_training_end_box.setItemText(23, QCoreApplication.translate("MainWindow", u"23:00", None))
-
-        self.setting_ai_setting_svae_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc800\uc7a5", None))
+        self.setting_page_email_info_label_5.setText(QCoreApplication.translate("MainWindow", u"\u203bzeroshot labeling mode\ub294 \uc0c8\ub85c\uc6b4 \ud658\uacbd \uc5d0\uc11c ", None))
+        self.setting_page_email_info_label_6.setText(QCoreApplication.translate("MainWindow", u"    \ubaa8\ub378 \ud559\uc2b5\uc2dc \uc131\ub2a5 \uac1c\uc120\uc5d0 \ub3c4\uc6c0\uc744 \uc90d\ub2c8\ub2e4", None))
+        self.setting_ai_setting_save_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc800\uc7a5", None))
         self.admin_pw_label.setText(QCoreApplication.translate("MainWindow", u"\uad00\ub9ac\uc790 \ube44\ubc00\ubc88\ud638", None))
         self.admin_pw_input.setText(QCoreApplication.translate("MainWindow", u"asdsad", None))
         self.admin_page_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc785\ub825", None))

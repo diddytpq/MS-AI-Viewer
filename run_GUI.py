@@ -961,6 +961,8 @@ class MainWindow(QMainWindow):
             #     self.camera_page_worker = None
 
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
+            self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
+
 
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -1013,6 +1015,8 @@ class MainWindow(QMainWindow):
 
     def switch_setting_display_to_user_setting(self):
         try:
+            self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
+
             self.ui_main.setting_stack_widget.setCurrentIndex(1)
             self.ui_main.setting_user_id_input.clear()
             self.ui_main.setting_user_pw_input.clear()
@@ -1034,6 +1038,8 @@ class MainWindow(QMainWindow):
 
     def change_zeroshot_info(self):
         self.setting_info_temp["AI"]["ZeroShot"] = 1 if self.setting_info_temp["AI"]["ZeroShot"] == 0 else 0
+    def change_auto_label_info(self):
+        self.setting_info_temp["AI"]["AutoLabel"] = 1 if self.setting_info_temp["AI"]["AutoLabel"] == 0 else 0
 
 
     def switch_setting_display_to_ai_stting(self):
@@ -1049,6 +1055,8 @@ class MainWindow(QMainWindow):
                 self.ui_main.setting_setting_ai_weight_box.addItems([weight_name])
 
             self.ui_main.setting_self_training_zeroshot_bnt.setChecked(self.setting_info_temp["AI"]["ZeroShot"])
+            self.ui_main.setting_self_training_auto_labeling_bnt.setChecked(self.setting_info_temp["AI"]["AutoLabel"])
+
 
             items_text = [self.ui_main.setting_setting_ai_weight_box.itemText(i) for i in range(self.ui_main.setting_setting_ai_weight_box.count())]
 
@@ -1064,9 +1072,11 @@ class MainWindow(QMainWindow):
             self.ui_main.setting_stack_widget.setCurrentIndex(2)
 
 
+            self.ui_main.setting_self_training_auto_labeling_bnt.clicked.connect(self.change_auto_label_info)
             self.ui_main.setting_self_training_zeroshot_bnt.clicked.connect(self.change_zeroshot_info)
 
-            self.ui_main.setting_ai_setting_svae_bnt.clicked.connect(self.change_ai_info)
+
+            self.ui_main.setting_ai_setting_save_bnt.clicked.connect(self.change_ai_info)
 
 
         except Exception as e:
