@@ -39,7 +39,7 @@ class Ui_MainWindow(object):
         MainWindow.setMaximumSize(QSize(3840, 2160))
         MainWindow.setContextMenuPolicy(Qt.ContextMenuPolicy.PreventContextMenu)
         icon = QIcon()
-        icon.addFile(u":/newPrefix/ui/images/ino2.ico", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/newPrefix/ui/images/icon2.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"background-color: rgb(3, 3, 13);")
         self.centralwidget = QWidget(MainWindow)

@@ -38,8 +38,8 @@
    <string>MS-AI 1000</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/newPrefix/ui/images/ino2.ico</normaloff>:/newPrefix/ui/images/ino2.ico</iconset>
+   <iconset resource="../ms_ai_img.qrc">
+    <normaloff>:/newPrefix/ui/images/icon2.png</normaloff>:/newPrefix/ui/images/icon2.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(3, 3, 13);</string>

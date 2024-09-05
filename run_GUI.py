@@ -2,15 +2,6 @@ import sys
 import os
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-
-sys.path.append(os.path.join(ROOT, "front", "ui"))
-
-import gi
-
-gi.require_version('Gst', '1.0')
-from gi.repository import Gst
-
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLabel, QWidget, QDialog, QListWidgetItem
 from PySide6.QtGui import QImage, QPixmap, QPainter, QPen, QColor, QPolygon, QBrush, QFont, QStandardItem, QStandardItemModel, QIcon, QCursor
 from PySide6.QtCore import QEvent, Qt, QThread, Signal, QRect, QPoint, QTimer, QDate, QUrl, QSize
@@ -54,7 +45,9 @@ class LoginWindow(QMainWindow):
         self.ui_login.ai_server_ip_input.installEventFilter(self)  # 이벤트 필터 설치
         self.ui_login.ai_server_port_input.installEventFilter(self)  # 이벤트 필터 설치
 
-        with open("./ai_sever_info.json", "r", encoding="UTF-8") as f:
+        self.ai_sever_info_path = os.path.join(os.getcwd(), "ai_sever_info.json")
+
+        with open(self.ai_sever_info_path, "r", encoding="UTF-8") as f:
             self.ai_server_info = json.load(f)
 
         if len(self.ai_server_info["ai_server_ip"]):
@@ -62,7 +55,7 @@ class LoginWindow(QMainWindow):
 
         if len(self.ai_server_info["ai_server_port"]):
             self.ui_login.ai_server_port_input.setText(self.ai_server_info["ai_server_port"])
-
+        
     def eventFilter(self, obj, event):
         if obj == self.ui_login.id_input:
             if event.type() == QEvent.FocusIn:  # 커서가 id_input에 들어가면
@@ -118,7 +111,7 @@ class LoginWindow(QMainWindow):
                 self.main_window.show()
                 self.create_fade_out_msg(msg = "login")
 
-                with open("./ai_sever_info.json", "w", encoding="UTF-8") as f:
+                with open(self.ai_sever_info_path, "w", encoding="UTF-8") as f:
                     self.ai_server_info["ai_server_ip"] = self.ui_login.ai_server_ip_input.text()
                     self.ai_server_info["ai_server_port"] = self.ui_login.ai_server_port_input.text()
 
@@ -1577,53 +1570,6 @@ class MainWindow(QMainWindow):
             self.ui_main.setting_popup_alarm_cnt.setEnabled(False)
 
 
-def video_save(camera_worker_dict, camera_name, alarm, nvr_ip):
-    try:
-        import cv2
-        for worker in camera_worker_dict.values():
-            # print(worker.camera_name)
-            if camera_name == worker.camera_name:
-                img_buffer = worker.img_buffer.copy()
-                img_buffer_ori = worker.img_buffer_ori.copy()
-
-                if len(img_buffer):
-                    # fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-                    fourcc = cv2.VideoWriter_fourcc(*'XVID')
-
-                    fps = 30
-                    
-                    date_time = datetime.strptime(alarm[2], "%d/%m/%Y %H:%M:%S")
-                    new_date_time = date_time.strftime("%y.%m.%dT%H.%M.%S")
-
-                    new_date, new_time = new_date_time.split("T")[0], new_date_time.split("T")[1]
-
-                    output_video_file_path = os.path.join(ROOT, "backup", nvr_ip, f"{camera_name}", new_date, "videos")
-                    output_video_ori_file_path = os.path.join(ROOT, "backup", nvr_ip, f"{camera_name}", new_date, "videos_ori")
-
-                    os.makedirs(output_video_file_path,exist_ok=True)
-                    os.makedirs(output_video_ori_file_path,exist_ok=True)
-
-                    # output_video_name = os.path.join(output_video_file_path, f"{new_time}_{Eng2kor(alarm[0])}.mp4") 
-                    output_video_name = os.path.join(output_video_file_path, f"{new_time}_{Eng2kor(alarm[0])}.avi") 
-
-                    # output_video_ori_name = os.path.join(output_video_ori_file_path, f"{new_time}_{Eng2kor(alarm[0])}.mp4") 
-                    output_video_ori_name = os.path.join(output_video_ori_file_path, f"{new_time}_{Eng2kor(alarm[0])}.avi") 
-
-                    writer = cv2.VideoWriter(output_video_name, fourcc, fps, (img_buffer[0].shape[1], img_buffer[0].shape[0]))
-                    writer_ori = cv2.VideoWriter(output_video_ori_name, fourcc, fps, (img_buffer[0].shape[1], img_buffer[0].shape[0]))
-
-                    for img, img_ori in zip(img_buffer, img_buffer_ori):
-                        writer.write(img)
-                        writer_ori.write(img_ori)
-
-                    writer.release()
-                    writer_ori.release()
-
-    except Exception as e:
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        tb = traceback.format_exc()
-        print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
 def main():
     try:
         # time.sleep(1)
@@ -1636,8 +1582,9 @@ def main():
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             tb = traceback.format_exc()
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
- 
+    finally:
+            input("Press Enter to close...")  # 실행 후 입력을 기다림
+    
 if __name__ == "__main__":
         main()
 
