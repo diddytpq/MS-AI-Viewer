@@ -20,6 +20,8 @@ import cv2
 import numpy as np 
 import base64
 from io import BytesIO
+import traceback
+
 
 def open_search_window(click, self):
     self.search_window = QDialog()  # QDialog 인스턴스 생성
@@ -209,7 +211,7 @@ def search_viewer_playback(click, self):
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             tb = traceback.format_exc()
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-            
+
 def search_close_window(click, self):
     self.search_window.close()
 
