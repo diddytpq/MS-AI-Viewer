@@ -3819,7 +3819,7 @@ background-color: rgb(13, 16, 23);</string>
                    <enum>QFrame::Shadow::Plain</enum>
                   </property>
                   <property name="currentIndex">
-                   <number>0</number>
+                   <number>2</number>
                   </property>
                   <widget class="QWidget" name="setting_notice_tab">
                    <layout class="QVBoxLayout" name="verticalLayout_14">

@@ -245,6 +245,9 @@ background-color: rgba(191, 64, 64, 0);</string>
      <pointsize>10</pointsize>
     </font>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::FocusPolicy::NoFocus</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">
 
@@ -272,8 +275,26 @@ background-color: rgba(191, 64, 64, 0);</string>
 
 </string>
    </property>
+   <property name="frame">
+    <bool>false</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
+   <property name="readOnly">
+    <bool>false</bool>
+   </property>
    <property name="buttonSymbols">
     <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+   </property>
+   <property name="correctionMode">
+    <enum>QAbstractSpinBox::CorrectionMode::CorrectToNearestValue</enum>
+   </property>
+   <property name="keyboardTracking">
+    <bool>true</bool>
+   </property>
+   <property name="showGroupSeparator" stdset="0">
+    <bool>false</bool>
    </property>
    <property name="currentSection">
     <enum>QDateTimeEdit::Section::YearSection</enum>
@@ -356,6 +377,9 @@ border-radius: 10px;
      <pointsize>10</pointsize>
     </font>
    </property>
+   <property name="focusPolicy">
+    <enum>Qt::FocusPolicy::NoFocus</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">            QDateEdit {
                 padding: 5px;
@@ -376,6 +400,18 @@ border-radius: 10px;
             }
 
 </string>
+   </property>
+   <property name="wrapping">
+    <bool>false</bool>
+   </property>
+   <property name="frame">
+    <bool>false</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
+   <property name="buttonSymbols">
+    <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
    </property>
    <property name="currentSection">
     <enum>QDateTimeEdit::Section::YearSection</enum>
@@ -442,12 +478,12 @@ selection-background-color: rgb(53, 132, 228);
       </property>
       <item>
        <property name="text">
-        <string>시간순</string>
+        <string>최신순</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>최신순</string>
+        <string>시간순</string>
        </property>
       </item>
      </widget>

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'search.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.7.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QDateEdit,
-    QDateTimeEdit, QDoubleSpinBox, QHBoxLayout, QHeaderView,
-    QLabel, QPushButton, QSizePolicy, QTableWidget,
-    QTableWidgetItem, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication, QComboBox,
+    QDateEdit, QDateTimeEdit, QDoubleSpinBox, QHBoxLayout,
+    QHeaderView, QLabel, QPushButton, QSizePolicy,
+    QTableWidget, QTableWidgetItem, QWidget)
 import ms_ai_img_rc
 import ms_ai_img_rc
 import ms_ai_img_rc
@@ -141,6 +141,7 @@ class Ui_Search_window(object):
         font5.setFamilies([u"Sans"])
         font5.setPointSize(10)
         self.time_day_start_input.setFont(font5)
+        self.time_day_start_input.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.time_day_start_input.setStyleSheet(u"\n"
 "\n"
 "\n"
@@ -166,13 +167,20 @@ class Ui_Search_window(object):
 "            }\n"
 "\n"
 "")
+        self.time_day_start_input.setFrame(False)
+        self.time_day_start_input.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.time_day_start_input.setReadOnly(False)
+        self.time_day_start_input.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.time_day_start_input.setCorrectionMode(QAbstractSpinBox.CorrectionMode.CorrectToNearestValue)
+        self.time_day_start_input.setKeyboardTracking(True)
+        self.time_day_start_input.setProperty("showGroupSeparator", False)
         self.time_day_start_input.setCurrentSection(QDateTimeEdit.Section.YearSection)
         self.time_day_start_input.setCalendarPopup(True)
         self.search_close_bnt = QPushButton(Search_window)
         self.search_close_bnt.setObjectName(u"search_close_bnt")
         self.search_close_bnt.setGeometry(QRect(1080, 95, 61, 31))
         self.search_close_bnt.setFont(font5)
-        self.search_close_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.search_close_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.search_close_bnt.setStyleSheet(u"background-color: rgb(255, 49, 38);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
@@ -181,7 +189,7 @@ class Ui_Search_window(object):
         self.time_search_bnt.setObjectName(u"time_search_bnt")
         self.time_search_bnt.setGeometry(QRect(1010, 94, 61, 31))
         self.time_search_bnt.setFont(font5)
-        self.time_search_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.time_search_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.time_search_bnt.setStyleSheet(u"background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
@@ -190,6 +198,7 @@ class Ui_Search_window(object):
         self.time_day_end_input.setObjectName(u"time_day_end_input")
         self.time_day_end_input.setGeometry(QRect(956, 20, 121, 31))
         self.time_day_end_input.setFont(font5)
+        self.time_day_end_input.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.time_day_end_input.setStyleSheet(u"            QDateEdit {\n"
 "                padding: 5px;\n"
 "                color: white;\n"
@@ -209,6 +218,10 @@ class Ui_Search_window(object):
 "            }\n"
 "\n"
 "")
+        self.time_day_end_input.setWrapping(False)
+        self.time_day_end_input.setFrame(False)
+        self.time_day_end_input.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.time_day_end_input.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
         self.time_day_end_input.setCurrentSection(QDateTimeEdit.Section.YearSection)
         self.time_day_end_input.setCalendarPopup(True)
         self.layoutWidget = QWidget(Search_window)
@@ -404,8 +417,8 @@ class Ui_Search_window(object):
         self.time_search_bnt.setText(QCoreApplication.translate("Search_window", u"\uac80\uc0c9", None))
         self.time_day_end_input.setDisplayFormat(QCoreApplication.translate("Search_window", u"yyyy. M. d", None))
         self.sort_label.setText(QCoreApplication.translate("Search_window", u"\uc815\ub82c", None))
-        self.sort_box.setItemText(0, QCoreApplication.translate("Search_window", u"\uc2dc\uac04\uc21c", None))
-        self.sort_box.setItemText(1, QCoreApplication.translate("Search_window", u"\ucd5c\uc2e0\uc21c", None))
+        self.sort_box.setItemText(0, QCoreApplication.translate("Search_window", u"\ucd5c\uc2e0\uc21c", None))
+        self.sort_box.setItemText(1, QCoreApplication.translate("Search_window", u"\uc2dc\uac04\uc21c", None))
 
         self.event_label.setText(QCoreApplication.translate("Search_window", u"\uc774\ubca4\ud2b8", None))
         self.event_box.setItemText(0, QCoreApplication.translate("Search_window", u"\uc804\uccb4", None))

@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLabel, QWidget, QDialog, QListWidgetItem
-from PySide6.QtGui import QImage, QPixmap, QPainter, QPen, QColor, QPolygon, QBrush, QFont, QStandardItem, QStandardItemModel, QIcon, QCursor
+from PySide6.QtGui import QImage, QPixmap, QPainter, QPen, QColor, QPolygon, QBrush, QFont, QStandardItem, QStandardItemModel, QIcon, QWheelEvent
 from PySide6.QtCore import QEvent, Qt, QThread, Signal, QRect, QPoint, QTimer, QDate, QUrl, QSize
 from PySide6 import QtCore
 from ui.login_ui import Ui_Dialog
@@ -1324,6 +1324,12 @@ class MainWindow(QMainWindow):
                 line_edit.setStyleSheet("background-color: green")
             elif event.type() == QEvent.FocusOut:
                 line_edit.setStyleSheet("background-color: rgb(36, 39, 44)")
+
+        if isinstance(event, QWheelEvent):
+            try:
+                if obj == self.search_ui.time_day_start_input or obj == self.search_ui.time_day_end_input:
+                    return True  # 휠 이벤트 무시
+            except: pass
 
         return super().eventFilter(obj, event)
 

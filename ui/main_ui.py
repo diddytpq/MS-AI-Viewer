@@ -3318,7 +3318,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(2)
-        self.setting_stack_widget.setCurrentIndex(0)
+        self.setting_stack_widget.setCurrentIndex(2)
         self.setting_popup_alarm_cnt.setCurrentIndex(2)
         self.setting_setting_ai_weight_box.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
