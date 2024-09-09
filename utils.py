@@ -315,7 +315,7 @@ class Connect_Camera_Group(QThread):
                 else:
                     self.camera_connect_flag["camera_name"] = False
 
-                time.sleep(0.033)
+                time.sleep(0.02)
 
         for cap in self.caps.values():
             cap.stop()

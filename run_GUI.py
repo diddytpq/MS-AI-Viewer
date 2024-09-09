@@ -236,7 +236,7 @@ class MainWindow(QMainWindow):
 
         self.ui_main.setting_user_id_input.installEventFilter(self)# 이벤트 필터 설치
         self.ui_main.setting_user_pw_input.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_main.setting_user_new_pw_input.installEventFilter(self)  # 이벤트 필터 설치
+        self.ui_main.setting_user_new_pw_input.installEventFilter(self)  # 이벤트 필터 설
         self.ui_main.setting_user_new_pw_input2.installEventFilter(self)  # 이벤트 필터 설치
         self.ui_main.setting_email_id_input.installEventFilter(self)  # 이벤트 필터 설치
         self.ui_main.setting_email_pw_input.installEventFilter(self)  # 이벤트 필터 설치
@@ -330,7 +330,11 @@ class MainWindow(QMainWindow):
             self.camera_page_worker.stop()
             del self.camera_page_worker
 
-        sys.exit()
+        # data = {"msg" : ""}
+        # url = f'http://{self.HOST}:{self.PORT}/logout'
+        # receive_data = requests.put(url, json=data).json()
+
+        # sys.exit()
     
     def save_admin_info(self):
         try:
@@ -364,13 +368,12 @@ class MainWindow(QMainWindow):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.check_camera_connect_status)
 
-        # if self.setting_info_temp["NOTICE"]["active"]:
-        #     #누적된 알람 초기화
-        #     data = {"msg" : str(" ")}
-        #     url = f'http://{self.HOST}:{self.PORT}/get-alarm-info'
-        #     receive_data = requests.get(url, json=data).json()
-            
-        #     self.timer.timeout.connect(self.Notification_alarm)
+        #누적된 알람 초기화
+        data = {"msg" : str(" ")}
+        url = f'http://{self.HOST}:{self.PORT}/get-alarm-info'
+        receive_data = requests.get(url, json=data).json()
+        
+        self.timer.timeout.connect(self.Notification_status)
 
         self.timer.start(1000)  # 타이머 시작 5초에 한번씩
 
@@ -1376,7 +1379,7 @@ class MainWindow(QMainWindow):
         try:
             data = {"msg" : str(" ")}
 
-            url = f'http://{self.HOST}:{self.PORT}/get-alarm-info'
+            url = f'http://{self.HOST}:{self.PORT}/get-status-info'
             receive_data = requests.get(url, json=data).json()
 
             if len(receive_data["data"]):
@@ -1415,67 +1418,44 @@ class MainWindow(QMainWindow):
             tb = traceback.format_exc()
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
 
-    def Notification_alarm(self):
+    def Notification_status(self):
         try:
             data = {"msg" : str(" ")}
 
-            url = f'http://{self.HOST}:{self.PORT}/get-alarm-info'
+            url = f'http://{self.HOST}:{self.PORT}/get-status-info'
             receive_data = requests.get(url, json=data).json()
 
-            if len(receive_data["data"]):
-                for camera_name, alarm_list in receive_data["data"].items():
-                    print(alarm_list)
-                    for alarm in alarm_list:
-                        print(alarm)
-                        if self.setting_info_temp["NOTICE"]["active"] and len(alarm):
-                            self.fadeout_in_window = FadeOutInWindow(self, camera_name, alarm, self.alarm_window_num)
-                            main_window_rect = self.geometry()
-                            fadeout_in_window_rect = self.fadeout_in_window.geometry()
-                            self.fadeout_in_window.move(
-                                main_window_rect.left() + (main_window_rect.width() - fadeout_in_window_rect.width()) // 2,
-                                main_window_rect.top() + (main_window_rect.height() - fadeout_in_window_rect.height()) * 4 // 5
-                            )
+            if self.setting_info_temp["NOTICE"]["active"]:
+                if len(receive_data["data"]):
+                    for camera_name, alarm_list in receive_data["data"].items():
+                        print(alarm_list)
+                        for alarm in alarm_list:
+                            print(alarm)
+                            if self.setting_info_temp["NOTICE"]["active"] and len(alarm):
+                                self.fadeout_in_window = FadeOutInWindow(self, camera_name, alarm, self.alarm_window_num)
+                                main_window_rect = self.geometry()
+                                fadeout_in_window_rect = self.fadeout_in_window.geometry()
+                                self.fadeout_in_window.move(
+                                    main_window_rect.left() + (main_window_rect.width() - fadeout_in_window_rect.width()) // 2,
+                                    main_window_rect.top() + (main_window_rect.height() - fadeout_in_window_rect.height()) * 4 // 5
+                                )
 
-                            self.fadeout_in_window.show()
-                            self.alarm_window_num += 1
+                                self.fadeout_in_window.show()
+                                self.alarm_window_num += 1
 
-                            self.fadeout_in_window_list.append(self.fadeout_in_window)
+                                self.fadeout_in_window_list.append(self.fadeout_in_window)
 
-                            if len(self.fadeout_in_window_list) > self.setting_info_temp["NOTICE"]["cnt"]:
-                                self.fadeout_in_window_list[0].close()
-                                self.fadeout_in_window_list.pop(0)
+                                if len(self.fadeout_in_window_list) > self.setting_info_temp["NOTICE"]["cnt"]:
+                                    self.fadeout_in_window_list[0].close()
+                                    self.fadeout_in_window_list.pop(0)
+
+            self.ui_main.connected_user_label_2.setText(str(receive_data["user_num"]))
 
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             tb = traceback.format_exc()
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
 
-
-    def start_delayed_video_save(self, camera_name, alarm):
-        thread = threading.Thread(target=video_save, args=(self.camera_worker_dict, camera_name, alarm, self.login_info["NVR"]["IP"]))
-        thread.start()
-
-    def video_storage_manage(self):
-        video_save_path = os.path.join(ROOT, "backup", self.login_info["NVR"]["IP"])
-
-        os.makedirs(video_save_path, exist_ok=True)
-
-        camera_dir = os.listdir(video_save_path)
-
-        for camera_name in camera_dir:
-            date_list = os.listdir(os.path.join(video_save_path, camera_name))
-
-            date_list = sorted(date_list)
-
-            for data in date_list:
-                input_date = datetime.strptime(data, '%y.%m.%d')
-                delta = datetime.now().date() - input_date.date()
-                if delta.days > self.setting_info_temp["VIDEO_SAVE"]["period"]:
-                    remove_folder_path = os.path.join(video_save_path, camera_name, data)
-                    cmd = f"rm -rf {remove_folder_path}"
-                    os.system(cmd)
-
-                else: break
 
     def check_nvr_login(self):
         login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
@@ -1569,6 +1549,21 @@ class MainWindow(QMainWindow):
         else:
             self.ui_main.setting_popup_alarm_cnt.setEnabled(False)
 
+    def closeEvent(self, event):
+        # 창이 닫힐 때 실행되는 코드
+        if self.camera_page_worker != None :
+            self.camera_page_worker.stop()
+            del self.camera_page_worker
+
+        for worker in self.camera_worker_dict.values():
+            worker.stop()
+            del worker
+
+        data = {"msg" : ""}
+        url = f'http://{self.HOST}:{self.PORT}/logout'
+        receive_data = requests.put(url, json=data).json()
+        event.accept()  # 또는 event.ignore()로 닫히지 않게 할 수 있음
+
 
 def main():
     try:
@@ -1583,7 +1578,9 @@ def main():
             tb = traceback.format_exc()
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
     finally:
-            input("Press Enter to close...")  # 실행 후 입력을 기다림
+            
+            # input("Press Enter to close...")  # 실행 후 입력을 기다림
+            pass
     
 if __name__ == "__main__":
         main()

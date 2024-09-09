@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="newPrefix">
+    <file>ui/images/friends.png</file>
     <file>ui/images/ai_on.png</file>
     <file>ui/images/check.png</file>
     <file>ui/images/check_off.png</file>
