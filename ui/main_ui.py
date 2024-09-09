@@ -2488,29 +2488,27 @@ class Ui_MainWindow(object):
         self.setting_stack_widget.addWidget(self.setting_user_setting_tab)
         self.setting_ai_tab = QWidget()
         self.setting_ai_tab.setObjectName(u"setting_ai_tab")
-        self.verticalLayout_52 = QVBoxLayout(self.setting_ai_tab)
+        self.verticalLayout_59 = QVBoxLayout(self.setting_ai_tab)
+        self.verticalLayout_59.setObjectName(u"verticalLayout_59")
+        self.verticalLayout_52 = QVBoxLayout()
         self.verticalLayout_52.setObjectName(u"verticalLayout_52")
-        self.horizontalLayout_59 = QHBoxLayout()
-        self.horizontalLayout_59.setObjectName(u"horizontalLayout_59")
-        self.verticalLayout_54 = QVBoxLayout()
-        self.verticalLayout_54.setObjectName(u"verticalLayout_54")
-        self.verticalLayout_54.setContentsMargins(7, -1, -1, -1)
-        self.verticalLayout_56 = QVBoxLayout()
-        self.verticalLayout_56.setObjectName(u"verticalLayout_56")
-        self.verticalLayout_56.setContentsMargins(0, -1, -1, -1)
         self.horizontalLayout_53 = QHBoxLayout()
         self.horizontalLayout_53.setObjectName(u"horizontalLayout_53")
+        self.verticalLayout_54 = QVBoxLayout()
+        self.verticalLayout_54.setObjectName(u"verticalLayout_54")
+        self.verticalLayout_56 = QVBoxLayout()
+        self.verticalLayout_56.setSpacing(13)
+        self.verticalLayout_56.setObjectName(u"verticalLayout_56")
+        self.horizontalLayout_55 = QHBoxLayout()
+        self.horizontalLayout_55.setObjectName(u"horizontalLayout_55")
+        self.horizontalSpacer_52 = QSpacerItem(36, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
-        self.verticalLayout_56.addLayout(self.horizontalLayout_53)
-
-        self.horizontalLayout_56 = QHBoxLayout()
-        self.horizontalLayout_56.setObjectName(u"horizontalLayout_56")
-        self.horizontalSpacer_54 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_56.addItem(self.horizontalSpacer_54)
+        self.horizontalLayout_55.addItem(self.horizontalSpacer_52)
 
         self.setting_ai_weight_label = QLabel(self.setting_ai_tab)
         self.setting_ai_weight_label.setObjectName(u"setting_ai_weight_label")
+        sizePolicy1.setHeightForWidth(self.setting_ai_weight_label.sizePolicy().hasHeightForWidth())
+        self.setting_ai_weight_label.setSizePolicy(sizePolicy1)
         self.setting_ai_weight_label.setMinimumSize(QSize(176, 28))
         self.setting_ai_weight_label.setMaximumSize(QSize(9999, 28))
         self.setting_ai_weight_label.setFont(font13)
@@ -2518,11 +2516,17 @@ class Ui_MainWindow(object):
 "background-color: rgba(255, 255, 255, 0);")
         self.setting_ai_weight_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_56.addWidget(self.setting_ai_weight_label)
+        self.horizontalLayout_55.addWidget(self.setting_ai_weight_label)
+
+        self.horizontalSpacer_70 = QSpacerItem(59, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_55.addItem(self.horizontalSpacer_70)
 
         self.setting_setting_ai_weight_box = QComboBox(self.setting_ai_tab)
         self.setting_setting_ai_weight_box.addItem("")
         self.setting_setting_ai_weight_box.setObjectName(u"setting_setting_ai_weight_box")
+        sizePolicy1.setHeightForWidth(self.setting_setting_ai_weight_box.sizePolicy().hasHeightForWidth())
+        self.setting_setting_ai_weight_box.setSizePolicy(sizePolicy1)
         self.setting_setting_ai_weight_box.setMinimumSize(QSize(105, 31))
         self.setting_setting_ai_weight_box.setMaximumSize(QSize(105, 31))
         self.setting_setting_ai_weight_box.setFont(font7)
@@ -2534,137 +2538,172 @@ class Ui_MainWindow(object):
         self.setting_setting_ai_weight_box.setCurrentText(u"2024-07-24")
         self.setting_setting_ai_weight_box.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContentsOnFirstShow)
 
-        self.horizontalLayout_56.addWidget(self.setting_setting_ai_weight_box)
+        self.horizontalLayout_55.addWidget(self.setting_setting_ai_weight_box)
+
+        self.horizontalSpacer_53 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_55.addItem(self.horizontalSpacer_53)
 
 
-        self.verticalLayout_56.addLayout(self.horizontalLayout_56)
+        self.verticalLayout_56.addLayout(self.horizontalLayout_55)
 
-        self.horizontalLayout_66 = QHBoxLayout()
-        self.horizontalLayout_66.setSpacing(0)
-        self.horizontalLayout_66.setObjectName(u"horizontalLayout_66")
-        self.horizontalSpacer_59 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalLayout_56 = QHBoxLayout()
+        self.horizontalLayout_56.setObjectName(u"horizontalLayout_56")
+        self.horizontalSpacer_54 = QSpacerItem(40, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_66.addItem(self.horizontalSpacer_59)
+        self.horizontalLayout_56.addItem(self.horizontalSpacer_54)
 
         self.setting_self_training_auto_labeling_label = QLabel(self.setting_ai_tab)
         self.setting_self_training_auto_labeling_label.setObjectName(u"setting_self_training_auto_labeling_label")
-        self.setting_self_training_auto_labeling_label.setMinimumSize(QSize(250, 28))
-        self.setting_self_training_auto_labeling_label.setMaximumSize(QSize(9999, 28))
+        sizePolicy1.setHeightForWidth(self.setting_self_training_auto_labeling_label.sizePolicy().hasHeightForWidth())
+        self.setting_self_training_auto_labeling_label.setSizePolicy(sizePolicy1)
+        self.setting_self_training_auto_labeling_label.setMinimumSize(QSize(1, 28))
+        self.setting_self_training_auto_labeling_label.setMaximumSize(QSize(194, 28))
         self.setting_self_training_auto_labeling_label.setFont(font13)
         self.setting_self_training_auto_labeling_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
         self.setting_self_training_auto_labeling_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_66.addWidget(self.setting_self_training_auto_labeling_label)
+        self.horizontalLayout_56.addWidget(self.setting_self_training_auto_labeling_label)
+
+        self.horizontalSpacer_55 = QSpacerItem(92, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_56.addItem(self.horizontalSpacer_55)
 
         self.setting_self_training_auto_labeling_bnt = QPushButton(self.setting_ai_tab)
         self.setting_self_training_auto_labeling_bnt.setObjectName(u"setting_self_training_auto_labeling_bnt")
+        sizePolicy1.setHeightForWidth(self.setting_self_training_auto_labeling_bnt.sizePolicy().hasHeightForWidth())
+        self.setting_self_training_auto_labeling_bnt.setSizePolicy(sizePolicy1)
         self.setting_self_training_auto_labeling_bnt.setMinimumSize(QSize(61, 25))
-        self.setting_self_training_auto_labeling_bnt.setMaximumSize(QSize(61, 25))
+        self.setting_self_training_auto_labeling_bnt.setMaximumSize(QSize(187, 25))
         self.setting_self_training_auto_labeling_bnt.setIcon(icon6)
         self.setting_self_training_auto_labeling_bnt.setIconSize(QSize(55, 103))
         self.setting_self_training_auto_labeling_bnt.setCheckable(True)
 
-        self.horizontalLayout_66.addWidget(self.setting_self_training_auto_labeling_bnt)
+        self.horizontalLayout_56.addWidget(self.setting_self_training_auto_labeling_bnt)
+
+        self.horizontalSpacer_56 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_56.addItem(self.horizontalSpacer_56)
 
 
-        self.verticalLayout_56.addLayout(self.horizontalLayout_66)
+        self.verticalLayout_56.addLayout(self.horizontalLayout_56)
 
-        self.horizontalLayout_65 = QHBoxLayout()
-        self.horizontalLayout_65.setObjectName(u"horizontalLayout_65")
-        self.horizontalSpacer_58 = QSpacerItem(37, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.verticalLayout_57 = QVBoxLayout()
+        self.verticalLayout_57.setSpacing(5)
+        self.verticalLayout_57.setObjectName(u"verticalLayout_57")
+        self.horizontalLayout_57 = QHBoxLayout()
+        self.horizontalLayout_57.setObjectName(u"horizontalLayout_57")
+        self.horizontalSpacer_57 = QSpacerItem(41, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_65.addItem(self.horizontalSpacer_58)
+        self.horizontalLayout_57.addItem(self.horizontalSpacer_57)
 
         self.setting_self_training_zeroshot_label = QLabel(self.setting_ai_tab)
         self.setting_self_training_zeroshot_label.setObjectName(u"setting_self_training_zeroshot_label")
-        self.setting_self_training_zeroshot_label.setMinimumSize(QSize(0, 28))
-        self.setting_self_training_zeroshot_label.setMaximumSize(QSize(9999, 28))
+        sizePolicy1.setHeightForWidth(self.setting_self_training_zeroshot_label.sizePolicy().hasHeightForWidth())
+        self.setting_self_training_zeroshot_label.setSizePolicy(sizePolicy1)
+        self.setting_self_training_zeroshot_label.setMinimumSize(QSize(9, 28))
+        self.setting_self_training_zeroshot_label.setMaximumSize(QSize(300, 28))
         self.setting_self_training_zeroshot_label.setFont(font13)
         self.setting_self_training_zeroshot_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
         self.setting_self_training_zeroshot_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_65.addWidget(self.setting_self_training_zeroshot_label)
+        self.horizontalLayout_57.addWidget(self.setting_self_training_zeroshot_label)
+
+        self.horizontalSpacer_58 = QSpacerItem(24, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_57.addItem(self.horizontalSpacer_58)
 
         self.setting_self_training_zeroshot_bnt = QPushButton(self.setting_ai_tab)
         self.setting_self_training_zeroshot_bnt.setObjectName(u"setting_self_training_zeroshot_bnt")
+        sizePolicy1.setHeightForWidth(self.setting_self_training_zeroshot_bnt.sizePolicy().hasHeightForWidth())
+        self.setting_self_training_zeroshot_bnt.setSizePolicy(sizePolicy1)
         self.setting_self_training_zeroshot_bnt.setMinimumSize(QSize(61, 25))
-        self.setting_self_training_zeroshot_bnt.setMaximumSize(QSize(61, 25))
+        self.setting_self_training_zeroshot_bnt.setMaximumSize(QSize(151, 25))
         self.setting_self_training_zeroshot_bnt.setIcon(icon6)
         self.setting_self_training_zeroshot_bnt.setIconSize(QSize(55, 103))
         self.setting_self_training_zeroshot_bnt.setCheckable(True)
 
-        self.horizontalLayout_65.addWidget(self.setting_self_training_zeroshot_bnt)
+        self.horizontalLayout_57.addWidget(self.setting_self_training_zeroshot_bnt)
+
+        self.horizontalSpacer_59 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_57.addItem(self.horizontalSpacer_59)
 
 
-        self.verticalLayout_56.addLayout(self.horizontalLayout_65)
-
-        self.horizontalLayout_55 = QHBoxLayout()
-        self.horizontalLayout_55.setObjectName(u"horizontalLayout_55")
-
-        self.verticalLayout_56.addLayout(self.horizontalLayout_55)
+        self.verticalLayout_57.addLayout(self.horizontalLayout_57)
 
         self.verticalLayout_58 = QVBoxLayout()
+        self.verticalLayout_58.setSpacing(0)
         self.verticalLayout_58.setObjectName(u"verticalLayout_58")
-        self.horizontalLayout_63 = QHBoxLayout()
-        self.horizontalLayout_63.setObjectName(u"horizontalLayout_63")
+        self.horizontalLayout_59 = QHBoxLayout()
+        self.horizontalLayout_59.setObjectName(u"horizontalLayout_59")
+        self.horizontalSpacer_63 = QSpacerItem(40, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_59.addItem(self.horizontalSpacer_63)
+
         self.setting_page_email_info_label_5 = QLabel(self.setting_ai_tab)
         self.setting_page_email_info_label_5.setObjectName(u"setting_page_email_info_label_5")
-        sizePolicy3.setHeightForWidth(self.setting_page_email_info_label_5.sizePolicy().hasHeightForWidth())
-        self.setting_page_email_info_label_5.setSizePolicy(sizePolicy3)
-        self.setting_page_email_info_label_5.setMinimumSize(QSize(273, 21))
+        sizePolicy1.setHeightForWidth(self.setting_page_email_info_label_5.sizePolicy().hasHeightForWidth())
+        self.setting_page_email_info_label_5.setSizePolicy(sizePolicy1)
+        self.setting_page_email_info_label_5.setMinimumSize(QSize(12, 21))
         self.setting_page_email_info_label_5.setMaximumSize(QSize(9999, 21))
         self.setting_page_email_info_label_5.setFont(font2)
         self.setting_page_email_info_label_5.setStyleSheet(u"color: rgb(242, 18, 94);")
 
-        self.horizontalLayout_63.addWidget(self.setting_page_email_info_label_5)
+        self.horizontalLayout_59.addWidget(self.setting_page_email_info_label_5)
 
-        self.horizontalSpacer_56 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_64 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_63.addItem(self.horizontalSpacer_56)
+        self.horizontalLayout_59.addItem(self.horizontalSpacer_64)
 
 
-        self.verticalLayout_58.addLayout(self.horizontalLayout_63)
+        self.verticalLayout_58.addLayout(self.horizontalLayout_59)
 
-        self.horizontalLayout_64 = QHBoxLayout()
-        self.horizontalLayout_64.setObjectName(u"horizontalLayout_64")
+        self.horizontalLayout_60 = QHBoxLayout()
+        self.horizontalLayout_60.setObjectName(u"horizontalLayout_60")
+        self.horizontalSpacer_65 = QSpacerItem(48, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_60.addItem(self.horizontalSpacer_65)
+
         self.setting_page_email_info_label_6 = QLabel(self.setting_ai_tab)
         self.setting_page_email_info_label_6.setObjectName(u"setting_page_email_info_label_6")
-        sizePolicy3.setHeightForWidth(self.setting_page_email_info_label_6.sizePolicy().hasHeightForWidth())
-        self.setting_page_email_info_label_6.setSizePolicy(sizePolicy3)
+        sizePolicy1.setHeightForWidth(self.setting_page_email_info_label_6.sizePolicy().hasHeightForWidth())
+        self.setting_page_email_info_label_6.setSizePolicy(sizePolicy1)
         self.setting_page_email_info_label_6.setMinimumSize(QSize(1, 21))
         self.setting_page_email_info_label_6.setMaximumSize(QSize(9999, 21))
         self.setting_page_email_info_label_6.setFont(font2)
         self.setting_page_email_info_label_6.setStyleSheet(u"color: rgb(242, 18, 94);")
 
-        self.horizontalLayout_64.addWidget(self.setting_page_email_info_label_6)
+        self.horizontalLayout_60.addWidget(self.setting_page_email_info_label_6)
 
-        self.horizontalSpacer_57 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_66 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_64.addItem(self.horizontalSpacer_57)
-
-
-        self.verticalLayout_58.addLayout(self.horizontalLayout_64)
+        self.horizontalLayout_60.addItem(self.horizontalSpacer_66)
 
 
-        self.verticalLayout_56.addLayout(self.verticalLayout_58)
+        self.verticalLayout_58.addLayout(self.horizontalLayout_60)
 
-        self.horizontalLayout_57 = QHBoxLayout()
-        self.horizontalLayout_57.setObjectName(u"horizontalLayout_57")
 
-        self.verticalLayout_56.addLayout(self.horizontalLayout_57)
+        self.verticalLayout_57.addLayout(self.verticalLayout_58)
 
-        self.horizontalLayout_60 = QHBoxLayout()
-        self.horizontalLayout_60.setObjectName(u"horizontalLayout_60")
-        self.horizontalSpacer_53 = QSpacerItem(219, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_60.addItem(self.horizontalSpacer_53)
+        self.verticalLayout_56.addLayout(self.verticalLayout_57)
+
+
+        self.verticalLayout_54.addLayout(self.verticalLayout_56)
+
+        self.horizontalLayout_61 = QHBoxLayout()
+        self.horizontalLayout_61.setObjectName(u"horizontalLayout_61")
+        self.horizontalSpacer_67 = QSpacerItem(280, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_61.addItem(self.horizontalSpacer_67)
 
         self.setting_ai_setting_save_bnt = QPushButton(self.setting_ai_tab)
         self.setting_ai_setting_save_bnt.setObjectName(u"setting_ai_setting_save_bnt")
-        sizePolicy.setHeightForWidth(self.setting_ai_setting_save_bnt.sizePolicy().hasHeightForWidth())
-        self.setting_ai_setting_save_bnt.setSizePolicy(sizePolicy)
+        sizePolicy1.setHeightForWidth(self.setting_ai_setting_save_bnt.sizePolicy().hasHeightForWidth())
+        self.setting_ai_setting_save_bnt.setSizePolicy(sizePolicy1)
         self.setting_ai_setting_save_bnt.setMinimumSize(QSize(76, 39))
         self.setting_ai_setting_save_bnt.setMaximumSize(QSize(76, 39))
         self.setting_ai_setting_save_bnt.setFont(font2)
@@ -2677,27 +2716,31 @@ class Ui_MainWindow(object):
 "\n"
 "")
 
-        self.horizontalLayout_60.addWidget(self.setting_ai_setting_save_bnt)
+        self.horizontalLayout_61.addWidget(self.setting_ai_setting_save_bnt)
+
+        self.horizontalSpacer_69 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_61.addItem(self.horizontalSpacer_69)
 
 
-        self.verticalLayout_56.addLayout(self.horizontalLayout_60)
+        self.verticalLayout_54.addLayout(self.horizontalLayout_61)
 
 
-        self.verticalLayout_54.addLayout(self.verticalLayout_56)
+        self.horizontalLayout_53.addLayout(self.verticalLayout_54)
 
-        self.verticalSpacer_28 = QSpacerItem(20, 500, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.horizontalSpacer_68 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.verticalLayout_54.addItem(self.verticalSpacer_28)
-
-
-        self.horizontalLayout_59.addLayout(self.verticalLayout_54)
-
-        self.horizontalSpacer_52 = QSpacerItem(641, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_59.addItem(self.horizontalSpacer_52)
+        self.horizontalLayout_53.addItem(self.horizontalSpacer_68)
 
 
-        self.verticalLayout_52.addLayout(self.horizontalLayout_59)
+        self.verticalLayout_52.addLayout(self.horizontalLayout_53)
+
+        self.verticalSpacer_28 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_52.addItem(self.verticalSpacer_28)
+
+
+        self.verticalLayout_59.addLayout(self.verticalLayout_52)
 
         self.setting_stack_widget.addWidget(self.setting_ai_tab)
 
@@ -3367,12 +3410,12 @@ class Ui_MainWindow(object):
         self.setting_setting_ai_weight_box.setItemText(0, QCoreApplication.translate("MainWindow", u"2024-07-24", None))
 
         self.setting_setting_ai_weight_box.setPlaceholderText("")
-        self.setting_self_training_auto_labeling_label.setText(QCoreApplication.translate("MainWindow", u"\uc9c0\ub2a5\ud615 \uc2e4\ud589\uc2dc Auto Labeling \ud65c\uc131\ud654", None))
+        self.setting_self_training_auto_labeling_label.setText(QCoreApplication.translate("MainWindow", u"Self Auto Labeling \ud65c\uc131\ud654", None))
         self.setting_self_training_auto_labeling_bnt.setText("")
-        self.setting_self_training_zeroshot_label.setText(QCoreApplication.translate("MainWindow", u"Zeroshot labeling mode \ud65c\uc131\ud654", None))
+        self.setting_self_training_zeroshot_label.setText(QCoreApplication.translate("MainWindow", u"Object Detection Assistance \ud65c\uc131\ud654", None))
         self.setting_self_training_zeroshot_bnt.setText("")
-        self.setting_page_email_info_label_5.setText(QCoreApplication.translate("MainWindow", u"\u203bzeroshot labeling mode\ub294 \uc0c8\ub85c\uc6b4 \ud658\uacbd \uc5d0\uc11c ", None))
-        self.setting_page_email_info_label_6.setText(QCoreApplication.translate("MainWindow", u"    \ubaa8\ub378 \ud559\uc2b5\uc2dc \uc131\ub2a5 \uac1c\uc120\uc5d0 \ub3c4\uc6c0\uc744 \uc90d\ub2c8\ub2e4", None))
+        self.setting_page_email_info_label_5.setText(QCoreApplication.translate("MainWindow", u"\u203bObject Detection Assistance \uc740 \uc0c8\ub85c\uc6b4 \ud658\uacbd\uc5d0\uc11c", None))
+        self.setting_page_email_info_label_6.setText(QCoreApplication.translate("MainWindow", u" \ucd08\uae30  \ubaa8\ub378 \ud559\uc2b5 \uc131\ub2a5 \uac1c\uc120\uc744 \ub3c4\uc640 \uc90d\ub2c8\ub2e4", None))
         self.setting_ai_setting_save_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc800\uc7a5", None))
         self.admin_pw_label.setText(QCoreApplication.translate("MainWindow", u"\uad00\ub9ac\uc790 \ube44\ubc00\ubc88\ud638", None))
         self.admin_pw_input.setText(QCoreApplication.translate("MainWindow", u"asdsad", None))
