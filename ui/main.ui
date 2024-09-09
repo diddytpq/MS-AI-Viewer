@@ -3819,7 +3819,7 @@ background-color: rgb(13, 16, 23);</string>
                    <enum>QFrame::Shadow::Plain</enum>
                   </property>
                   <property name="currentIndex">
-                   <number>2</number>
+                   <number>0</number>
                   </property>
                   <widget class="QWidget" name="setting_notice_tab">
                    <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -4383,13 +4383,13 @@ selection-background-color: rgb(53, 132, 228);
                            <widget class="QLabel" name="setting_popup_alarm_active_label">
                             <property name="minimumSize">
                              <size>
-                              <width>141</width>
+                              <width>154</width>
                               <height>28</height>
                              </size>
                             </property>
                             <property name="maximumSize">
                              <size>
-                              <width>141</width>
+                              <width>148</width>
                               <height>28</height>
                              </size>
                             </property>
@@ -6247,7 +6247,7 @@ background-color: rgba(255, 255, 255, 0);</string>
 background-color: rgba(255, 255, 255, 0);</string>
                                   </property>
                                   <property name="text">
-                                   <string>Object Detection Assistance 활성화</string>
+                                   <string>Self Labeling Assistance 활성화</string>
                                   </property>
                                   <property name="alignment">
                                    <set>Qt::AlignmentFlag::AlignCenter</set>

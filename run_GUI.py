@@ -946,6 +946,7 @@ class MainWindow(QMainWindow):
             self.ui_main.stackedWidget.setCurrentIndex(2)
             self.ui_main.setting_stack_widget.setCurrentIndex(0)
 
+
             self.ui_main.setting_user_id_input.clear()
             self.ui_main.setting_user_pw_input.clear()
             self.ui_main.setting_user_new_pw_input.clear()
@@ -959,6 +960,7 @@ class MainWindow(QMainWindow):
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
             self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
 
+            self.update_setting()
 
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
