@@ -67,9 +67,10 @@ class Video_Buffer:
         self._frame = None
         self.connection_status = True  # RTSP 연결 상태를 추적하는 변수
         self.video_source = f'rtspsrc location=rtsp://{pipe} latency=10 buffer-mode=0 protocols=tcp'
-        self.video_codec = '! application/x-rtp, encoding-name=(string)H264, payload=96 ! rtph264depay ! h264parse '
-        self.video_decode = f'! decodebin ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
-        
+        # self.video_codec = '! application/x-rtp, encoding-name=(string)H264, payload=96 ! rtph264depay ! h264parse '
+        self.video_codec = '! rtph264depay ! h264parse '  # 'application/x-rtp' 생략
+        self.video_decode = f'! decodebin ! videoscale ! video/x-raw,width=640,height=480 ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
+        # self.video_decode = f'! decodebin ! videorate ! video/x-raw,framerate=30/1,format=(string)BGR ! videoconvert ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
         self.video_pipe = None
         self.video_sink = None
         self.appsink_name = appsink_name
@@ -79,7 +80,7 @@ class Video_Buffer:
         if not config:
             config = [
                 'videotestsrc ! decodebin',
-                '! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={self.appsink_name}'
+                f'! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={self.appsink_name}'
             ]
 
         command = ' '.join(config)
@@ -125,7 +126,7 @@ class Video_Buffer:
                 [
                     self.video_source,
                     self.video_codec,
-                    ' ! queue leaky=downstream max-size-buffers=10 ',
+                    ' ! queue leaky=downstream max-size-buffers=100 ',
                     self.video_decode
                 ]
             )

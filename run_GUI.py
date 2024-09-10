@@ -309,13 +309,8 @@ class MainWindow(QMainWindow):
 
     def shutdown(self):
         QApplication.instance().quit()
-        for worker in self.live_page_worker_dict.values():
-            worker.stop()
-            del worker
-
-        if self.camera_page_worker != None :
-            self.camera_page_worker.stop()
-            del self.camera_page_worker
+        self.stop_camera_page_worker()
+        self.stop_live_page_worker()
 
     def save_admin_info(self):
         try:
@@ -366,7 +361,7 @@ class MainWindow(QMainWindow):
         self.camera_connect_timer = QTimer(self)
         self.camera_connect_timer.timeout.connect(self.live_refresh_live_viewer)
 
-        self.camera_connect_timer.start(600000)  # 타이머 시작
+        self.camera_connect_timer.start(600000)  # 10분 마다 새로고침 타이머 시작
 
     def change_setting_info(self):
         try:
@@ -631,7 +626,8 @@ class MainWindow(QMainWindow):
                 camera_info = self.camera_info_dict_temp[camera_name]
                 camera_num = camera_info["Num"]
 
-                pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
+                # pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
+                pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_num}"
 
                 self.camera_page_worker = Connect_Camera(pipe = pipe,
                                                         host=self.HOST, 
@@ -734,7 +730,9 @@ class MainWindow(QMainWindow):
             for idx, (camera_name, camera_info) in enumerate(self.camera_info_dict_temp.items()):
                 if len(camera_info["IP"]):
                     camera_num = camera_info["Num"]
-                    pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
+                    # pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
+                    pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_num}"
+
                     viewer = self.camera_view_list[camera_name]
 
                     if thread_index not in cameras_grouped:
