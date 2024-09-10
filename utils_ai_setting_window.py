@@ -133,7 +133,7 @@ def open_ai_setting_window(click, self):
     for camera_name, camera_viewer in self.ai_setting_camera_view_list.items():
         find_worker_flag = False
         if camera_name in self.camera_view_list.keys():
-            for worker in self.camera_worker_dict.values():
+            for worker in self.live_page_worker_dict.values():
                 if camera_name in worker.caps.keys():
                     img = worker.caps[camera_name].get_frame()
 

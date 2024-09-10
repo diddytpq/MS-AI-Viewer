@@ -161,8 +161,6 @@ class MainWindow(QMainWindow):
         self.init_GUI_setup()
         self.ui_main.stackedWidget.setCurrentIndex(0)
 
-        # time.sleep(1)
-
         # self.showMaximized()
         # 윈도우 플래그 설정: 최대화 버튼 활성화
         # self.setWindowState(Qt.WindowNoState)
@@ -183,7 +181,6 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_schedule_bnt.clicked.connect(lambda click, instance = self : open_schedule_window(click, instance))
         self.ui_main.labeling_bnt.clicked.connect(lambda click, instance = self : open_labeling_window(click, instance))
         self.ui_main.camera_refresh_bnt.clicked.connect(self.live_refresh_live_viewer)
-        # self.ui_main.camera_schedule_bnt.clicked.connect(lambda: open_schedule_window(self))
 
         ##카메라 페이지 영상 뷰어 생성
         self.ui_main.camera_page_viewer.hide()
@@ -288,15 +285,10 @@ class MainWindow(QMainWindow):
 
     def set_person_conf_value(self):
         try:
-            # ret, camera_info_dict, camera_info_ori = self.load_camera_info(reset=False, connect_nvr = self.check_nvr_login())
-            # ret, camera_info_dict = self.load_camera_info()
-
-
             self.ui_main.camera_page_person_conf_value.setValue(self.ui_main.camera_page_person_conf_slider.value())
             camera_name = self.ui_main.camera_page_name_box.currentText()
 
             self.camera_info_dict_temp[camera_name]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
-            # save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
 
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -305,15 +297,10 @@ class MainWindow(QMainWindow):
 
     def set_person_conf_slider(self):
         try:
-            # ret, camera_info_dict, camera_info_ori = self.load_camera_info(reset=False, connect_nvr = self.check_nvr_login())
-            # ret, camera_info_dict = self.load_camera_info()
-
-
             self.ui_main.camera_page_person_conf_slider.setValue(self.ui_main.camera_page_person_conf_value.value())
             camera_name = self.ui_main.camera_page_name_box.currentText()
 
             self.camera_info_dict_temp[camera_name]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
-            # save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
 
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -322,7 +309,7 @@ class MainWindow(QMainWindow):
 
     def shutdown(self):
         QApplication.instance().quit()
-        for worker in self.camera_worker_dict.values():
+        for worker in self.live_page_worker_dict.values():
             worker.stop()
             del worker
 
@@ -330,12 +317,6 @@ class MainWindow(QMainWindow):
             self.camera_page_worker.stop()
             del self.camera_page_worker
 
-        # data = {"msg" : ""}
-        # url = f'http://{self.HOST}:{self.PORT}/logout'
-        # receive_data = requests.put(url, json=data).json()
-
-        # sys.exit()
-    
     def save_admin_info(self):
         try:
             save_info(host=self.HOST, port=self.PORT, file_name="admin_info", info=self.admin_info_temp)
@@ -359,7 +340,7 @@ class MainWindow(QMainWindow):
             tb = traceback.format_exc()
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
 
-    def start_camera_connect_status_timer(self):
+    def start_notification_status_timer(self):
         if self.timer is not None :
             self.timer.stop()
             del self.timer
@@ -397,7 +378,7 @@ class MainWindow(QMainWindow):
             self.setting_info_temp["DETECT"]["Bbox"] = 1 if self.ui_main.setting_detect_bbox_active_bnt.isChecked() else 0
             self.setting_info_temp["DETECT"]["Label"] = 1 if self.ui_main.setting_detect_label_active_bnt.isChecked() else 0
 
-            for worker in self.camera_worker_dict.values():
+            for worker in self.live_page_worker_dict.values():
                 if self.setting_info_temp["DETECT"]["Bbox"] == 1:
                     worker.plot_bbox = True
                 else: worker.plot_bbox = False
@@ -405,9 +386,6 @@ class MainWindow(QMainWindow):
                 if self.setting_info_temp["DETECT"]["Label"] == 1:
                     worker.plot_label = True
                 else: worker.plot_label = False
-
-            # self.camera_page_worker.plot_bbox = self.setting_info["DETECT"]["Bbox"]
-            # self.camera_page_worker.plot_label = self.setting_info["DETECT"]["Label"]
 
             if self.ui_main.setting_video_save_alarm_active_bnt.isChecked():
                 self.ui_main.setting_event_video_storage_period.setEnabled(True)
@@ -425,8 +403,6 @@ class MainWindow(QMainWindow):
 
 
             save_info(host=self.HOST, port=self.PORT, file_name="setting_info", info=self.setting_info_temp)
-
-            # self.start_timer()
 
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -456,10 +432,6 @@ class MainWindow(QMainWindow):
             index = self.ui_main.camera_page_name_box.findText(viewer.camera_name)
             self.ui_main.camera_page_name_box.setCurrentIndex(index)
 
-            # for worker in self.camera_worker_list:
-            #     worker.stop()
-            #     del worker
-
             for camera_name, camera_viewer in self.camera_view_list.items():
                 camera_viewer.click_count = 0
 
@@ -482,8 +454,6 @@ class MainWindow(QMainWindow):
 
     def camera_page_del_detect_area(self):
         try:
-            # ret, self.camera_info_dict_temp = self.load_camera_info(reset=False)
-
             camera_name = self.ui_main.camera_page_name_box.currentText()
 
             select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
@@ -493,10 +463,7 @@ class MainWindow(QMainWindow):
 
             self.reset_detect_area_list(self.camera_info_dict_temp[camera_name]["detect_info"])
             self.ui_main.camera_page_viewer.reset_green_area()
-            # save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
 
-            # cmd = {"msg" : ["change_camera_info"]}
-            # receive_data = socket_communication(self.HOST, self.PORT, cmd, on_data_received)
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             tb = traceback.format_exc()
@@ -550,8 +517,6 @@ class MainWindow(QMainWindow):
 
     def camera_page_update_camera_page_viewer_roi(self, item):
         try:
-            # ret, camera_info_dict = self.load_camera_info()
-            
             row = item.row()  # 클릭한 아이템의 행 인덱스
             row_data = []
             camera_num = self.ui_main.camera_page_name_box.currentText()
@@ -563,7 +528,6 @@ class MainWindow(QMainWindow):
                     # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
                     if index != row:
                         gray_point_list.append(value[1:])
-            # self.ui_main.camera_page_viewer.set_gray_point(gray_point_list, [self.ui_main.camera_page_viewer.width(), self.ui_main.camera_page_viewer.height()])
             self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
 
         except Exception as e:
@@ -573,8 +537,6 @@ class MainWindow(QMainWindow):
 
     def camera_page_add_detect_type(self):
         try:
-            # ret, camera_info_dict = self.load_camera_info()
-
             camera_name = self.ui_main.camera_page_name_box.currentText()
             detect_type = self.ui_main.camera_page_camera_event_box.currentText()
 
@@ -612,12 +574,8 @@ class MainWindow(QMainWindow):
                     gray_point_list.append(value[1:])
 
             self.ui_main.camera_page_viewer.reset_green_area()
-            # self.ui_main.camera_page_viewer.set_gray_point(gray_point_list, [self.ui_main.camera_page_viewer.width(), self.ui_main.camera_page_viewer.height()])
             self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
-            # save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
 
-            # cmd = {"msg" : ["change_camera_info"]}
-            # receive_data = socket_communication(self.HOST, self.PORT, cmd, on_data_received)
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             tb = traceback.format_exc()
@@ -625,8 +583,6 @@ class MainWindow(QMainWindow):
 
     def camera_page_add_detect_area_point(self, point): #마우스 클릭으로 생성된 포인트를 viewer에 표시
         try:
-            # ret, camera_info_dict = self.load_camera_info()
-            
             camera_num = self.ui_main.camera_page_name_box.currentText()
             select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
 
@@ -653,11 +609,7 @@ class MainWindow(QMainWindow):
                         if index != select_row:
                             gray_point_list.append(value[1:])
 
-                # self.ui_main.camera_page_viewer.set_gray_point(gray_point_list, [self.ui_main.camera_page_viewer.width(), self.ui_main.camera_page_viewer.height()])
                 self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
-            # save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
-            # cmd = {"msg" : ["change_camera_info"]}
-            # receive_data = socket_communication(self.HOST, self.PORT, cmd, on_data_received)
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             tb = traceback.format_exc()
@@ -665,10 +617,6 @@ class MainWindow(QMainWindow):
 
     def camera_page_display_camera_and_detect_area_list(self, camera_name):
         try:
-            # ret, camera_info_dict = self.load_camera_info()
-            # setting_info = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
-            # login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
-
             nvr_id = self.login_info_temp["NVR"]["ID"]
             nvr_pw = self.login_info_temp["NVR"]["PW"]
             nvr_ip = self.login_info_temp["NVR"]["IP"]
@@ -755,7 +703,7 @@ class MainWindow(QMainWindow):
     def live_refresh_live_viewer(self):
         try:
             print("refresh live viwer")
-            for worker in self.camera_worker_dict.values():
+            for worker in self.live_page_worker_dict.values():
                 worker.stop()
                 del worker
                 gc.collect()
@@ -772,7 +720,7 @@ class MainWindow(QMainWindow):
         try:
             ret, self.camera_info_dict_temp = self.load_camera_info(reset=reset, connect_nvr=self.check_nvr_login())
 
-            self.camera_worker_dict = {}
+            self.live_page_worker_dict = {}
             setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
             login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
             nvr_id = login_info["NVR"]["ID"]
@@ -816,7 +764,7 @@ class MainWindow(QMainWindow):
                                                 )
                 worker.ImageUpdated.connect(self.ShowCamera_Group)
                 worker.start()
-                self.camera_worker_dict[f"worker_{idx}"] = worker
+                self.live_page_worker_dict[f"worker_{idx}"] = worker
 
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -827,7 +775,7 @@ class MainWindow(QMainWindow):
     #     try:
     #         ret, self.camera_info_dict_temp = self.load_camera_info(reset=reset, connect_nvr=self.check_nvr_login())
 
-    #         self.camera_worker_dict = {}
+    #         self.live_page_worker_dict = {}
     #         setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
     #         login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
     #         nvr_id = login_info["NVR"]["ID"]
@@ -876,7 +824,7 @@ class MainWindow(QMainWindow):
 
     def check_camera_connect_status(self):
         try:
-            for worker in self.camera_worker_dict.values():
+            for worker in self.live_page_worker_dict.values():
                 for camera_name, flag in worker.camera_connect_flag.items():
                     row_index = self.find_in_first_column(camera_name)
                     if row_index is not None:
@@ -930,6 +878,18 @@ class MainWindow(QMainWindow):
         
         for key, button in buttons.items():
             button.setStyleSheet(active_style if key == active_button else default_style)
+    
+    def stop_live_page_worker(self):
+        if self.live_page_worker_dict != None :
+            for worker in self.live_page_worker_dict.values():
+                worker.stop()
+                del worker
+
+    def stop_camera_page_worker(self):
+        if self.camera_page_worker != None :
+            self.camera_page_worker.stop()
+            del self.camera_page_worker
+            self.camera_page_worker = None
 
     def switch_main_display_to_live(self):
         try:
@@ -937,12 +897,9 @@ class MainWindow(QMainWindow):
             self.ui_main.stackedWidget.setCurrentIndex(0)
             self.ui_main.camera_refresh_bnt.show()
 
-            # self.connect_live_page_camera()
+            self.live_refresh_live_viewer()
 
-            if self.camera_page_worker != None :
-                self.camera_page_worker.stop()
-                del self.camera_page_worker
-                self.camera_page_worker = None
+            self.stop_camera_page_worker()
 
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
             # self.live_refresh_live_viewer()
@@ -968,11 +925,8 @@ class MainWindow(QMainWindow):
             self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
             self.login_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
 
-            # if self.camera_worker_dict != None :
-            #     for worker in self.camera_worker_dict.values():
-            #         worker.stop()
-            #         del worker
-
+            self.stop_live_page_worker()
+            
             for detect_type in self.admin_info_temp["LICENSE"]:
                 if self.admin_info_temp["LICENSE"][detect_type] == 1:
                     self.ui_main.camera_page_camera_event_box.addItems([Eng2kor(detect_type)])
@@ -995,36 +949,20 @@ class MainWindow(QMainWindow):
             self.ui_main.setting_user_new_pw_input.clear()
             self.ui_main.setting_user_new_pw_input2.clear()
 
-            # if self.camera_page_worker != None :
-            #     self.camera_page_worker.stop()
-            #     del self.camera_page_worker
-            #     self.camera_page_worker = None
+            self.stop_camera_page_worker()
+            self.stop_live_page_worker()
 
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
             self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
 
             self.update_setting()
+            self.ui_main.camera_refresh_bnt.hide()
 
         except Exception as e:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             tb = traceback.format_exc()
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
 
-
-
-    # def switch_main_display_to_server(self):
-    #     self.set_button_style('server')
-    #     self.ui_main.stackedWidget.setCurrentIndex(3)
-        self.ui_main.camera_refresh_bnt.hide()
-
-        if self.camera_page_worker != None :
-            self.camera_page_worker.stop()
-            del self.camera_page_worker
-            self.camera_page_worker = None
-
-        # for worker in self.camera_worker_list:
-        #     worker.stop()
-        #     del worker
 
     def switch_main_display_to_admin(self):
         try:
@@ -1034,10 +972,8 @@ class MainWindow(QMainWindow):
 
             self.ui_main.admin_pw_input.clear()
 
-            if self.camera_page_worker != None :
-                self.camera_page_worker.stop()
-                del self.camera_page_worker
-                self.camera_page_worker = None
+            self.stop_camera_page_worker()
+            self.stop_live_page_worker()
 
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
 
@@ -1045,10 +981,6 @@ class MainWindow(QMainWindow):
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             tb = traceback.format_exc()
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-        # for worker in self.camera_worker_list:
-        #     worker.stop()
-        #     del worker
 
     def switch_main_display_to_admin_2(self):
         self.set_button_style('admin')
@@ -1086,8 +1018,6 @@ class MainWindow(QMainWindow):
     def switch_setting_display_to_ai_stting(self):
         try:
             self.ui_main.setting_setting_ai_weight_box.clear()
-            # weight_path = os.path.join(os.getcwd(), "back", "weight", "yolo")
-            # weight_list = sorted(os.listdir(weight_path))
 
             url = f'http://{self.HOST}:{self.PORT}/get_ai_weight_list'
             receive_data = requests.post(url, json={"msg" : {}}).json()
@@ -1135,9 +1065,6 @@ class MainWindow(QMainWindow):
             tb = traceback.format_exc()
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
 
-    # def setting_switch_schedule_setting(self):
-    #     self.ui_main.setting_stack_widget.setCurrentIndex(2)
-
     def switch_admin_license_page(self):
         try:
             self.ui_main.stackedWidget_2.setCurrentIndex(0)
@@ -1159,7 +1086,6 @@ class MainWindow(QMainWindow):
 
     def camera_page_display_selected_row(self):
         try:
-            # ret, camera_info_dict, camera_info_ori = self.load_camera_info()
             ret, self.camera_info_dict_temp = self.load_camera_info()
 
 
@@ -1168,7 +1094,6 @@ class MainWindow(QMainWindow):
                 selected_row = selected_indexes[0].row()  # 선택된 셀의 행 인덱스
                 camera_name = self.ui_main.camera_list_table.item(selected_row, 2).text()
                 
-                # data = self.camera_info_dict[camera_name]
                 data = self.camera_info_dict_temp[camera_name]
 
                 self.ui_main.camera_info_name_input.setText(data["Name"])
@@ -1202,11 +1127,6 @@ class MainWindow(QMainWindow):
                 text.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
                 self.ui_main.camera_list_table.setItem(row_position, 1, text)
 
-                # text = QTableWidgetItem(str(self.camera_info_dict_temp[camera_name]["Group"]))
-                # text.setTextAlignment(Qt.AlignCenter)
-                # text.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
-                # self.ui_main.camera_list_table.setItem(row_position, 1, text)
-                
                 text = QTableWidgetItem(str(self.camera_info_dict_temp[camera_name]["IP"]))
                 text.setTextAlignment(Qt.AlignCenter)
                 text.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
@@ -1239,26 +1159,7 @@ class MainWindow(QMainWindow):
             ret, self.camera_info_dict_temp = self.load_camera_info(reset, connect_nvr)
 
             if connect_nvr and ret == True:
-                # disconnect_camera_id = []
-
-                # for camera in camera_info_ori["cameras"]:
-                #     if camera["connected"] == False:
-                #         disconnect_camera_id.append(camera["id"])
-
                 for camera_name, camera_info in self.camera_info_dict_temp.items():
-                    # if len(str(camera_info["IP"])) == 0 or camera_info["Num"] in disconnect_camera_id:
-                        # num = camera_info["Num"]
-                        # self.camera_view_list[camera_name] = Livepage_view(getattr(self.ui_main, 
-                        #                                                            f"camera_view_{num}"), 
-                        #                                                            camera_name = camera_name, 
-                        #                                                            camera_num = str(camera_info["Num"]), 
-                        #                                                             stackedWidget = self.ui_main.stackedWidget)
-                        # row = num // 4
-                        # col = num % 4
-                        
-                        # self.ui_main.gridLayout_2.addWidget(self.camera_view_list[camera_name], row, col, 1, 1)
-                        # continue
-
                     row_position = self.ui_main.camera_list_table.rowCount()
                     self.ui_main.camera_list_table.insertRow(row_position)
 
@@ -1386,7 +1287,7 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_list_table.setRowCount(0)
         self.ui_main.camera_page_name_box.clear()
 
-        for worker in self.camera_worker_dict.values():
+        for worker in self.live_page_worker_dict.values():
             worker.stop()
             del worker
         
@@ -1436,12 +1337,6 @@ class MainWindow(QMainWindow):
             if len(receive_data["data"]):
                 for camera_name, alarm_list in receive_data["data"].items():
                     for alarm in alarm_list:
-                        # if self.setting_info_temp["VIDEO_SAVE"]["active"]:
-                        #     timer = threading.Timer(5, self.start_delayed_video_save, args=(camera_name, alarm))
-                        #     timer.start()
-
-                        #     self.video_storage_manage()
-
                         if self.setting_info_temp["NOTICE"]["active"]:
                             self.fadeout_in_window = FadeOutInWindow(self, camera_name, alarm, self.alarm_window_num)
                             main_window_rect = self.geometry()
@@ -1461,7 +1356,7 @@ class MainWindow(QMainWindow):
                                 self.fadeout_in_window_list.pop(0)
 
                         if self.setting_info_temp["EMAIL"]["active"]:
-                            thread = threading.Thread(target=send_email_alarm, args=(self.camera_worker_dict, alarm, self.setting_info_temp["EMAIL"]["se nder"], self.setting_info_temp["EMAIL"]["PW"],  self.setting_info_temp["EMAIL"]["TO"], camera_name))
+                            thread = threading.Thread(target=send_email_alarm, args=(self.live_page_worker_dict, alarm, self.setting_info_temp["EMAIL"]["se nder"], self.setting_info_temp["EMAIL"]["PW"],  self.setting_info_temp["EMAIL"]["TO"], camera_name))
                             thread.start()
 
         except Exception as e:
@@ -1472,7 +1367,6 @@ class MainWindow(QMainWindow):
     def Notification_status(self):
         try:
             data = {"msg" : str(" ")}
-
             url = f'http://{self.HOST}:{self.PORT}/get-status-info'
             receive_data = requests.get(url, json=data).json()
 
@@ -1510,7 +1404,6 @@ class MainWindow(QMainWindow):
 
     def check_nvr_login(self):
         login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
-
         data = {"msg" : {"ip" : login_info["NVR"]["IP"], 
                         "pw" : login_info["NVR"]["PW"],
                         "id" : login_info["NVR"]["ID"]}}
@@ -1518,16 +1411,19 @@ class MainWindow(QMainWindow):
         url = f'http://{self.HOST}:{self.PORT}/login_nvr'
         receive_data = requests.post(url, json=data).json()
 
-        if receive_data["success"]:
-            return True
+        if receive_data["success"]: return True
         else:
             self.create_fade_out_msg(msg=receive_data["message"])
             return False
 
     def init_GUI_setup(self, reset=False):
         self.fadeout_in_window_list = []
-        self.storage_period = {30 : 0, 60 : 1, 90 : 2, 
-                               0 : 30, 1 : 60, 2 : 90}
+        self.storage_period = {30 : 0, 
+                               60 : 1, 
+                               90 : 2, 
+                               0 : 30, 
+                               1 : 60, 
+                               2 : 90}
 
         self.alarm_window_num = 0
         self.camera_page_worker = None
@@ -1555,12 +1451,8 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_page_ai_active_icon.hide()
 
         if self.user_info == "user":
-            # self.ui_main.tab_backgournd.setGeometry(-20, -20, 501, 71)
             self.ui_main.tab_partion_3.hide()
             self.ui_main.admin_bnt.hide()
-
-        # if reset:
-        #     self.live_refresh_live_viewer()
 
         self.update_setting()
 
@@ -1569,7 +1461,7 @@ class MainWindow(QMainWindow):
         ##live 페이지 카메라 연결
         self.connect_live_page_camera(reset = reset)
 
-        self.start_camera_connect_status_timer()
+        self.start_notification_status_timer()
         self.start_camera_refresh_timer()
 
     def update_setting(self):
@@ -1606,7 +1498,7 @@ class MainWindow(QMainWindow):
             self.camera_page_worker.stop()
             del self.camera_page_worker
 
-        for worker in self.camera_worker_dict.values():
+        for worker in self.live_page_worker_dict.values():
             worker.stop()
             del worker
 
@@ -1614,7 +1506,6 @@ class MainWindow(QMainWindow):
         url = f'http://{self.HOST}:{self.PORT}/logout'
         receive_data = requests.put(url, json=data).json()
         event.accept()  # 또는 event.ignore()로 닫히지 않게 할 수 있음
-
 
 def main():
     try:
