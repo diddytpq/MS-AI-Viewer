@@ -66,9 +66,9 @@ class Video_Buffer:
     def __init__(self, pipe="video1", appsink_name="video_sink"):
         self._frame = None
         self.connection_status = True  # RTSP 연결 상태를 추적하는 변수
-        self.video_source = f'rtspsrc location=rtsp://{pipe} latency=100 buffer-mode=0 protocols=tcp'
+        self.video_source = f'rtspsrc location=rtsp://{pipe} latency=10 buffer-mode=0 protocols=tcp'
         self.video_codec = '! application/x-rtp, encoding-name=(string)H264, payload=96 ! rtph264depay ! h264parse '
-        self.video_decode = f'! decodebin ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=1 drop=true'
+        self.video_decode = f'! decodebin ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
         
         self.video_pipe = None
         self.video_sink = None
@@ -245,7 +245,7 @@ class Connect_Camera(QThread):
 
                     self.ImageUpdated.emit(qt_rgb_image)
 
-                    time.sleep(0.033)
+                    time.sleep(0.03)
 
                 else:
                     self.camera_connect_flag = False
@@ -315,7 +315,7 @@ class Connect_Camera_Group(QThread):
                 else:
                     self.camera_connect_flag["camera_name"] = False
 
-                time.sleep(0.02)
+                time.sleep(0.03)
 
         for cap in self.caps.values():
             cap.stop()

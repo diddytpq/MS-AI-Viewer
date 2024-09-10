@@ -37,32 +37,35 @@
 #     print(f"RTSP Stream URI: {stream_uri.Uri}")
 
 
-import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QDateEdit
-from PySide6.QtCore import QEvent
-from PySide6.QtGui import QWheelEvent
+import cv2
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Modify Existing DateEdit Event")
+def main():
+    # RTSP 스트림 URL에 사용자 인증 정보 포함
+    rtsp_url = "rtsp://microsystems:admin123@117.17.159.118:8554/test"
 
-        # 기존에 생성된 QDateEdit 위젯
-        self.date_edit = QDateEdit(self)
-        self.date_edit.setGeometry(100, 100, 200, 30)
-        self.date_edit.setCalendarPopup(True)
+    # OpenCV에서 RTSP 스트림을 읽기 위한 VideoCapture 객체 생성
+    cap = cv2.VideoCapture(rtsp_url)
 
-        # 이벤트 필터를 통해 마우스 휠을 억제
-        self.date_edit.installEventFilter(self)
+    if not cap.isOpened():
+        print("RTSP 스트림을 열 수 없습니다.")
+        return
 
-    def eventFilter(self, obj, event):
-        # QDateEdit 위젯에서 발생하는 휠 이벤트를 억제
-        if obj == self.date_edit and isinstance(event, QWheelEvent):
-            return True  # 이벤트를 무시하여 휠로 변경되지 않게 만듦
-        return super().eventFilter(obj, event)
+    while True:
+        ret, frame = cap.read()
+
+        if not ret:
+            print("프레임을 읽을 수 없습니다.")
+            break
+
+        # 받은 프레임을 화면에 표시
+        cv2.imshow('RTSP Stream', frame)
+
+        # 'q'를 눌러서 스트리밍 종료
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
+    main()

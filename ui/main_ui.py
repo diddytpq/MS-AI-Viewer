@@ -2656,7 +2656,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_57.addWidget(self.setting_self_training_zeroshot_label)
 
-        self.horizontalSpacer_58 = QSpacerItem(24, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_58 = QSpacerItem(54, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_57.addItem(self.horizontalSpacer_58)
 

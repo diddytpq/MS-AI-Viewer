@@ -823,6 +823,49 @@ class MainWindow(QMainWindow):
             tb = traceback.format_exc()
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
 
+    # def connect_live_page_camera(self, reset=False):
+    #     try:
+    #         ret, self.camera_info_dict_temp = self.load_camera_info(reset=reset, connect_nvr=self.check_nvr_login())
+
+    #         self.camera_worker_dict = {}
+    #         setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
+    #         login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
+    #         nvr_id = login_info["NVR"]["ID"]
+    #         nvr_pw = login_info["NVR"]["PW"]
+    #         nvr_ip = login_info["NVR"]["IP"]
+
+    #         self.camera_worker_list = []
+
+    #         for idx, (camera_name, camera_info) in enumerate(self.camera_info_dict_temp.items()):
+    #             if len(camera_info["IP"]):
+    #                 # rtsp_url = f'rtsp://{NVR_ID}:{NVR_PW}@{NVR_IP}/normal{value["Num"]}'
+    #                 # rtsp_url = f'rtsp://{NVR_ID}:{NVR_PW}@{NVR_IP}/video{camera_num}'
+    #                 camera_num = camera_info["Num"]
+    #                 pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
+
+    #                 # key 또는 index를 기반으로 viewer 결정
+    #                 viewer = self.camera_view_list[camera_name]
+
+    #                 worker = Connect_Camera(pipe = pipe,
+    #                                         host=self.HOST, 
+    #                                         port=self.PORT, 
+    #                                         camera_name=camera_name, 
+    #                                         plot_bbox=self.setting_info_temp["DETECT"]["Bbox"],
+    #                                         plot_label=self.setting_info_temp["DETECT"]["Label"],
+    #                                         viewer = viewer)
+                    
+    #                 # connect 시 lambda 함수 사용. 람다 함수에 기본 인자 제공으로 마지막 요소 참조 문제 해결
+    #                 worker.ImageUpdated.connect(lambda image, viewer=viewer: self.ShowCamera(viewer, image))
+                    
+    #                 worker.start()
+    #                 self.camera_worker_list.append(worker)
+
+
+    #     except Exception as e:
+    #         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    #         tb = traceback.format_exc()
+    #         print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+
     def find_in_first_column(self, text):
         # 첫 번째 열에서 특정 문자를 포함한 행의 인덱스를 반환
         for row in range(self.ui_main.camera_list_table.rowCount()):
