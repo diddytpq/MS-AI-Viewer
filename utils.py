@@ -334,6 +334,7 @@ class Connect_Camera_Group(QThread):
         self.wait()
         self.quit()
 
+from turbojpeg import TurboJPEG, TJPF_GRAY, TJSAMP_GRAY, TJFLAG_PROGRESSIVE, TJFLAG_FASTUPSAMPLE, TJFLAG_FASTDCT
 
 class Connect_Playback(QThread):
     # Signal emitted when a new image or a new frame is ready.
@@ -352,6 +353,8 @@ class Connect_Playback(QThread):
 
         self.roi_thickness = roi_thickness
 
+        self.jpeg = TurboJPEG()
+
     def run(self) -> None:
         frame_num = 0
 
@@ -369,7 +372,9 @@ class Connect_Playback(QThread):
                     jpg = bytes_data[a:b+2]
                     bytes_data = bytes_data[b+2:]
 
-                    frame = cv2.resize(cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR), dsize=self.output_size)
+                    # frame = cv2.resize(cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR), dsize=self.output_size)
+                    frame = cv2.resize(self.jpeg.decode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR), dsize=self.output_size)
+
                     height, width, channels = frame.shape
                     # Calculate the number of bytes per line.
                     bytes_per_line = width * channels
