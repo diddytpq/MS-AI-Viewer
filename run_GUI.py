@@ -161,6 +161,11 @@ class MainWindow(QMainWindow):
         self.init_GUI_setup()
         self.ui_main.stackedWidget.setCurrentIndex(0)
 
+        # self.before_active_window = None
+        # self.active_window_timer = QTimer(self)
+        # self.active_window_timer.timeout.connect(self.check_if_active)
+        # self.active_window_timer.start(1000)  # Check every 1 second
+
         # self.showMaximized()
         # 윈도우 플래그 설정: 최대화 버튼 활성화
         # self.setWindowState(Qt.WindowNoState)
@@ -268,6 +273,32 @@ class MainWindow(QMainWindow):
         self.ui_main.admin_pw_input.returnPressed.connect(self.login_admin_page)
         
 #---------------------------------------------------------------------------------------------------------#
+    def check_if_active(self):
+        if self.before_active_window == None:
+            self.before_active_window = self.isActiveWindow()
+
+        if self.before_active_window == False and self.isActiveWindow():
+            if self.live_page_worker_dict != None :
+                for worker in self.live_page_worker_dict.values():
+                    for camera_name, camera_info in worker.cameras.items():
+                        worker.caps[camera_name].change_framerate(30)
+            print("1")
+
+            self.before_active_window = self.isActiveWindow()
+                    
+            # if self.camera_page_worker != None :
+            #     self.camera_page_worker.cap.change_framerate(30)
+        elif self.before_active_window == True and self.isActiveWindow() == False:
+            if self.live_page_worker_dict != None :
+                for worker in self.live_page_worker_dict.values():
+                    for camera_name, camera_info in worker.cameras.items():
+                        worker.caps[camera_name].change_framerate(1)
+            print("2")
+            self.before_active_window = self.isActiveWindow()
+            
+            # if self.camera_page_worker != None :
+            #     self.camera_page_worker.cap.change_framerate(30)
+
     def keyPressEvent(self, event):
         # Alt + Enter 키를 감지
         if event.key() == Qt.Key_Enter and event.modifiers() & Qt.AltModifier:
@@ -626,8 +657,8 @@ class MainWindow(QMainWindow):
                 camera_info = self.camera_info_dict_temp[camera_name]
                 camera_num = camera_info["Num"]
 
-                # pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
-                pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_num}"
+                pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
+                # pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_num}"
 
                 self.camera_page_worker = Connect_Camera(pipe = pipe,
                                                         host=self.HOST, 
@@ -730,8 +761,8 @@ class MainWindow(QMainWindow):
             for idx, (camera_name, camera_info) in enumerate(self.camera_info_dict_temp.items()):
                 if len(camera_info["IP"]):
                     camera_num = camera_info["Num"]
-                    # pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
-                    pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_num}"
+                    pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
+                    # pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_num}"
 
                     viewer = self.camera_view_list[camera_name]
 
