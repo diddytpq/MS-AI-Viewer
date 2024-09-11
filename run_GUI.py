@@ -634,6 +634,14 @@ class MainWindow(QMainWindow):
 
             self.connect_live_page_camera()
 
+            if self.isActiveWindow() == False:
+                if self.live_page_worker_dict != None :
+                    for worker in self.live_page_worker_dict.values():
+                        for camera_name, camera_info in worker.cameras.items():
+                            worker.caps[camera_name].change_framerate(1)
+                print("chg 1fps")
+
+
         except Exception as e:
             print_error(e)
 
