@@ -1,71 +1,71 @@
-# from onvif import ONVIFCamera
-
-# # ONVIF 카메라에 연결 (IP 주소, 포트, 사용자 이름, 비밀번호)
-# # mycam = ONVIFCamera('117.17.159.195', 80, 'admin', 'admin13579')
-# mycam = ONVIFCamera('117.17.159.221', 80, 'admin', 'Admin13579')
-
-
-# # 카메라의 장치 정보 가져오기
-# device_info = mycam.devicemgmt.GetDeviceInformation()
-# print(f"Manufacturer: {device_info.Manufacturer}")
-# print(f"Model: {device_info.Model}")
-# print(f"Firmware Version: {device_info.FirmwareVersion}")
-# print(f"Serial Number: {device_info.SerialNumber}")
-# print(f"Hardware ID: {device_info.HardwareId}")
-
-# # 카메라의 PTZ(Pan-Tilt-Zoom) 기능 확인 (가능한 경우)
-# # ptz_service = mycam.create_ptz_service()
-# # status = ptz_service.GetStatus({'ProfileToken': '000'})
-# # print(f"Pan-Tilt-Zoom 상태: {status}")
-
-
-# # 카메라의 Media 서비스 사용
-# media_service = mycam.create_media_service()
-
-# # 지원되는 프로파일 목록 가져오기
-# profiles = media_service.GetProfiles()
-
-# for i in range(len(profiles)):
-#     profile_token = profiles[i].token  # 첫 번째 프로파일 선택
-
-#     # RTSP 스트림 URI 가져오기
-#     stream_uri = media_service.GetStreamUri({
-#         'StreamSetup': {'Stream': 'RTP-Unicast', 'Transport': {'Protocol': 'RTSP'}},
-#         'ProfileToken': profile_token
-#     })
-
-#     print(f"RTSP Stream URI: {stream_uri.Uri}")
-
-
 import cv2
+import subprocess
+import numpy as np
+import select
+import threading
 
-def main():
-    # RTSP 스트림 URL에 사용자 인증 정보 포함
-    rtsp_url = "rtsp://microsystems:admin123@117.17.159.118:8554/test"
 
-    # OpenCV에서 RTSP 스트림을 읽기 위한 VideoCapture 객체 생성
-    cap = cv2.VideoCapture(rtsp_url)
-
-    if not cap.isOpened():
-        print("RTSP 스트림을 열 수 없습니다.")
-        return
-
+def read_stderr(ffmpeg_process):
+    # FFmpeg stderr 로그 출력 (오류나 경고 모니터링)
     while True:
-        ret, frame = cap.read()
-
-        if not ret:
-            print("프레임을 읽을 수 없습니다.")
+        output = ffmpeg_process.stderr.readline()
+        if output == b'' and ffmpeg_process.poll() is not None:
             break
+        if output:
+            print(output.decode('utf-8').strip())
 
-        # 받은 프레임을 화면에 표시
-        cv2.imshow('RTSP Stream', frame)
+def open_rtsp_stream():
+    ffmpeg_cmd = [
+        'ffmpeg',
+        '-rtsp_transport', 'tcp',               
+        # '-i', 'rtsp://admin:1234@117.17.159.143/video1',
+        '-i', 'rtsp://admin:1234@117.17.159.195/stream1',
 
-        # 'q'를 눌러서 스트리밍 종료
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        '-c:v', 'h264_nvdec',
+        '-fflags', 'nobuffer',
+        '-flags', 'low_delay',
+        '-pix_fmt', 'bgr24',
+        '-f', 'rawvideo',
+        # '-f', 'h264'
+        '-vcodec', 'rawvideo',
+        '-'
+    ]
 
-    cap.release()
+    # FFmpeg 프로세스를 시작합니다.
+    ffmpeg_process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=10**8)
+    stderr_thread = threading.Thread(target=read_stderr, args=(ffmpeg_process,))
+    stderr_thread.start()
+
+    width = 1920
+    height = 1080
+    frame_size = width * height * 3  # BGR 포맷에서 3채널 (BGR 24비트)
+
+    # 프레임을 읽고 표시하는 루프
+    while True:
+        ready, _, _ = select.select([ffmpeg_process.stdout], [], [], 0.1)
+
+        if ready:
+            raw_frame = ffmpeg_process.stdout.read(frame_size)
+
+            if len(raw_frame) == 0:
+                # 데이터가 없으면 계속 시도
+                continue
+
+            if len(raw_frame) != frame_size:
+                print(f"Incomplete frame received: {len(raw_frame)} bytes")
+                continue
+
+            # numpy 배열로 변환 후 OpenCV로 표시
+            frame = np.frombuffer(raw_frame, np.uint8).reshape((height, width, 3))
+            cv2.imshow('RTSP Stream', frame)
+
+            # ESC 키를 누르면 종료
+            if cv2.waitKey(1) & 0xFF == 27:
+                break
+
     cv2.destroyAllWindows()
+    ffmpeg_process.terminate()
 
-if __name__ == "__main__":
-    main()
+
+if __name__ == '__main__':
+    open_rtsp_stream()

@@ -33,6 +33,8 @@ import time
 
 from cryptography.fernet import Fernet
 import traceback
+import subprocess
+
 
 KEY = "FBRBdZIbc_ULGN_qOlZjdMLDLPPzdRJ2Nb63kX3wuDI="
 
@@ -953,3 +955,18 @@ def print_error(e):
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     tb = traceback.format_exc()
     print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+
+def check_nvidia_gpu():
+    try:
+        # 'nvidia-smi' 명령어 실행
+        result = subprocess.run(['nvidia-smi'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if result.returncode == 0:
+            print("NVIDIA GPU is available.")
+            return True
+        else:
+            print("NVIDIA GPU is not available.")
+            return False
+
+    except FileNotFoundError:
+        print("nvidia-smi command not found. No NVIDIA GPU available or drivers not installed.")
+        return False

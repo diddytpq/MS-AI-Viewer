@@ -24,7 +24,7 @@ import threading
 
 from utils import (Connect_Camera, Plot_Camera_Viewer, FadeOutWindow, Livepage_view, FadeOutInWindow,
                   Eng2kor, Kor2eng, send_email_alarm, load_info, save_info, Connect_Camera_Group,
-                  print_error)
+                  print_error, check_nvidia_gpu)
 import time
 from datetime import datetime, timedelta
 import traceback
@@ -287,8 +287,11 @@ class MainWindow(QMainWindow):
                 camera_info = self.camera_info_dict_temp[camera_name]
                 camera_num = camera_info["Num"]
 
-                # pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
-                pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_num}"
+                
+                if check_nvidia_gpu(): pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_num}"
+                else:pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
+
+                    
 
                 self.camera_page_worker = Connect_Camera(pipe = pipe,
                                                         host=self.HOST, 
