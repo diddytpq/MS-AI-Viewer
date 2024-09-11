@@ -63,18 +63,21 @@ class Colors:
         return tuple(int(h[1 + i:1 + i + 2], 16) for i in (0, 2, 4))    
 
 class Video_Buffer:
-    def __init__(self, pipe="video1", appsink_name="video_sink", resolution=(640,480)):
+    def __init__(self, pipe="video1", appsink_name="video_sink", resolution=(640,480), chg_fps_mode = False):
         self._frame = None
         self.connection_status = True  # RTSP 연결 상태를 추적하는 변수
         self.video_source = f'rtspsrc location=rtsp://{pipe} latency=10 buffer-mode=0 protocols=tcp'
         # self.video_codec = '! application/x-rtp, encoding-name=(string)H264, payload=96 ! rtph264depay ! h264parse '
         self.video_codec = '! rtph264depay ! h264parse '  # 'application/x-rtp' 생략
         # self.video_decode = f'! decodebin ! videorate ! capsfilter name=capsfilter0 caps=video/x-raw,framerate=30/1 ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
-        # self.video_decode = f'! decodebin ! videorate ! capsfilter name=capsfilter0 caps=video/x-raw,framerate=1/1 ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
         # self.video_decode = f'! decodebin ! videorate ! videoscale ! capsfilter name=capsfilter0 caps=video/x-raw,width={resolution[0]},height={resolution[1]},framerate=5/1 ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
         # self.video_decode = f'! decodebin ! videorate ! videoscale ! video/x-raw,format=(string)BGR,width={resolution[0]},height={resolution[1]},framerate=5/1 ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
         
-        self.video_decode = f'! decodebin ! videorate ! video/x-raw,framerate=30/1 ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
+        if chg_fps_mode == True:
+            self.video_decode = f'! decodebin ! videorate ! capsfilter name=capsfilter0 caps=video/x-raw,framerate=30/1 ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
+
+        else:
+            self.video_decode = f'! decodebin ! videorate ! video/x-raw,framerate=30/1 ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
         # self.video_decode = f'! decodebin ! videorate ! video/x-raw,framerate=30/1,format=(string)BGR ! videoconvert ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
         self.video_pipe = None
         self.video_sink = None
@@ -237,7 +240,7 @@ class Connect_Camera(QThread):
         self.doubleClicked.emit()  # 더블 클릭 시 시그널 발생
 
     def run(self) -> None:
-            self.cap = Video_Buffer(pipe=self.pipe, resolution=(640,480))
+            self.cap = Video_Buffer(pipe=self.pipe, resolution=(1920,1080))
             session = requests.Session()
 
             # While the thread is active.
@@ -265,7 +268,7 @@ class Connect_Camera(QThread):
 
                     self.ImageUpdated.emit(qt_rgb_image)
 
-                    time.sleep(0.01)
+                    time.sleep(0.033)
 
                 else:
                     self.camera_connect_flag = False
@@ -302,7 +305,7 @@ class Connect_Camera_Group(QThread):
 
     def run(self) -> None:
         sessions = {camera_name: requests.Session() for camera_name in self.cameras}
-        self.caps = {camera_name: Video_Buffer(pipe=camera_info['pipe'], resolution=(640,480)) for camera_name, camera_info in self.cameras.items()}
+        self.caps = {camera_name: Video_Buffer(pipe=camera_info['pipe'], resolution=(640,480), chg_fps_mode=True) for camera_name, camera_info in self.cameras.items()}
 
         while self.__thread_active:
             for camera_name, camera_info in self.cameras.items():
@@ -335,7 +338,7 @@ class Connect_Camera_Group(QThread):
                 else:
                     self.camera_connect_flag["camera_name"] = False
 
-            time.sleep(0.01)
+            time.sleep(0.033)
             # time.sleep(1)
                 
 
@@ -937,18 +940,6 @@ def send_email_alarm(camera_worker_list, alarm, mail_sender, mail_passwd, mail_r
 
     server.quit()
 
-
-
-# def get_datetime_from_path(path):
-#     parts = path.split('/')  # 경로를 '/'로 분할
-#     date_time_str = parts[-1].split('_')[0]  # 파일 이름에서 날짜와 시간 부분 추출 ('17:07:24')
-#     date_str = parts[1]  # 날짜 부분 추출 ('24.04.25')
-#     # 날짜와 시간 문자열 결합
-#     full_datetime_str = f"{date_str} {date_time_str}"
-#     # datetime 객체로 변환
-#     return datetime.strptime(full_datetime_str, "%d.%m.%y %H.%M.%S")
-
-
 def get_datetime_from_path(path):
     parts = path.split('/')  # 경로를 '/'로 분할
     date_time_str = parts[-1].split('_')[0]  # 파일 이름에서 시간 부분 추출 ('08.54.48')
@@ -957,3 +948,8 @@ def get_datetime_from_path(path):
     full_datetime_str = f"{date_str} {date_time_str}"
     # datetime 객체로 변환
     return datetime.strptime(full_datetime_str, "%y.%m.%d %H.%M.%S")
+
+def print_error(e):
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    tb = traceback.format_exc()
+    print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)

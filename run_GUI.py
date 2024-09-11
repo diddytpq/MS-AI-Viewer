@@ -23,7 +23,8 @@ from requests.auth import HTTPBasicAuth
 import threading
 
 from utils import (Connect_Camera, Plot_Camera_Viewer, FadeOutWindow, Livepage_view, FadeOutInWindow,
-                  Eng2kor, Kor2eng, send_email_alarm, load_info, save_info, Connect_Camera_Group)
+                  Eng2kor, Kor2eng, send_email_alarm, load_info, save_info, Connect_Camera_Group,
+                  print_error)
 import time
 from datetime import datetime, timedelta
 import traceback
@@ -40,97 +41,91 @@ class LoginWindow(QMainWindow):
         self.ui_login.login_bn.clicked.connect(self.check_login)
         # self.setGeometry(200, 200, 1280, 720)
 
-        self.ui_login.id_input.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_login.pw_input.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_login.ai_server_ip_input.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_login.ai_server_port_input.installEventFilter(self)  # 이벤트 필터 설치
-
+        self.setup_event_filters()
         self.ai_sever_info_path = os.path.join(os.getcwd(), "ai_sever_info.json")
 
-        with open(self.ai_sever_info_path, "r", encoding="UTF-8") as f:
-            self.ai_server_info = json.load(f)
+        # AI 서버 정보 로드
+        try:
+            with open(self.ai_sever_info_path, "r", encoding="UTF-8") as f:
+                self.ai_server_info = json.load(f)
 
-        if len(self.ai_server_info["ai_server_ip"]):
-            self.ui_login.ai_server_ip_input.setText(self.ai_server_info["ai_server_ip"])
+            self.ui_login.ai_server_ip_input.setText(self.ai_server_info.get("ai_server_ip", ""))
+            self.ui_login.ai_server_port_input.setText(self.ai_server_info.get("ai_server_port", ""))
+        except FileNotFoundError:
+            print("AI server info file not found. Using default values.")
+            self.ai_server_info = {"ai_server_ip": "", "ai_server_port": ""}
 
-        if len(self.ai_server_info["ai_server_port"]):
-            self.ui_login.ai_server_port_input.setText(self.ai_server_info["ai_server_port"])
-        
+    def setup_event_filters(self):
+        # 이벤트 필터 설치
+        event_filters = [
+            self.ui_login.id_input,
+            self.ui_login.pw_input,
+            self.ui_login.ai_server_ip_input,
+            self.ui_login.ai_server_port_input,
+        ]
+        for filter in event_filters:
+            filter.installEventFilter(self)
+
     def eventFilter(self, obj, event):
-        if obj == self.ui_login.id_input:
-            if event.type() == QEvent.FocusIn:  # 커서가 id_input에 들어가면
-                self.ui_login.id_line.setStyleSheet("background-color: green")  # id_line을 초록색으로 변경
-            elif event.type() == QEvent.FocusOut:  # 커서가 id_input에서 나가면
-                self.ui_login.id_line.setStyleSheet("background-color: rgb(36, 39, 44)")  # id_line을 원래 색상으로 변경
+        if event.type() in (QEvent.FocusIn, QEvent.FocusOut):
+            color = "green" if event.type() == QEvent.FocusIn else "rgb(36, 39, 44)"
+            if obj == self.ui_login.id_input:
+                self.set_line_style(self.ui_login.id_line, color)
+            elif obj == self.ui_login.pw_input:
+                self.set_line_style(self.ui_login.pw_line, color)
+            elif obj == self.ui_login.ai_server_ip_input:
+                self.set_line_style(self.ui_login.ai_server_ip_line, color)
+            elif obj == self.ui_login.ai_server_port_input:
+                self.set_line_style(self.ui_login.ai_server_port_line, color)
 
-        if obj == self.ui_login.pw_input:
-            if event.type() == QEvent.FocusIn:  # 커서가 id_input에 들어가면
-                self.ui_login.pw_line.setStyleSheet("background-color: green")  # id_line을 초록색으로 변경
-            elif event.type() == QEvent.FocusOut:  # 커서가 id_input에서 나가면
-                self.ui_login.pw_line.setStyleSheet("background-color: rgb(36, 39, 44)")  # id_line을 원래 색상으로 변경
-        
-        if obj == self.ui_login.ai_server_ip_input:
-            if event.type() == QEvent.FocusIn:  # 커서가 id_input에 들어가면
-                self.ui_login.ai_server_ip_line.setStyleSheet("background-color: green")  # id_line을 초록색으로 변경
-            elif event.type() == QEvent.FocusOut:  # 커서가 id_input에서 나가면
-                self.ui_login.ai_server_ip_line.setStyleSheet("background-color: rgb(36, 39, 44)")  # id_line을 원래 색상으로 변경
-
-        if obj == self.ui_login.ai_server_port_input:
-            if event.type() == QEvent.FocusIn:  # 커서가 id_input에 들어가면
-                self.ui_login.ai_server_port_line.setStyleSheet("background-color: green")  # id_line을 초록색으로 변경
-            elif event.type() == QEvent.FocusOut:  # 커서가 id_input에서 나가면
-                self.ui_login.ai_server_port_line.setStyleSheet("background-color: rgb(36, 39, 44)")  # id_line을 원래 색상으로 변경
-                
         return super().eventFilter(obj, event)
-    
+
+    def set_line_style(self, line_widget, color):
+        # 라인 스타일 변경
+        line_widget.setStyleSheet(f"background-color: {color}")
+        
     def keyPressEvent(self, event):
-            if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:  # Enter 키 또는 Return 키를 눌렀을 경우
-                self.check_login()
+        if event.key() in (Qt.Key_Enter, Qt.Key_Return):  # Enter 키 또는 Return 키를 눌렀을 경우
+            self.check_login()
 
     def check_login(self):
         try:
-            data = {"msg" : {"id" : self.ui_login.id_input.text(), 
-                            "password" : self.ui_login.pw_input.text()}}
+            # 로그인 데이터 준비
+            data = {"msg" : 
+                        {"id" : self.ui_login.id_input.text(), 
+                        "password" : self.ui_login.pw_input.text()
+                        }
+                    }
             
-            # receive_data = socket_communication(self.HOST, self.PORT, cmd, on_data_received)
-            self.HOST = self.ui_login.ai_server_ip_input.text()
-            self.PORT = self.ui_login.ai_server_port_input.text()
-            url = f'http://{self.HOST}:{self.PORT}/login'
+            url = f'http://{self.ui_login.ai_server_ip_input.text()}:{self.ui_login.ai_server_port_input.text()}/login'
 
-            # auth = HTTPBasicAuth(self.ui_login.id_input.text(), self.ui_login.pw_input.text())
-
-            # receive_data = requests.post(url,auth=auth, json=data).json()
-            print(url)
             receive_data = requests.post(url, json=data).json()
 
             if receive_data["success"]:
-                self.close()
-                
-                # self.send_message(data = data)
-                self.main_window = MainWindow(user_info = receive_data["user_info"], host = self.HOST, port = self.PORT)
-                self.main_window.show()
-                self.create_fade_out_msg(msg = "login")
-
-                with open(self.ai_sever_info_path, "w", encoding="UTF-8") as f:
-                    self.ai_server_info["ai_server_ip"] = self.ui_login.ai_server_ip_input.text()
-                    self.ai_server_info["ai_server_port"] = self.ui_login.ai_server_port_input.text()
-
-                    f.write(json.dumps(self.ai_server_info))
-                
+                self.handle_successful_login(receive_data)
             else:
                 print(receive_data)
-                self.create_fade_out_msg(msg = receive_data["data"])
-                
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+                self.create_fade_out_msg(msg=receive_data["data"])
 
-            # elif self.ui_login.id_input.text() == "user" and self.ui_login.pw_input.text() == "1234":
-            #     self.main_window = MainWindow()
-            #     self.main_window.show()
-            #     self.close()
-            #     print("사용자 로그인")
+        except Exception as e:
+            print_error(e)
+
+    def handle_successful_login(self, receive_data):
+        # 로그인 성공 처리
+        self.close()
+        self.main_window = MainWindow(user_info=receive_data["user_info"], 
+                                      host=self.ui_login.ai_server_ip_input.text(), 
+                                      port=self.ui_login.ai_server_port_input.text())
+        self.main_window.show()
+        self.create_fade_out_msg(msg="login")
+        self.save_ai_server_info()
+
+    def save_ai_server_info(self):
+        # AI 서버 정보 저장
+        with open(self.ai_sever_info_path, "w", encoding="UTF-8") as f:
+            self.ai_server_info["ai_server_ip"] = self.ui_login.ai_server_ip_input.text()
+            self.ai_server_info["ai_server_port"] = self.ui_login.ai_server_port_input.text()
+            f.write(json.dumps(self.ai_server_info))
 
     def create_fade_out_msg(self, msg="None"):
             if not hasattr(self, 'fadeout_window') or not self.fadeout_window.isVisible():
@@ -158,52 +153,19 @@ class MainWindow(QMainWindow):
 
         # self.ui_main.camera_page_detect_area_table.setColumnWidth(0, 60)
 
-        self.init_GUI_setup()
-        self.ui_main.stackedWidget.setCurrentIndex(0)
+        self.setup_init_GUI()
+        self.setup_slot_connect()
+        self.setup_event_filters()
 
-        # self.before_active_window = None
-        # self.active_window_timer = QTimer(self)
-        # self.active_window_timer.timeout.connect(self.check_if_active)
-        # self.active_window_timer.start(1000)  # Check every 1 second
+        self.before_active_window = None
+        self.active_window_timer = QTimer(self)
+        self.active_window_timer.timeout.connect(self.check_window_active)
+        self.active_window_timer.start(1000)  # Check every 1 second
 
         # self.showMaximized()
         # 윈도우 플래그 설정: 최대화 버튼 활성화
         # self.setWindowState(Qt.WindowNoState)
         # self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.WindowMaximizeButtonHint | Qt.WindowMinimizeButtonHint)
-
-        self.ui_main.sever_login_bnt.clicked.connect(self.login_NVR)
-
-        #종료 버튼 활성화
-        self.ui_main.shutdown_bnt.clicked.connect(self.shutdown)
-        # 카메라 리스트 표 간격 설정
-        self.ui_main.camera_list_table.setColumnWidth(0, 30)
-        self.ui_main.camera_list_table.setColumnWidth(1, 40)
-        self.ui_main.camera_list_table.setColumnWidth(2, 175)
-        # self.ui_main.camera_list_table.setColumnWidth(3, 60)
-
-        #우측 상단 버튼 활성화
-        self.ui_main.alarm_search_bnt.clicked.connect(lambda click, instance = self : open_search_window(click, instance))
-        self.ui_main.camera_schedule_bnt.clicked.connect(lambda click, instance = self : open_schedule_window(click, instance))
-        self.ui_main.labeling_bnt.clicked.connect(lambda click, instance = self : open_labeling_window(click, instance))
-        self.ui_main.camera_refresh_bnt.clicked.connect(self.live_refresh_live_viewer)
-
-        ##카메라 페이지 영상 뷰어 생성
-        self.ui_main.camera_page_viewer.hide()
-        self.ui_main.camera_page_viewer = Plot_Camera_Viewer(self.ui_main.camera_page)
-        self.ui_main.camera_page_viewer.setObjectName(u"camera_page_viewer")
-        self.ui_main.camera_page_viewer.setMinimumSize(QSize(472, 331))
-        self.ui_main.camera_page_viewer.setStyleSheet(u"border: 1px solid rgb(255, 255, 255);\n"
-                                                "background-color: rgba(255, 255, 255, 0);")
-        self.ui_main.camera_page_viewer.setScaledContents(False)
-        self.ui_main.verticalLayout_10.addWidget(self.ui_main.camera_page_viewer)
-
-        ##카메라 리스트 및 카메라 속성 리스트
-        self.ui_main.camera_list_table.itemSelectionChanged.connect(self.camera_page_display_selected_row)
-
-        self.ui_main.camera_info_name_input.installEventFilter(self)# 이벤트 필터 설치
-        self.ui_main.camera_info_ip_input.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_main.camera_info_id_input.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_main.camera_info_pw_input.installEventFilter(self)  # 이벤트 필터 설치
 
         #카메라 속성 변경 버튼
         self.ui_main.camera_add_bn.hide()
@@ -211,538 +173,7 @@ class MainWindow(QMainWindow):
         # self.ui_main.camera_add_bn.clicked.connect(self.add_camera_info)
         # self.ui_main.camera_remove_bn.clicked.connect(self.del_camera_info)
 
-        ##주요 메인 메뉴 버튼 설정
-        self.ui_main.live_bnt.clicked.connect(self.switch_main_display_to_live)
-        self.ui_main.camera_bnt.clicked.connect(self.switch_main_display_to_camera)
-        self.ui_main.setting_bnt.clicked.connect(self.switch_main_display_to_setting)
-        self.ui_main.admin_bnt.clicked.connect(self.switch_main_display_to_admin)
-
-        ##카메라 페이지 설정
-        self.ui_main.camera_page_name_box.currentTextChanged.connect(self.camera_page_display_camera_and_detect_area_list)
-        self.ui_main.camera_page_detect_add_bnt.clicked.connect(self.camera_page_add_detect_type)
-        self.ui_main.camera_page_detect_area_del_bnt.clicked.connect(self.camera_page_del_detect_area)
-
-        self.ui_main.camera_page_detect_area_table.itemClicked.connect(self.camera_page_update_camera_page_viewer_roi)
-        self.ui_main.camera_page_viewer.clicked.connect(self.camera_page_add_detect_area_point)
-
-        # self.ui_main.camera_page_person_conf_slider.sliderReleased.connect(self.set_person_conf_value)
-        self.ui_main.camera_page_person_conf_slider.valueChanged.connect(self.set_person_conf_value)
-        
-        self.ui_main.camera_page_person_conf_value.valueChanged.connect(self.set_person_conf_slider)
-
-        # 지능형 활성화 버튼 
-        self.ui_main.camera_page_ai_bnt.clicked.connect(lambda click, instance = self : open_ai_setting_window(click, instance))
-
-        # 설정 메뉴
-        self.ui_main.setting_user_setting_bnt.clicked.connect(self.switch_setting_display_to_user_setting)
-
-        self.ui_main.setting_user_id_input.installEventFilter(self)# 이벤트 필터 설치
-        self.ui_main.setting_user_pw_input.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_main.setting_user_new_pw_input.installEventFilter(self)  # 이벤트 필터 설
-        self.ui_main.setting_user_new_pw_input2.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_main.setting_email_id_input.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_main.setting_email_pw_input.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_main.setting_receive_email_id_input.installEventFilter(self)  # 이벤트 필터 설치
-        self.ui_main.admin_pw_input.installEventFilter(self)  # 이벤트 필터 설치
-        
-        self.ui_main.setting_user_save_bnt.clicked.connect(self.setting_change_user_info)
-        self.ui_main.setting_alarm_bnt.clicked.connect(self.switch_setting_display_to_notice_stting)
-        self.ui_main.setting_ai_bnt.clicked.connect(self.switch_setting_display_to_ai_stting)
-
-
-        self.ui_main.setting_email_save_bnt.clicked.connect(self.change_email_info)
-        self.ui_main.setting_email_active_bnt.clicked.connect(self.change_setting_info)
-        self.ui_main.setting_popup_alarm_active_bnt.clicked.connect(self.change_setting_info)
-        self.ui_main.setting_popup_alarm_cnt.currentIndexChanged.connect(self.change_setting_info)
-
-        self.ui_main.setting_video_save_alarm_active_bnt.clicked.connect(self.change_setting_info)
-        self.ui_main.setting_event_video_storage_period.currentIndexChanged.connect(self.change_setting_info)
-        self.ui_main.setting_detect_bbox_active_bnt.clicked.connect(self.change_setting_info)
-        self.ui_main.setting_detect_label_active_bnt.clicked.connect(self.change_setting_info)
-
-        # admin 메뉴
-        self.ui_main.admin_page_bnt.clicked.connect(self.login_admin_page)
-        self.ui_main.admin_license_bnt.clicked.connect(self.switch_admin_license_page)
-        self.ui_main.admin_fn_permission_bnt.clicked.connect(self.switch_admin_fn_permission_page)
-
-        self.ui_main.license_add_bnt.clicked.connect(self.move_active_license_list)
-        self.ui_main.license_remove_bnt.clicked.connect(self.move_non_license_camera_list)
-
-        self.ui_main.license_save_bnt.clicked.connect(self.save_admin_info)
-
-        self.ui_main.admin_pw_input.returnPressed.connect(self.login_admin_page)
-        
 #---------------------------------------------------------------------------------------------------------#
-    def check_if_active(self):
-        if self.before_active_window == None:
-            self.before_active_window = self.isActiveWindow()
-
-        if self.before_active_window == False and self.isActiveWindow():
-            if self.live_page_worker_dict != None :
-                for worker in self.live_page_worker_dict.values():
-                    for camera_name, camera_info in worker.cameras.items():
-                        worker.caps[camera_name].change_framerate(30)
-            print("1")
-
-            self.before_active_window = self.isActiveWindow()
-                    
-            # if self.camera_page_worker != None :
-            #     self.camera_page_worker.cap.change_framerate(30)
-        elif self.before_active_window == True and self.isActiveWindow() == False:
-            if self.live_page_worker_dict != None :
-                for worker in self.live_page_worker_dict.values():
-                    for camera_name, camera_info in worker.cameras.items():
-                        worker.caps[camera_name].change_framerate(1)
-            print("2")
-            self.before_active_window = self.isActiveWindow()
-            
-            # if self.camera_page_worker != None :
-            #     self.camera_page_worker.cap.change_framerate(30)
-
-    def keyPressEvent(self, event):
-        # Alt + Enter 키를 감지
-        if event.key() == Qt.Key_Enter and event.modifiers() & Qt.AltModifier:
-            if self.isMaximized():
-                self.showNormal()  # 최대화된 상태에서 복원
-            else:
-                self.showMaximized()  # 복원 상태에서 최대화
-
-        # 일부 키보드에서는 Return 키가 Enter 키로 인식될 수 있으므로, Return 키도 처리
-        elif event.key() == Qt.Key_Return and event.modifiers() & Qt.AltModifier:
-            if self.isMaximized():
-                self.showNormal()  # 최대화된 상태에서 복원
-            else:
-                self.showMaximized()  # 복원 상태에서 최대화
-
-    def set_person_conf_value(self):
-        try:
-            self.ui_main.camera_page_person_conf_value.setValue(self.ui_main.camera_page_person_conf_slider.value())
-            camera_name = self.ui_main.camera_page_name_box.currentText()
-
-            self.camera_info_dict_temp[camera_name]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def set_person_conf_slider(self):
-        try:
-            self.ui_main.camera_page_person_conf_slider.setValue(self.ui_main.camera_page_person_conf_value.value())
-            camera_name = self.ui_main.camera_page_name_box.currentText()
-
-            self.camera_info_dict_temp[camera_name]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def shutdown(self):
-        QApplication.instance().quit()
-        self.stop_camera_page_worker()
-        self.stop_live_page_worker()
-
-    def save_admin_info(self):
-        try:
-            save_info(host=self.HOST, port=self.PORT, file_name="admin_info", info=self.admin_info_temp)
-            self.create_fade_out_msg(msg="save lisence")
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def login_admin_page(self):
-        try:
-            if "0512" == self.ui_main.admin_pw_input.text():
-                self.switch_main_display_to_admin_2()
-                self.switch_admin_license_page()
-
-            else:
-                self.create_fade_out_msg(msg="Invalid PW")
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def start_notification_status_timer(self):
-        if self.timer is not None :
-            self.timer.stop()
-            del self.timer
-        self.check_camera_connect_status()
-
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.check_camera_connect_status)
-
-        #누적된 알람 초기화
-        data = {"msg" : str(" ")}
-        url = f'http://{self.HOST}:{self.PORT}/get-alarm-info'
-        receive_data = requests.get(url, json=data).json()
-        
-        self.timer.timeout.connect(self.Notification_status)
-
-        self.timer.start(1000)  # 타이머 시작 5초에 한번씩
-
-    def start_camera_refresh_timer(self):
-        if self.camera_connect_timer is not None :
-            self.camera_connect_timer.stop()
-            del self.camera_connect_timer
-
-        self.camera_connect_timer = QTimer(self)
-        self.camera_connect_timer.timeout.connect(self.live_refresh_live_viewer)
-
-        self.camera_connect_timer.start(600000)  # 10분 마다 새로고침 타이머 시작
-
-    def change_setting_info(self):
-        try:
-            self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
-
-            self.setting_info_temp["EMAIL"]["active"] = 1 if self.ui_main.setting_email_active_bnt.isChecked() else 0
-            self.setting_info_temp["NOTICE"]["active"] = 1 if self.ui_main.setting_popup_alarm_active_bnt.isChecked() else 0
-            self.setting_info_temp["VIDEO_SAVE"]["active"] = 1 if self.ui_main.setting_video_save_alarm_active_bnt.isChecked() else 0
-            self.setting_info_temp["DETECT"]["Bbox"] = 1 if self.ui_main.setting_detect_bbox_active_bnt.isChecked() else 0
-            self.setting_info_temp["DETECT"]["Label"] = 1 if self.ui_main.setting_detect_label_active_bnt.isChecked() else 0
-
-            for worker in self.live_page_worker_dict.values():
-                if self.setting_info_temp["DETECT"]["Bbox"] == 1:
-                    worker.plot_bbox = True
-                else: worker.plot_bbox = False
-
-                if self.setting_info_temp["DETECT"]["Label"] == 1:
-                    worker.plot_label = True
-                else: worker.plot_label = False
-
-            if self.ui_main.setting_video_save_alarm_active_bnt.isChecked():
-                self.ui_main.setting_event_video_storage_period.setEnabled(True)
-                self.setting_info_temp["VIDEO_SAVE"]["period"] = self.storage_period[self.ui_main.setting_event_video_storage_period.currentIndex()]
-
-            else:
-                self.ui_main.setting_event_video_storage_period.setEnabled(False)
-
-            if self.ui_main.setting_popup_alarm_active_bnt.isChecked():
-                self.ui_main.setting_popup_alarm_cnt.setEnabled(True)
-                self.setting_info_temp["NOTICE"]["cnt"] = self.ui_main.setting_popup_alarm_cnt.currentIndex() + 1
-
-            else:
-                self.ui_main.setting_popup_alarm_cnt.setEnabled(False)
-
-
-            save_info(host=self.HOST, port=self.PORT, file_name="setting_info", info=self.setting_info_temp)
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def change_email_info(self):
-        try:
-            self.setting_info_temp = load_info(host=self.HOST,port=self.PORT,file_name="setting_info")
-
-            self.setting_info_temp["EMAIL"]["sender"] = self.ui_main.setting_email_id_input.text()
-            self.setting_info_temp["EMAIL"]["PW"] = self.ui_main.setting_email_pw_input.text()
-            self.setting_info_temp["EMAIL"]["TO"] = self.ui_main.setting_receive_email_id_input.text()
-
-            save_info(host=self.HOST, port=self.PORT, file_name="setting_info", info=self.setting_info_temp)
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def check_camera_viewer_click(self, viewer):
-        if viewer.click_count >= 1:
-            self.switch_main_display_to_camera()
-            self.set_button_style('camera')
-            self.ui_main.stackedWidget.setCurrentIndex(1)
-            index = self.ui_main.camera_page_name_box.findText(viewer.camera_name)
-            self.ui_main.camera_page_name_box.setCurrentIndex(index)
-
-            for camera_name, camera_viewer in self.camera_view_list.items():
-                camera_viewer.click_count = 0
-
-    def setting_change_user_info(self):
-        try:
-            data = {"username" : self.ui_main.setting_user_id_input.text(), 
-                    "password" : self.ui_main.setting_user_pw_input.text(),
-                    "new_password" : self.ui_main.setting_user_new_pw_input.text(),
-                    "new_password2" : self.ui_main.setting_user_new_pw_input2.text(),
-                    }
-            url = f'http://{self.HOST}:{self.PORT}/login_chg'
-            receive_data = requests.post(url, json=data).json()
-
-            self.create_fade_out_msg(msg=receive_data["message"])
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def camera_page_del_detect_area(self):
-        try:
-            camera_name = self.ui_main.camera_page_name_box.currentText()
-
-            select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
-            if select_index:  # 선택된 행이 있다면
-                select_row = select_index[0].row()
-                del self.camera_info_dict_temp[camera_name]["detect_info"][select_row]
-
-            self.reset_detect_area_list(self.camera_info_dict_temp[camera_name]["detect_info"])
-            self.ui_main.camera_page_viewer.reset_green_area()
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def move_active_license_list(self):
-        try:
-            selected_items = self.ui_main.non_active_license_list.selectedItems()
-            selected_texts = [item.text() for item in selected_items]
-
-            for detect_type in selected_texts:
-                self.admin_info_temp["LICENSE"][Kor2eng(detect_type)] = 1
-
-            self.reset_admin_license_list()
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def move_non_license_camera_list(self):
-        try:
-            selected_items = self.ui_main.active_license_list.selectedItems()
-            selected_texts = [item.text() for item in selected_items]
-
-            for detect_type in selected_texts:
-                self.admin_info_temp["LICENSE"][Kor2eng(detect_type)] = 0
-
-            self.reset_admin_license_list()
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def reset_admin_license_list(self):
-        try:
-            self.ui_main.non_active_license_list.clear()
-            self.ui_main.active_license_list.clear()
-
-            # 카메라 번호에 대한 체크박스를 생성하고 레이아웃에 추가
-            for detect_type, active_flag in self.admin_info_temp["LICENSE"].items():
-                item = QListWidgetItem(Eng2kor(detect_type))
-                item.setTextAlignment(Qt.AlignCenter)
-
-                self.ui_main.active_license_list.addItem(item) if active_flag == 1 else self.ui_main.non_active_license_list.addItem(item)
-        
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-
-    def camera_page_update_camera_page_viewer_roi(self, item):
-        try:
-            row = item.row()  # 클릭한 아이템의 행 인덱스
-            row_data = []
-            camera_num = self.ui_main.camera_page_name_box.currentText()
-            self.ui_main.camera_page_viewer.set_point(self.camera_info_dict_temp[camera_num]["detect_info"][row][1:], [self.ui_main.camera_page_viewer.width(), self.ui_main.camera_page_viewer.height()])
-
-            gray_point_list = []
-            if self.camera_info_dict_temp[camera_num]["AI"] == False:
-                for index, value in enumerate(self.camera_info_dict_temp[camera_num]["detect_info"]):
-                    # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
-                    if index != row:
-                        gray_point_list.append(value[1:])
-            self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def camera_page_add_detect_type(self):
-        try:
-            camera_name = self.ui_main.camera_page_name_box.currentText()
-            detect_type = self.ui_main.camera_page_camera_event_box.currentText()
-
-            detect_type = Kor2eng(detect_type)
-
-            if detect_type == "Intrusion" :
-                self.camera_info_dict_temp[camera_name]["detect_info"].append(["Intrusion"])
-
-            elif detect_type == "Loitering" :
-                self.camera_info_dict_temp[camera_name]["detect_info"].append(["Loitering"])
-
-            elif detect_type == "Falldown" :
-                self.camera_info_dict_temp[camera_name]["detect_info"].append(["Falldown"])
-
-            elif detect_type == "Fire" :
-                self.camera_info_dict_temp[camera_name]["detect_info"].append(["Fire"])
-
-            elif detect_type == "Fight" :
-                self.camera_info_dict_temp[camera_name]["detect_info"].append(["Fight"])
-
-            self.reset_detect_area_list(self.camera_info_dict_temp[camera_name]["detect_info"])
-
-            lastRow = self.ui_main.camera_page_detect_area_table.rowCount() - 1  
-            if lastRow >= 0:
-                # 마지막 행의 첫 번째 셀을 현재 셀로 설정
-                self.ui_main.camera_page_detect_area_table.setCurrentCell(lastRow, 0)
-            else:
-                self.create_fade_out_msg(msg="테이블이 비어 있습니다.")
-                
-
-            gray_point_list = []
-            if self.camera_info_dict_temp[camera_name]["AI"] == False:
-                for index, value in enumerate(self.camera_info_dict_temp[camera_name]["detect_info"]):
-                    # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
-                    gray_point_list.append(value[1:])
-
-            self.ui_main.camera_page_viewer.reset_green_area()
-            self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def camera_page_add_detect_area_point(self, point): #마우스 클릭으로 생성된 포인트를 viewer에 표시
-        try:
-            camera_num = self.ui_main.camera_page_name_box.currentText()
-            select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
-
-            if select_index:  # 선택된 행이 있다면
-                select_row = select_index[0].row()
-
-                if point.x() == -1 :
-                    if len(self.camera_info_dict_temp[camera_num]["detect_info"][select_row]) > 1:
-                        self.camera_info_dict_temp[camera_num]["detect_info"][select_row].pop()
-
-                    else: pass
-                else:
-                    self.camera_info_dict_temp[camera_num]["detect_info"][select_row].append([point.x()/ self.ui_main.camera_page_viewer.width(), 
-                                                                                            point.y()/self.ui_main.camera_page_viewer.height()])
-
-
-                self.ui_main.camera_page_viewer.set_point(self.camera_info_dict_temp[camera_num]["detect_info"][select_row][1:], [self.ui_main.camera_page_viewer.width(), self.ui_main.camera_page_viewer.height()])
-
-
-                gray_point_list = []
-                if self.camera_info_dict_temp[camera_num]["AI"] == False:
-                    for index, value in enumerate(self.camera_info_dict_temp[camera_num]["detect_info"]):
-                        # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
-                        if index != select_row:
-                            gray_point_list.append(value[1:])
-
-                self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def camera_page_display_camera_and_detect_area_list(self, camera_name):
-        try:
-            nvr_id = self.login_info_temp["NVR"]["ID"]
-            nvr_pw = self.login_info_temp["NVR"]["PW"]
-            nvr_ip = self.login_info_temp["NVR"]["IP"]
-
-            # 선택된 카메라 인덱스에 해당하는 이미지를 QLabel에 표시
-            if self.camera_page_worker != None :
-                self.camera_page_worker.stop()
-                del self.camera_page_worker
-                self.camera_page_worker = None
-
-            if camera_name in self.camera_info_dict_temp.keys():
-                camera_info = self.camera_info_dict_temp[camera_name]
-                camera_num = camera_info["Num"]
-
-                pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
-                # pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_num}"
-
-                self.camera_page_worker = Connect_Camera(pipe = pipe,
-                                                        host=self.HOST, 
-                                                        port=self.PORT, 
-                                                        camera_name = camera_info["Name"], 
-                                                        # camera_num=camera_info["Num"], 
-                                                        roi_thickness = 2,
-                                                        plot_bbox=self.setting_info_temp["DETECT"]["Bbox"],
-                                                        plot_label=self.setting_info_temp["DETECT"]["Label"],
-                                                        viewer = self.ui_main.camera_page_viewer)
-
-                self.camera_page_worker.ImageUpdated.connect(lambda image, viewer=self.ui_main.camera_page_viewer: self.ShowCamera(viewer, image))
-                self.camera_page_worker.start()
-
-                self.reset_detect_area_list(camera_info["detect_info"])
-                self.ui_main.camera_page_viewer.reset()
-
-                gray_point_list = []
-
-                if camera_info["AI"] == False:
-                    for index, value in enumerate(self.camera_info_dict_temp[camera_name]["detect_info"]):
-                        # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
-                        gray_point_list.append(value[1:])
-                    self.ui_main.camera_page_ai_active_label.hide()
-                    self.ui_main.camera_page_ai_active_icon.hide()
-                    self.camera_page_worker.ai_active = False
-                else:
-                    self.ui_main.camera_page_ai_active_label.show()
-                    self.ui_main.camera_page_ai_active_icon.show()
-                    self.camera_page_worker.ai_active = True
-
-
-                self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
-
-                self.ui_main.camera_page_person_conf_value.setValue(camera_info["Conf"])
-                self.ui_main.camera_page_person_conf_slider.setValue(camera_info["Conf"])
-
-            else:
-                # 유효하지 않은 인덱스 처리
-                # print("선택된 카메라 인덱스가 범위를 벗어났습니다.")
-                # self.create_fade_out_msg(msg="선택된 카메라 인덱스가 범위를 벗어났습니다.")
-                pass
-                
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def reset_detect_area_list(self, camera_detect_info):
-        self.ui_main.camera_page_detect_area_table.setRowCount(0)
-
-        for detect_type_list in camera_detect_info:
-            detect_type_text = Eng2kor(detect_type_list[0])
-
-            # for roi in roi_list:
-            row_position = self.ui_main.camera_page_detect_area_table.rowCount()
-            self.ui_main.camera_page_detect_area_table.insertRow(row_position)
-            text = QTableWidgetItem(detect_type_text)
-            text.setTextAlignment(Qt.AlignCenter)
-            text.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
-            self.ui_main.camera_page_detect_area_table.setItem(row_position, 0, text)
-
-            # roi_text = str(roi_list)
-            # text = QTableWidgetItem(roi_text)
-            # text.setTextAlignment(Qt.AlignCenter)
-            # text.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
-            # self.ui_main.camera_page_detect_area_table.setItem(row_position, 1, text)
-
-    def live_refresh_live_viewer(self):
-        try:
-            print("refresh live viwer")
-            for worker in self.live_page_worker_dict.values():
-                worker.stop()
-                del worker
-                gc.collect()
-
-            self.connect_live_page_camera()
-            print("finish refresh live viwer")
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
     def connect_live_page_camera(self, reset=False):
         try:
             ret, self.camera_info_dict_temp = self.load_camera_info(reset=reset, connect_nvr=self.check_nvr_login())
@@ -796,9 +227,7 @@ class MainWindow(QMainWindow):
                 self.live_page_worker_dict[f"worker_{idx}"] = worker
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+            print_error(e)
 
     # def connect_live_page_camera(self, reset=False):
     #     try:
@@ -843,6 +272,401 @@ class MainWindow(QMainWindow):
     #         tb = traceback.format_exc()
     #         print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
 
+    def connect_camera_page_camera(self, camera_name = None):
+        try:
+            if camera_name == None:
+                camera_name = self.ui_main.camera_page_name_box.currentText()
+
+            nvr_id = self.login_info_temp["NVR"]["ID"]
+            nvr_pw = self.login_info_temp["NVR"]["PW"]
+            nvr_ip = self.login_info_temp["NVR"]["IP"]
+
+            self.stop_camera_page_worker()
+
+            if camera_name in self.camera_info_dict_temp.keys():
+                camera_info = self.camera_info_dict_temp[camera_name]
+                camera_num = camera_info["Num"]
+
+                # pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_num}"
+                pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_num}"
+
+                self.camera_page_worker = Connect_Camera(pipe = pipe,
+                                                        host=self.HOST, 
+                                                        port=self.PORT, 
+                                                        camera_name = camera_info["Name"], 
+                                                        # camera_num=camera_info["Num"], 
+                                                        roi_thickness = 2,
+                                                        plot_bbox=self.setting_info_temp["DETECT"]["Bbox"],
+                                                        plot_label=self.setting_info_temp["DETECT"]["Label"],
+                                                        viewer = self.ui_main.camera_page_viewer)
+
+                self.camera_page_worker.ImageUpdated.connect(lambda image, viewer=self.ui_main.camera_page_viewer: self.ShowCamera(viewer, image))
+                self.camera_page_worker.start()
+
+            else:
+                # 유효하지 않은 인덱스 처리
+                # print("선택된 카메라 인덱스가 범위를 벗어났습니다.")
+                # self.create_fade_out_msg(msg="선택된 카메라 인덱스가 범위를 벗어났습니다.")
+                pass
+                
+        except Exception as e:
+            print_error(e)
+
+    def check_window_active(self):
+        if self.before_active_window == None:
+            self.before_active_window = self.isActiveWindow()
+
+        if self.before_active_window == False and self.isActiveWindow():
+            if self.live_page_worker_dict != None :
+                for worker in self.live_page_worker_dict.values():
+                    for camera_name, camera_info in worker.cameras.items():
+                        worker.caps[camera_name].change_framerate(30)
+            print("chg 30fps")
+
+            self.before_active_window = self.isActiveWindow()
+                    
+            # if self.camera_page_worker != None :
+            #     self.camera_page_worker.cap.change_framerate(30)
+        elif self.before_active_window == True and self.isActiveWindow() == False:
+            if self.live_page_worker_dict != None :
+                for worker in self.live_page_worker_dict.values():
+                    for camera_name, camera_info in worker.cameras.items():
+                        worker.caps[camera_name].change_framerate(1)
+            print("chg 1fps")
+            self.before_active_window = self.isActiveWindow()
+            
+            # if self.camera_page_worker != None :
+            #     self.camera_page_worker.cap.change_framerate(30)
+
+    def set_person_conf_value(self):
+        try:
+            self.ui_main.camera_page_person_conf_value.setValue(self.ui_main.camera_page_person_conf_slider.value())
+            self.camera_info_dict_temp[self.ui_main.camera_page_name_box.currentText()]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
+
+        except Exception as e:
+            print_error(e)
+
+    def set_person_conf_slider(self):
+        try:
+            self.ui_main.camera_page_person_conf_slider.setValue(self.ui_main.camera_page_person_conf_value.value())
+            self.camera_info_dict_temp[self.ui_main.camera_page_name_box.currentText()]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
+
+        except Exception as e:
+            print_error(e)
+
+    def save_admin_info(self):
+        try:
+            save_info(host=self.HOST, port=self.PORT, file_name="admin_info", info=self.admin_info_temp)
+            self.create_fade_out_msg(msg="save lisence")
+
+        except Exception as e:
+            print_error(e)
+
+    def login_admin_page(self):
+        try:
+            if "0512" == self.ui_main.admin_pw_input.text():
+                self.switch_main_display_to_admin_2()
+                self.ui_main.stackedWidget_2.setCurrentIndex(0)
+                self.reset_admin_license_list()
+            else:
+                self.create_fade_out_msg(msg="Invalid PW")
+
+        except Exception as e:
+            print_error(e)
+
+    def start_notification_status_timer(self):
+        if self.timer is not None :
+            self.timer.stop()
+            del self.timer
+        self.check_camera_connect_status()
+
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.check_camera_connect_status)
+
+        #누적된 알람 초기화
+        data = {"msg" : str(" ")}
+        url = f'http://{self.HOST}:{self.PORT}/get-alarm-info'
+        receive_data = requests.get(url, json=data).json()
+        
+        self.timer.timeout.connect(self.Notification_status)
+
+        self.timer.start(1000)  # 타이머 시작 5초에 한번씩
+
+    def start_camera_refresh_timer(self):
+        if self.camera_connect_timer is not None :
+            self.camera_connect_timer.stop()
+            del self.camera_connect_timer
+
+        self.camera_connect_timer = QTimer(self)
+        self.camera_connect_timer.timeout.connect(self.live_refresh_live_viewer)
+
+        self.camera_connect_timer.start(600000)  # 10분 마다 새로고침 타이머 시작
+
+    def change_setting_info(self):
+        try:
+            self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
+
+            self.setting_info_temp["EMAIL"]["active"] = int(self.ui_main.setting_email_active_bnt.isChecked())
+            self.setting_info_temp["NOTICE"]["active"] = int(self.ui_main.setting_popup_alarm_active_bnt.isChecked())
+            self.setting_info_temp["VIDEO_SAVE"]["active"] = int(self.ui_main.setting_video_save_alarm_active_bnt.isChecked())
+            self.setting_info_temp["DETECT"]["Bbox"] = int(self.ui_main.setting_detect_bbox_active_bnt.isChecked())
+            self.setting_info_temp["DETECT"]["Label"] = int(self.ui_main.setting_detect_label_active_bnt.isChecked())
+
+            for worker in self.live_page_worker_dict.values():
+                worker.plot_bbox = self.setting_info_temp["DETECT"]["Bbox"] == 1
+                worker.plot_label = self.setting_info_temp["DETECT"]["Label"] == 1
+
+
+            video_save_active = self.ui_main.setting_video_save_alarm_active_bnt.isChecked()
+            self.ui_main.setting_event_video_storage_period.setEnabled(video_save_active)
+            if video_save_active:
+                self.setting_info_temp["VIDEO_SAVE"]["period"] = self.storage_period[self.ui_main.setting_event_video_storage_period.currentIndex()]
+
+
+            popup_alarm_active = self.ui_main.setting_popup_alarm_active_bnt.isChecked()
+            self.ui_main.setting_popup_alarm_cnt.setEnabled(popup_alarm_active)
+            if popup_alarm_active:
+                self.setting_info_temp["NOTICE"]["cnt"] = self.ui_main.setting_popup_alarm_cnt.currentIndex() + 1
+
+
+            save_info(host=self.HOST, port=self.PORT, file_name="setting_info", info=self.setting_info_temp)
+
+        except Exception as e:
+            print_error(e)
+
+    def change_email_info(self):
+        try:
+            self.setting_info_temp = load_info(host=self.HOST,port=self.PORT,file_name="setting_info")
+
+            self.setting_info_temp["EMAIL"]["sender"] = self.ui_main.setting_email_id_input.text()
+            self.setting_info_temp["EMAIL"]["PW"] = self.ui_main.setting_email_pw_input.text()
+            self.setting_info_temp["EMAIL"]["TO"] = self.ui_main.setting_receive_email_id_input.text()
+
+            save_info(host=self.HOST, port=self.PORT, file_name="setting_info", info=self.setting_info_temp)
+
+        except Exception as e:
+            print_error(e)
+
+    def check_camera_viewer_click(self, viewer):
+        if viewer.click_count >= 1:
+            self.switch_main_display_to_camera()
+            self.set_button_style('camera')
+            self.ui_main.stackedWidget.setCurrentIndex(1)
+            index = self.ui_main.camera_page_name_box.findText(viewer.camera_name)
+            self.ui_main.camera_page_name_box.setCurrentIndex(index)
+
+            for camera_name, camera_viewer in self.camera_view_list.items():
+                camera_viewer.click_count = 0
+
+    def setting_change_user_info(self):
+        try:
+            data = {"username" : self.ui_main.setting_user_id_input.text(), 
+                    "password" : self.ui_main.setting_user_pw_input.text(),
+                    "new_password" : self.ui_main.setting_user_new_pw_input.text(),
+                    "new_password2" : self.ui_main.setting_user_new_pw_input2.text(),
+                    }
+            url = f'http://{self.HOST}:{self.PORT}/login_chg'
+            receive_data = requests.post(url, json=data).json()
+
+            self.create_fade_out_msg(msg=receive_data["message"])
+
+        except Exception as e:
+            print_error(e)
+
+    def camera_page_del_detect_area(self):
+        try:
+            camera_name = self.ui_main.camera_page_name_box.currentText()
+
+            select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
+            if select_index:  # 선택된 행이 있다면
+                select_row = select_index[0].row()
+                del self.camera_info_dict_temp[camera_name]["detect_info"][select_row]
+
+            self.reset_detect_area_list(self.camera_info_dict_temp[camera_name]["detect_info"])
+            self.ui_main.camera_page_viewer.reset_green_area()
+
+        except Exception as e:
+            print_error(e)
+
+    def move_active_license_list(self):
+        try:
+            selected_items = self.ui_main.non_active_license_list.selectedItems()
+            selected_texts = [item.text() for item in selected_items]
+
+            for detect_type in selected_texts:
+                self.admin_info_temp["LICENSE"][Kor2eng(detect_type)] = 1
+
+            self.reset_admin_license_list()
+        except Exception as e:
+            print_error(e)
+
+    def move_non_license_camera_list(self):
+        try:
+            selected_items = self.ui_main.active_license_list.selectedItems()
+            selected_texts = [item.text() for item in selected_items]
+
+            for detect_type in selected_texts:
+                self.admin_info_temp["LICENSE"][Kor2eng(detect_type)] = 0
+
+            self.reset_admin_license_list()
+        except Exception as e:
+            print_error(e)
+
+    def reset_admin_license_list(self):
+        try:
+            self.ui_main.non_active_license_list.clear()
+            self.ui_main.active_license_list.clear()
+
+            # 카메라 번호에 대한 체크박스를 생성하고 레이아웃에 추가
+            for detect_type, active_flag in self.admin_info_temp["LICENSE"].items():
+                item = QListWidgetItem(Eng2kor(detect_type))
+                item.setTextAlignment(Qt.AlignCenter)
+
+                self.ui_main.active_license_list.addItem(item) if active_flag == 1 else self.ui_main.non_active_license_list.addItem(item)
+        
+        except Exception as e:
+            print_error(e)
+
+    def camera_page_update_camera_page_viewer_roi(self, item):
+        try:
+            row = item.row()  # 클릭한 아이템의 행 인덱스
+            row_data = []
+            camera_num = self.ui_main.camera_page_name_box.currentText()
+            self.ui_main.camera_page_viewer.set_point(self.camera_info_dict_temp[camera_num]["detect_info"][row][1:], [self.ui_main.camera_page_viewer.width(), self.ui_main.camera_page_viewer.height()])
+
+            gray_point_list = []
+            if self.camera_info_dict_temp[camera_num]["AI"] == False:
+                for index, value in enumerate(self.camera_info_dict_temp[camera_num]["detect_info"]):
+                    # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
+                    if index != row:
+                        gray_point_list.append(value[1:])
+            self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
+
+        except Exception as e:
+            print_error(e)
+
+    def camera_page_add_detect_type(self):
+        try:
+            camera_name = self.ui_main.camera_page_name_box.currentText()
+            detect_type = self.ui_main.camera_page_camera_event_box.currentText()
+
+            detect_type = Kor2eng(detect_type)
+
+            #add_detect_type
+            if detect_type in ["Intrusion", "Loitering", "Falldown", "Fire", "Fight"]:
+                self.camera_info_dict_temp[camera_name]["detect_info"].append([detect_type])
+
+            self.reset_detect_area_list(self.camera_info_dict_temp[camera_name]["detect_info"])
+
+            lastRow = self.ui_main.camera_page_detect_area_table.rowCount() - 1  
+            if lastRow >= 0:
+                # 마지막 행의 첫 번째 셀을 현재 셀로 설정
+                self.ui_main.camera_page_detect_area_table.setCurrentCell(lastRow, 0)
+            else:
+                self.create_fade_out_msg(msg="테이블이 비어 있습니다.")
+                
+
+            gray_point_list = []
+            if self.camera_info_dict_temp[camera_name]["AI"] == False:
+                for index, value in enumerate(self.camera_info_dict_temp[camera_name]["detect_info"]):
+                    # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
+                    gray_point_list.append(value[1:])
+
+            self.ui_main.camera_page_viewer.reset_green_area()
+            self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
+
+        except Exception as e:
+            print_error(e)
+
+    def camera_page_add_detect_area_point(self, point): #마우스 클릭으로 생성된 포인트를 viewer에 표시
+        try:
+            camera_num = self.ui_main.camera_page_name_box.currentText()
+            select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
+
+            if select_index:  # 선택된 행이 있다면
+                select_row = select_index[0].row()
+
+                if point.x() == -1 :
+                    if len(self.camera_info_dict_temp[camera_num]["detect_info"][select_row]) > 1:
+                        self.camera_info_dict_temp[camera_num]["detect_info"][select_row].pop()
+
+                    else: pass
+                else:
+                    self.camera_info_dict_temp[camera_num]["detect_info"][select_row].append([point.x()/ self.ui_main.camera_page_viewer.width(), 
+                                                                                            point.y()/self.ui_main.camera_page_viewer.height()])
+
+                self.ui_main.camera_page_viewer.set_point(self.camera_info_dict_temp[camera_num]["detect_info"][select_row][1:], [self.ui_main.camera_page_viewer.width(), self.ui_main.camera_page_viewer.height()])
+
+                gray_point_list = []
+                if self.camera_info_dict_temp[camera_num]["AI"] == False:
+                    for index, value in enumerate(self.camera_info_dict_temp[camera_num]["detect_info"]):
+                        # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
+                        if index != select_row:
+                            gray_point_list.append(value[1:])
+
+                self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
+        except Exception as e:
+            print_error(e)
+
+    def reset_detect_area_list(self, camera_detect_info):
+        self.ui_main.camera_page_detect_area_table.setRowCount(0)
+
+        for detect_type_list in camera_detect_info:
+            detect_type_text = Eng2kor(detect_type_list[0])
+
+            row_position = self.ui_main.camera_page_detect_area_table.rowCount()
+            self.ui_main.camera_page_detect_area_table.insertRow(row_position)
+            text = QTableWidgetItem(detect_type_text)
+            text.setTextAlignment(Qt.AlignCenter)
+            text.setFlags(Qt.ItemIsSelectable|Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|Qt.ItemIsUserCheckable|Qt.ItemIsEnabled)
+            self.ui_main.camera_page_detect_area_table.setItem(row_position, 0, text)
+
+    def live_refresh_live_viewer(self):
+        try:
+            print("refresh live viwer")
+            for worker in self.live_page_worker_dict.values():
+                worker.stop()
+                del worker
+                gc.collect()
+
+            self.connect_live_page_camera()
+
+        except Exception as e:
+            print_error(e)
+
+
+    def set_camera_page_viewer(self, camera_name = None):
+        try:
+            if camera_name == None:
+                camera_name = self.ui_main.camera_page_name_box.currentText()
+
+            if camera_name in self.camera_info_dict_temp.keys():
+                camera_info = self.camera_info_dict_temp[camera_name]
+                self.reset_detect_area_list(camera_info["detect_info"])
+                self.ui_main.camera_page_viewer.reset()
+
+                gray_point_list = []
+
+                if camera_info["AI"] == False:
+                    for index, value in enumerate(self.camera_info_dict_temp[camera_name]["detect_info"]):
+                        # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
+                        gray_point_list.append(value[1:])
+                    self.ui_main.camera_page_ai_active_label.hide()
+                    self.ui_main.camera_page_ai_active_icon.hide()
+                    self.camera_page_worker.ai_active = False
+                else:
+                    self.ui_main.camera_page_ai_active_label.show()
+                    self.ui_main.camera_page_ai_active_icon.show()
+                    self.camera_page_worker.ai_active = True
+
+                self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
+
+                self.ui_main.camera_page_person_conf_value.setValue(camera_info["Conf"])
+                self.ui_main.camera_page_person_conf_slider.setValue(camera_info["Conf"])
+
+        except Exception as e:
+            print_error(e)
+
     def find_in_first_column(self, text):
         # 첫 번째 열에서 특정 문자를 포함한 행의 인덱스를 반환
         for row in range(self.ui_main.camera_list_table.rowCount()):
@@ -853,31 +677,26 @@ class MainWindow(QMainWindow):
 
     def check_camera_connect_status(self):
         try:
+            on_camera_pix = QPixmap(u":/newPrefix/ui/images/ico_video_on.svg").scaled(24, 24, Qt.KeepAspectRatio)
+            off_camera_pix = QPixmap(u":/newPrefix/ui/images/ico_video_off.svg").scaled(24, 24, Qt.KeepAspectRatio)
+
             for worker in self.live_page_worker_dict.values():
                 for camera_name, flag in worker.camera_connect_flag.items():
                     row_index = self.find_in_first_column(camera_name)
                     if row_index is not None:
                         if flag:
                             label = QLabel()
-                            # pixmap = QPixmap("./images/ico_video_on.svg").scaled(24, 24, Qt.KeepAspectRatio)
-                            pixmap = QPixmap(u":/newPrefix/ui/images/ico_video_on.svg").scaled(24, 24, Qt.KeepAspectRatio)
-
-                            label.setPixmap(pixmap)
+                            label.setPixmap(on_camera_pix)
                             label.setAlignment(Qt.AlignCenter)
                             self.ui_main.camera_list_table.setCellWidget(row_index, 0, label)
                         else:
                             label = QLabel()
-                            # pixmap = QPixmap("./images/ico_video_off.svg").scaled(24, 24, Qt.KeepAspectRatio)
-                            pixmap = QPixmap(u":/newPrefix/ui/images/ico_video_off.svg").scaled(24, 24, Qt.KeepAspectRatio)
-
-                            label.setPixmap(pixmap)
+                            label.setPixmap(off_camera_pix)
                             label.setAlignment(Qt.AlignCenter)
                             self.ui_main.camera_list_table.setCellWidget(row_index, 0, label)
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+            print_error(e)
 
     @QtCore.Slot()
     def ShowCamera(self, view, frame: QImage) -> None:
@@ -888,10 +707,6 @@ class MainWindow(QMainWindow):
     def ShowCamera_Group(self, camera_name: str, frame: QImage) -> None:
         viewer = self.camera_view_list[camera_name]
         viewer.setPixmap(QPixmap.fromImage(frame))
-
-    def on_data_received(self, data):
-        receive_data = json.loads(data)
-        return receive_data["msg"]
 
     def set_button_style(self, active_button):
         # 모든 버튼을 기본 스타일로 설정
@@ -927,27 +742,20 @@ class MainWindow(QMainWindow):
             self.ui_main.camera_refresh_bnt.show()
 
             self.live_refresh_live_viewer()
-
             self.stop_camera_page_worker()
 
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
             # self.live_refresh_live_viewer()
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
+            print_error(e)
 
     def switch_main_display_to_camera(self):
         try:
             self.set_button_style('camera')
             self.ui_main.stackedWidget.setCurrentIndex(1)
-            self.camera_page_display_camera_and_detect_area_list(camera_name=self.ui_main.camera_page_name_box.currentText())
-
             self.ui_main.camera_refresh_bnt.hide()
 
             self.ui_main.camera_page_camera_event_box.clear()
-            # admin_info = load_info(host=self.HOST,port=self.PORT,file_name="admin_info")
 
             ret, self.camera_info_dict_temp = self.load_camera_info()
             self.admin_info_temp = load_info(host=self.HOST,port=self.PORT,file_name="admin_info")
@@ -955,23 +763,21 @@ class MainWindow(QMainWindow):
             self.login_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
 
             self.stop_live_page_worker()
+            self.connect_camera_page_camera(camera_name=self.ui_main.camera_page_name_box.currentText())
+            self.set_camera_page_viewer(camera_name=self.ui_main.camera_page_name_box.currentText())
             
             for detect_type in self.admin_info_temp["LICENSE"]:
                 if self.admin_info_temp["LICENSE"][detect_type] == 1:
                     self.ui_main.camera_page_camera_event_box.addItems([Eng2kor(detect_type)])
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
+            print_error(e)
 
     def switch_main_display_to_setting(self):
         try:
             self.set_button_style('setting')
             self.ui_main.stackedWidget.setCurrentIndex(2)
             self.ui_main.setting_stack_widget.setCurrentIndex(0)
-
 
             self.ui_main.setting_user_id_input.clear()
             self.ui_main.setting_user_pw_input.clear()
@@ -988,10 +794,7 @@ class MainWindow(QMainWindow):
             self.ui_main.camera_refresh_bnt.hide()
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
+            print_error(e)
 
     def switch_main_display_to_admin(self):
         try:
@@ -1007,9 +810,7 @@ class MainWindow(QMainWindow):
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+            print_error(e)
 
     def switch_main_display_to_admin_2(self):
         self.set_button_style('admin')
@@ -1026,14 +827,10 @@ class MainWindow(QMainWindow):
             self.ui_main.setting_user_new_pw_input2.clear()
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+            print_error(e)
 
-    def change_ai_info(self):
+    def save_ai_setting_info(self):
         weight_name = self.ui_main.setting_setting_ai_weight_box.currentText()
-        print("change ",weight_name)
-
         self.setting_info_temp["AI"]["Weight"] = weight_name
 
         save_info(host=self.HOST, port=self.PORT, file_name="setting_info", info=self.setting_info_temp)
@@ -1042,7 +839,6 @@ class MainWindow(QMainWindow):
         self.setting_info_temp["AI"]["ZeroShot"] = 1 if self.setting_info_temp["AI"]["ZeroShot"] == 0 else 0
     def change_auto_label_info(self):
         self.setting_info_temp["AI"]["AutoLabel"] = 1 if self.setting_info_temp["AI"]["AutoLabel"] == 0 else 0
-
 
     def switch_setting_display_to_ai_stting(self):
         try:
@@ -1071,52 +867,16 @@ class MainWindow(QMainWindow):
 
             self.ui_main.setting_stack_widget.setCurrentIndex(2)
 
-
             self.ui_main.setting_self_training_auto_labeling_bnt.clicked.connect(self.change_auto_label_info)
             self.ui_main.setting_self_training_zeroshot_bnt.clicked.connect(self.change_zeroshot_info)
-
-
-            self.ui_main.setting_ai_setting_save_bnt.clicked.connect(self.change_ai_info)
-
+            self.ui_main.setting_ai_setting_save_bnt.clicked.connect(self.save_ai_setting_info)
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-
-    def switch_setting_display_to_notice_stting(self):
-        try:
-            self.ui_main.setting_stack_widget.setCurrentIndex(0)
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def switch_admin_license_page(self):
-        try:
-            self.ui_main.stackedWidget_2.setCurrentIndex(0)
-            self.reset_admin_license_list()
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def switch_admin_fn_permission_page(self):
-        try:
-            self.ui_main.stackedWidget_2.setCurrentIndex(1)
-
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+            print_error(e)
 
     def camera_page_display_selected_row(self):
         try:
             ret, self.camera_info_dict_temp = self.load_camera_info()
-
 
             selected_indexes = self.ui_main.camera_list_table.selectedIndexes()
             if selected_indexes:
@@ -1131,9 +891,7 @@ class MainWindow(QMainWindow):
                 self.ui_main.camera_info_pw_input.setText(data["PW"])
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+            print_error(e)
 
     def add_camera_info(self):
         try:
@@ -1162,9 +920,7 @@ class MainWindow(QMainWindow):
                 self.ui_main.camera_list_table.setItem(row_position, 2, text)
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+            print_error(e)
 
     def load_camera_info(self, reset = False, connect_nvr = True):
         login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
@@ -1253,11 +1009,7 @@ class MainWindow(QMainWindow):
                 self.create_fade_out_msg(msg="Disconnect NVR")
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-            self.create_fade_out_msg(msg=f"Error occurred at {current_time}: {e} {sys.stderr}")
-
+            print_error(e)
 
     def del_camera_info(self):
         try:
@@ -1271,10 +1023,8 @@ class MainWindow(QMainWindow):
                 del self.camera_info_dict_temp[camera_num]
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
+            print_error(e)
+            
     def eventFilter(self, obj, event):
         self.input_field_styles = {
             self.ui_main.camera_info_name_input: self.ui_main.camera_info_name_line,
@@ -1323,22 +1073,6 @@ class MainWindow(QMainWindow):
         save_info(host=self.HOST, port=self.PORT, file_name="login_info", info=login_info)
         self.init_GUI_setup(reset=True)
     
-    def merge_intervals(self, intervals):
-        # 시간 구간을 시작 시간 기준으로 정렬
-        intervals.sort(key=lambda x: x[0])
-        merged = []
-
-        for current in intervals:
-            # 병합된 리스트가 비어있지 않고 현재 구간이 마지막에 추가된 구간과 겹치는 경우
-            if not merged or merged[-1][1] < current[0] - 1:
-                # 겹치지 않는 경우, 새로운 구간으로 추가
-                merged.append(current)
-            else:
-                # 현재 구간의 끝 시간이 마지막 구간의 끝 시간보다 클 경우 업데이트
-                merged[-1][1] = max(merged[-1][1], current[1])
-        
-        return merged
-    
     def create_fade_out_msg(self, msg="None"):
         try:
             if not hasattr(self, 'fadeout_window') or not self.fadeout_window.isVisible():
@@ -1351,47 +1085,44 @@ class MainWindow(QMainWindow):
                 )
 
             self.fadeout_window.show()
-        except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
-    def Save_video_and_Notification_alarm_and_Send_mail(self):
-        try:
-            data = {"msg" : str(" ")}
-
-            url = f'http://{self.HOST}:{self.PORT}/get-status-info'
-            receive_data = requests.get(url, json=data).json()
-
-            if len(receive_data["data"]):
-                for camera_name, alarm_list in receive_data["data"].items():
-                    for alarm in alarm_list:
-                        if self.setting_info_temp["NOTICE"]["active"]:
-                            self.fadeout_in_window = FadeOutInWindow(self, camera_name, alarm, self.alarm_window_num)
-                            main_window_rect = self.geometry()
-                            fadeout_in_window_rect = self.fadeout_in_window.geometry()
-                            self.fadeout_in_window.move(
-                                main_window_rect.left() + (main_window_rect.width() - fadeout_in_window_rect.width()) // 2,
-                                main_window_rect.top() + (main_window_rect.height() - fadeout_in_window_rect.height()) * 4 // 5
-                            )
-
-                            self.fadeout_in_window.show()
-                            self.alarm_window_num += 1
-
-                            self.fadeout_in_window_list.append(self.fadeout_in_window)
-
-                            if len(self.fadeout_in_window_list) > self.setting_info_temp["NOTICE"]["cnt"]:
-                                self.fadeout_in_window_list[0].close()
-                                self.fadeout_in_window_list.pop(0)
-
-                        if self.setting_info_temp["EMAIL"]["active"]:
-                            thread = threading.Thread(target=send_email_alarm, args=(self.live_page_worker_dict, alarm, self.setting_info_temp["EMAIL"]["se nder"], self.setting_info_temp["EMAIL"]["PW"],  self.setting_info_temp["EMAIL"]["TO"], camera_name))
-                            thread.start()
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+            print_error(e)
+
+    # def Save_video_and_Notification_alarm_and_Send_mail(self):
+    #     try:
+    #         data = {"msg" : str(" ")}
+
+    #         url = f'http://{self.HOST}:{self.PORT}/get-status-info'
+    #         receive_data = requests.get(url, json=data).json()
+
+    #         if len(receive_data["data"]):
+    #             for camera_name, alarm_list in receive_data["data"].items():
+    #                 for alarm in alarm_list:
+    #                     if self.setting_info_temp["NOTICE"]["active"]:
+    #                         self.fadeout_in_window = FadeOutInWindow(self, camera_name, alarm, self.alarm_window_num)
+    #                         main_window_rect = self.geometry()
+    #                         fadeout_in_window_rect = self.fadeout_in_window.geometry()
+    #                         self.fadeout_in_window.move(
+    #                             main_window_rect.left() + (main_window_rect.width() - fadeout_in_window_rect.width()) // 2,
+    #                             main_window_rect.top() + (main_window_rect.height() - fadeout_in_window_rect.height()) * 4 // 5
+    #                         )
+
+    #                         self.fadeout_in_window.show()
+    #                         self.alarm_window_num += 1
+
+    #                         self.fadeout_in_window_list.append(self.fadeout_in_window)
+
+    #                         if len(self.fadeout_in_window_list) > self.setting_info_temp["NOTICE"]["cnt"]:
+    #                             self.fadeout_in_window_list[0].close()
+    #                             self.fadeout_in_window_list.pop(0)
+
+    #                     if self.setting_info_temp["EMAIL"]["active"]:
+    #                         thread = threading.Thread(target=send_email_alarm, args=(self.live_page_worker_dict, alarm, self.setting_info_temp["EMAIL"]["se nder"], self.setting_info_temp["EMAIL"]["PW"],  self.setting_info_temp["EMAIL"]["TO"], camera_name))
+    #                         thread.start()
+
+    #     except Exception as e:
+    #         print_error(e)
 
     def Notification_status(self):
         try:
@@ -1402,9 +1133,7 @@ class MainWindow(QMainWindow):
             if self.setting_info_temp["NOTICE"]["active"]:
                 if len(receive_data["data"]):
                     for camera_name, alarm_list in receive_data["data"].items():
-                        print(alarm_list)
                         for alarm in alarm_list:
-                            print(alarm)
                             if self.setting_info_temp["NOTICE"]["active"] and len(alarm):
                                 self.fadeout_in_window = FadeOutInWindow(self, camera_name, alarm, self.alarm_window_num)
                                 main_window_rect = self.geometry()
@@ -1426,10 +1155,7 @@ class MainWindow(QMainWindow):
             self.ui_main.connected_user_label_2.setText(str(receive_data["user_num"]))
 
         except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
-
+            print_error(e)
 
     def check_nvr_login(self):
         login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
@@ -1445,27 +1171,30 @@ class MainWindow(QMainWindow):
             self.create_fade_out_msg(msg=receive_data["message"])
             return False
 
-    def init_GUI_setup(self, reset=False):
-        self.fadeout_in_window_list = []
-        self.storage_period = {30 : 0, 
-                               60 : 1, 
-                               90 : 2, 
-                               0 : 30, 
-                               1 : 60, 
-                               2 : 90}
+    def setup_init_GUI(self, reset=False):
+        self.ui_main.stackedWidget.setCurrentIndex(0)
 
+        #초기 변수 설정
+        self.fadeout_in_window_list = []
+        self.storage_period = {30: 0, 60: 1, 90: 2, 0: 30, 1: 60, 2: 90}
         self.alarm_window_num = 0
         self.camera_page_worker = None
         self.search_page_worker = None
         self.timer = None
         self.camera_connect_timer = None
 
+        # 카메라 리스트 테이블 설정
+        self.ui_main.camera_list_table.setColumnWidth(0, 30)
+        self.ui_main.camera_list_table.setColumnWidth(1, 40)
+        self.ui_main.camera_list_table.setColumnWidth(2, 175)
+        
         # 어두운 레이어 위젯 생성
         self.dark_layer = QWidget(self)
         self.dark_layer.setGeometry(QRect(0,0,9999,9999))
         self.dark_layer.setStyleSheet("background-color: rgba(0, 0, 0, 178);")  # 70% 투명도
         self.dark_layer.hide()  # 기본적으로 숨김
 
+        # 초기 정보 로드
         self.admin_info_temp = load_info(host=self.HOST,port=self.PORT,file_name="admin_info")
         self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
         self.login_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
@@ -1492,6 +1221,94 @@ class MainWindow(QMainWindow):
 
         self.start_notification_status_timer()
         self.start_camera_refresh_timer()
+        self.setup_camera_viewer()
+
+        ##좌측 카메라 리스트 변경시 속성 보여주기
+        self.ui_main.camera_list_table.itemSelectionChanged.connect(self.camera_page_display_selected_row)
+
+    def setup_camera_viewer(self):
+        ##카메라 페이지 영상 뷰어 생성
+        self.ui_main.camera_page_viewer.hide()
+        self.ui_main.camera_page_viewer = Plot_Camera_Viewer(self.ui_main.camera_page)
+        self.ui_main.camera_page_viewer.setObjectName(u"camera_page_viewer")
+        self.ui_main.camera_page_viewer.setMinimumSize(QSize(472, 331))
+        self.ui_main.camera_page_viewer.setStyleSheet(u"border: 1px solid rgb(255, 255, 255);\n"
+                                                "background-color: rgba(255, 255, 255, 0);")
+        self.ui_main.camera_page_viewer.setScaledContents(False)
+        self.ui_main.verticalLayout_10.addWidget(self.ui_main.camera_page_viewer)
+
+    def setup_slot_connect(self):
+        self.ui_main.sever_login_bnt.clicked.connect(self.login_NVR)
+        self.ui_main.shutdown_bnt.clicked.connect(self.shutdown) #종료 버튼 활성화
+
+        #우측 상단 버튼 활성화
+        self.ui_main.alarm_search_bnt.clicked.connect(lambda click, instance = self : open_search_window(click, instance))
+        self.ui_main.camera_schedule_bnt.clicked.connect(lambda click, instance = self : open_schedule_window(click, instance))
+        self.ui_main.labeling_bnt.clicked.connect(lambda click, instance = self : open_labeling_window(click, instance))
+        self.ui_main.camera_refresh_bnt.clicked.connect(self.live_refresh_live_viewer)
+
+        #주요 메인 메뉴 버튼 설정
+        self.ui_main.live_bnt.clicked.connect(self.switch_main_display_to_live)
+        self.ui_main.camera_bnt.clicked.connect(self.switch_main_display_to_camera)
+        self.ui_main.setting_bnt.clicked.connect(self.switch_main_display_to_setting)
+        self.ui_main.admin_bnt.clicked.connect(self.switch_main_display_to_admin)
+
+        ##카메라 페이지 설정
+        self.ui_main.camera_page_name_box.currentTextChanged.connect(lambda: (self.connect_camera_page_camera(), self.set_camera_page_viewer()))
+        self.ui_main.camera_page_detect_add_bnt.clicked.connect(self.camera_page_add_detect_type)
+        self.ui_main.camera_page_detect_area_del_bnt.clicked.connect(self.camera_page_del_detect_area)
+
+        self.ui_main.camera_page_detect_area_table.itemClicked.connect(self.camera_page_update_camera_page_viewer_roi)
+        self.ui_main.camera_page_viewer.clicked.connect(self.camera_page_add_detect_area_point)
+
+        self.ui_main.camera_page_person_conf_slider.valueChanged.connect(self.set_person_conf_value)
+        self.ui_main.camera_page_person_conf_value.valueChanged.connect(self.set_person_conf_slider)
+
+        # 지능형 활성화 버튼 
+        self.ui_main.camera_page_ai_bnt.clicked.connect(lambda click, instance = self : open_ai_setting_window(click, instance))
+
+        # 설정 메뉴 버튼
+        self.ui_main.setting_user_setting_bnt.clicked.connect(self.switch_setting_display_to_user_setting)
+        self.ui_main.setting_user_save_bnt.clicked.connect(self.setting_change_user_info)
+        self.ui_main.setting_alarm_bnt.clicked.connect(lambda : (self.ui_main.setting_stack_widget.setCurrentIndex(0)))
+        self.ui_main.setting_ai_bnt.clicked.connect(self.switch_setting_display_to_ai_stting)
+        self.ui_main.setting_email_save_bnt.clicked.connect(self.change_email_info)
+        self.ui_main.setting_email_active_bnt.clicked.connect(self.change_setting_info)
+        self.ui_main.setting_popup_alarm_active_bnt.clicked.connect(self.change_setting_info)
+        self.ui_main.setting_popup_alarm_cnt.currentIndexChanged.connect(self.change_setting_info)
+        self.ui_main.setting_video_save_alarm_active_bnt.clicked.connect(self.change_setting_info)
+        self.ui_main.setting_event_video_storage_period.currentIndexChanged.connect(self.change_setting_info)
+        self.ui_main.setting_detect_bbox_active_bnt.clicked.connect(self.change_setting_info)
+        self.ui_main.setting_detect_label_active_bnt.clicked.connect(self.change_setting_info)
+
+        # admin 메뉴 버튼
+        self.ui_main.admin_page_bnt.clicked.connect(self.login_admin_page)
+        self.ui_main.admin_license_bnt.clicked.connect(lambda : (self.ui_main.stackedWidget_2.setCurrentIndex(0), self.reset_admin_license_list()))
+        self.ui_main.admin_fn_permission_bnt.clicked.connect(lambda : self.ui_main.stackedWidget_2.setCurrentIndex(1))
+        self.ui_main.license_add_bnt.clicked.connect(self.move_active_license_list)
+        self.ui_main.license_remove_bnt.clicked.connect(self.move_non_license_camera_list)
+        self.ui_main.license_save_bnt.clicked.connect(self.save_admin_info)
+        self.ui_main.admin_pw_input.returnPressed.connect(self.login_admin_page)
+
+    def setup_event_filters(self):
+        # 이벤트 필터 설치
+        event_filters = [
+            self.ui_main.camera_info_name_input,
+            self.ui_main.camera_info_ip_input,
+            self.ui_main.camera_info_id_input,
+            self.ui_main.camera_info_pw_input,
+            self.ui_main.setting_user_id_input,
+            self.ui_main.setting_user_pw_input,
+            self.ui_main.setting_user_new_pw_input,
+            self.ui_main.setting_user_new_pw_input2,
+            self.ui_main.setting_email_id_input,
+            self.ui_main.setting_email_pw_input,
+            self.ui_main.setting_receive_email_id_input,
+            self.ui_main.admin_pw_input
+        ]
+        for filter in event_filters:
+            filter.installEventFilter(self)
+
 
     def update_setting(self):
         setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
@@ -1521,20 +1338,36 @@ class MainWindow(QMainWindow):
         else:
             self.ui_main.setting_popup_alarm_cnt.setEnabled(False)
 
+    def keyPressEvent(self, event):
+        # Alt + Enter 키를 감지
+        if event.key() == Qt.Key_Enter and event.modifiers() & Qt.AltModifier:
+            if self.isMaximized():
+                self.showNormal()  # 최대화된 상태에서 복원
+            else:
+                self.showMaximized()  # 복원 상태에서 최대화
+
+        # 일부 키보드에서는 Return 키가 Enter 키로 인식될 수 있으므로, Return 키도 처리
+        elif event.key() == Qt.Key_Return and event.modifiers() & Qt.AltModifier:
+            if self.isMaximized():
+                self.showNormal()  # 최대화된 상태에서 복원
+            else:
+                self.showMaximized()  # 복원 상태에서 최대화
+
+    def shutdown(self):
+        QApplication.instance().quit()
+        self.stop_camera_page_worker()
+        self.stop_live_page_worker()
+
     def closeEvent(self, event):
         # 창이 닫힐 때 실행되는 코드
-        if self.camera_page_worker != None :
-            self.camera_page_worker.stop()
-            del self.camera_page_worker
-
-        for worker in self.live_page_worker_dict.values():
-            worker.stop()
-            del worker
+        self.stop_camera_page_worker()
+        self.stop_live_page_worker()
 
         data = {"msg" : ""}
         url = f'http://{self.HOST}:{self.PORT}/logout'
         receive_data = requests.put(url, json=data).json()
         event.accept()  # 또는 event.ignore()로 닫히지 않게 할 수 있음
+
 
 def main():
     try:
@@ -1545,9 +1378,8 @@ def main():
         app.exec()
 
     except Exception as e:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            tb = traceback.format_exc()
-            print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
+            print_error(e)
+
     finally:
             
             # input("Press Enter to close...")  # 실행 후 입력을 기다림
