@@ -3459,7 +3459,7 @@ class Ui_MainWindow(object):
         self.setting_setting_ai_weight_box.setPlaceholderText("")
         self.setting_self_training_auto_labeling_label.setText(QCoreApplication.translate("MainWindow", u"Self Auto Labeling \ud65c\uc131\ud654", None))
         self.setting_self_training_auto_labeling_bnt.setText("")
-        self.setting_self_training_zeroshot_label.setText(QCoreApplication.translate("MainWindow", u"Self Labeling Assistance \ud65c\uc131\ud654", None))
+        self.setting_self_training_zeroshot_label.setText(QCoreApplication.translate("MainWindow", u"AI Labeling Assistance \ud65c\uc131\ud654", None))
         self.setting_self_training_zeroshot_bnt.setText("")
         self.setting_page_email_info_label_5.setText(QCoreApplication.translate("MainWindow", u"\u203bObject Detection Assistance \uc740 \uc0c8\ub85c\uc6b4 \ud658\uacbd\uc5d0\uc11c", None))
         self.setting_page_email_info_label_6.setText(QCoreApplication.translate("MainWindow", u" \ucd08\uae30  \ubaa8\ub378 \ud559\uc2b5 \uc131\ub2a5 \uac1c\uc120\uc744 \ub3c4\uc640 \uc90d\ub2c8\ub2e4", None))

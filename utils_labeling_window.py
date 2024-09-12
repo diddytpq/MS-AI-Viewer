@@ -364,6 +364,8 @@ class Labeling_Viewer(QLabel):
 
 class LabelingDialog(QDialog):
     def __init__(self, parent=None):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : open labeling window")
+
         super().__init__(parent)
         self.label_ui = Ui_labeling_window()
         self.label_ui.setupUi(self)
@@ -519,10 +521,10 @@ class LabelingDialog(QDialog):
         if event.key() == Qt.Key_F:
             self.del_label_data()
 
-        if event.key() == Qt.Key_S and event.modifiers() == Qt.ControlModifier:
+        if (event.key() == Qt.Key_S and event.modifiers() == Qt.ControlModifier) or event.key() == Qt.Key_Space:
             self.save_label_buffer()
 
-        if event.key() == Qt.Key_E:
+        if event.key() == Qt.Key_Q:
             self.del_all_label()
 
     def keyReleaseEvent(self, event):
@@ -561,6 +563,9 @@ class LabelingDialog(QDialog):
                 text.setTextAlignment(Qt.AlignCenter)
                 text.setFlags(Qt.ItemIsSelectable | Qt.ItemIsDragEnabled | Qt.ItemIsDropEnabled | Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
                 self.label_ui.label_list_table.setItem(row_position, 0, text)
+
+            if self.label_ui.label_list_table.rowCount() > 0:
+                self.label_ui.label_list_table.setCurrentCell(0, 0)
 
     def load_event_data(self):
         self.img_buffer = []

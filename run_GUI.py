@@ -33,6 +33,7 @@ import gc
 class LoginWindow(QMainWindow):
     def __init__(self):
         super(LoginWindow, self).__init__()
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : start login window")
         self.ui_login = Ui_Dialog()
 
         self.setWindowTitle("MS-AI")
@@ -90,6 +91,8 @@ class LoginWindow(QMainWindow):
 
     def check_login(self):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : check login")
+
             # 로그인 데이터 준비
             data = {"msg" : 
                         {"id" : self.ui_login.id_input.text(), 
@@ -112,12 +115,14 @@ class LoginWindow(QMainWindow):
 
     def handle_successful_login(self, receive_data):
         # 로그인 성공 처리
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : succese login")
+
         self.close()
         self.main_window = MainWindow(user_info=receive_data["user_info"], 
                                       host=self.ui_login.ai_server_ip_input.text(), 
                                       port=self.ui_login.ai_server_port_input.text())
         self.main_window.show()
-        self.create_fade_out_msg(msg="login")
+        # self.create_fade_out_msg(msg="login")
         self.save_ai_server_info()
 
     def save_ai_server_info(self):
@@ -176,6 +181,7 @@ class MainWindow(QMainWindow):
 #---------------------------------------------------------------------------------------------------------#
     def connect_live_page_camera(self, reset=False):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : connect live page camera")
             ret, self.camera_info_dict_temp = self.load_camera_info(reset=reset, connect_nvr=self.check_nvr_login())
 
             self.live_page_worker_dict = {}
@@ -274,6 +280,7 @@ class MainWindow(QMainWindow):
 
     def connect_camera_page_camera(self, camera_name = None):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : connect_camera_page_camera")
             if camera_name == None:
                 camera_name = self.ui_main.camera_page_name_box.currentText()
 
@@ -319,30 +326,33 @@ class MainWindow(QMainWindow):
         if self.before_active_window == None:
             self.before_active_window = self.isActiveWindow()
 
-        if self.before_active_window == False and self.isActiveWindow():
-            if self.live_page_worker_dict != None :
-                for worker in self.live_page_worker_dict.values():
-                    for camera_name, camera_info in worker.cameras.items():
-                        worker.caps[camera_name].change_framerate(30)
-            print("chg 30fps")
+        try:
+            if self.before_active_window == False and self.isActiveWindow():
+                if self.live_page_worker_dict != None :
+                    for worker in self.live_page_worker_dict.values():
+                        for camera_name, camera_info in worker.cameras.items():
+                            worker.caps[camera_name].change_framerate(30)
+                print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : chg 30fps")
 
-            self.before_active_window = self.isActiveWindow()
-                    
-            # if self.camera_page_worker != None :
-            #     self.camera_page_worker.cap.change_framerate(30)
-        elif self.before_active_window == True and self.isActiveWindow() == False:
-            if self.live_page_worker_dict != None :
-                for worker in self.live_page_worker_dict.values():
-                    for camera_name, camera_info in worker.cameras.items():
-                        worker.caps[camera_name].change_framerate(1)
-            print("chg 1fps")
-            self.before_active_window = self.isActiveWindow()
-            
-            # if self.camera_page_worker != None :
-            #     self.camera_page_worker.cap.change_framerate(30)
+                self.before_active_window = self.isActiveWindow()
+                        
+                # if self.camera_page_worker != None :
+                #     self.camera_page_worker.cap.change_framerate(30)
+            elif self.before_active_window == True and self.isActiveWindow() == False:
+                if self.live_page_worker_dict != None :
+                    for worker in self.live_page_worker_dict.values():
+                        for camera_name, camera_info in worker.cameras.items():
+                            worker.caps[camera_name].change_framerate(1)
+                print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : chg 1fps")
+                self.before_active_window = self.isActiveWindow()
+                
+        except Exception as e:
+            print_error(e)
+            self.check_window_active()
 
     def set_person_conf_value(self):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : set_person_conf_value text box")
             self.ui_main.camera_page_person_conf_value.setValue(self.ui_main.camera_page_person_conf_slider.value())
             self.camera_info_dict_temp[self.ui_main.camera_page_name_box.currentText()]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
 
@@ -351,6 +361,7 @@ class MainWindow(QMainWindow):
 
     def set_person_conf_slider(self):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : set_person_conf_value slide")
             self.ui_main.camera_page_person_conf_slider.setValue(self.ui_main.camera_page_person_conf_value.value())
             self.camera_info_dict_temp[self.ui_main.camera_page_name_box.currentText()]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
 
@@ -407,6 +418,7 @@ class MainWindow(QMainWindow):
 
     def change_setting_info(self):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : change_setting_info")
             self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
 
             self.setting_info_temp["EMAIL"]["active"] = int(self.ui_main.setting_email_active_bnt.isChecked())
@@ -439,6 +451,7 @@ class MainWindow(QMainWindow):
 
     def change_email_info(self):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : change_email_info")
             self.setting_info_temp = load_info(host=self.HOST,port=self.PORT,file_name="setting_info")
 
             self.setting_info_temp["EMAIL"]["sender"] = self.ui_main.setting_email_id_input.text()
@@ -463,6 +476,7 @@ class MainWindow(QMainWindow):
 
     def setting_change_user_info(self):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : setting_change_user_info")
             data = {"username" : self.ui_main.setting_user_id_input.text(), 
                     "password" : self.ui_main.setting_user_pw_input.text(),
                     "new_password" : self.ui_main.setting_user_new_pw_input.text(),
@@ -478,6 +492,7 @@ class MainWindow(QMainWindow):
 
     def camera_page_del_detect_area(self):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera_page_del_detect_area")
             camera_name = self.ui_main.camera_page_name_box.currentText()
 
             select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
@@ -532,6 +547,7 @@ class MainWindow(QMainWindow):
 
     def camera_page_update_camera_page_viewer_roi(self, item):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera_page_update_roi")
             row = item.row()  # 클릭한 아이템의 행 인덱스
             row_data = []
             camera_num = self.ui_main.camera_page_name_box.currentText()
@@ -550,6 +566,7 @@ class MainWindow(QMainWindow):
 
     def camera_page_add_detect_type(self):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera_page_add_detect_type")
             camera_name = self.ui_main.camera_page_name_box.currentText()
             detect_type = self.ui_main.camera_page_camera_event_box.currentText()
 
@@ -583,6 +600,7 @@ class MainWindow(QMainWindow):
 
     def camera_page_add_detect_area_point(self, point): #마우스 클릭으로 생성된 포인트를 viewer에 표시
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera_page_add_detect_area_point")
             camera_num = self.ui_main.camera_page_name_box.currentText()
             select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
 
@@ -626,14 +644,14 @@ class MainWindow(QMainWindow):
 
     def live_refresh_live_viewer(self):
         try:
-            print("refresh live viwer")
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : refresh live viwer")
             for worker in self.live_page_worker_dict.values():
                 worker.stop()
                 del worker
                 gc.collect()
 
             self.connect_live_page_camera()
-
+            time.sleep(1)
             if self.isActiveWindow() == False:
                 if self.live_page_worker_dict != None :
                     for worker in self.live_page_worker_dict.values():
@@ -735,12 +753,15 @@ class MainWindow(QMainWindow):
             button.setStyleSheet(active_style if key == active_button else default_style)
     
     def stop_live_page_worker(self):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : stop live page camera")
         if self.live_page_worker_dict != None :
             for worker in self.live_page_worker_dict.values():
                 worker.stop()
                 del worker
 
     def stop_camera_page_worker(self):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : stop camera page camera")
+
         if self.camera_page_worker != None :
             self.camera_page_worker.stop()
             del self.camera_page_worker
@@ -841,6 +862,8 @@ class MainWindow(QMainWindow):
             print_error(e)
 
     def save_ai_setting_info(self):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : AI Setting Save")
+
         weight_name = self.ui_main.setting_setting_ai_weight_box.currentText()
         self.setting_info_temp["AI"]["Weight"] = weight_name
 
@@ -906,6 +929,8 @@ class MainWindow(QMainWindow):
 
     def add_camera_info(self):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : add_camera_info")
+
             if len(self.ui_main.camera_info_name_input.text()) and len(self.ui_main.camera_info_ip_input.text()) and len(self.ui_main.camera_info_id_input.text()) and len(self.ui_main.camera_info_pw_input.text()):
                 camera_name = self.ui_main.camera_info_name_input.text()
                 self.camera_info_dict_temp[camera_name] =  {"Name" : str(self.ui_main.camera_info_name_input.text()), 
@@ -934,6 +959,8 @@ class MainWindow(QMainWindow):
             print_error(e)
 
     def load_camera_info(self, reset = False, connect_nvr = True):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : load_camera_info")
+        
         login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
 
         data = {"ip" : login_info["NVR"]["IP"], "id" : login_info["NVR"]["ID"], "pw" : login_info["NVR"]["PW"], "reset" : reset}
@@ -951,6 +978,8 @@ class MainWindow(QMainWindow):
 
     def live_camera_viewer_setup(self, reset = False, connect_nvr = True):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : live_camera_viewer_setup")
+
             self.camera_view_list = {}
             ret, self.camera_info_dict_temp = self.load_camera_info(reset, connect_nvr)
 
@@ -1024,6 +1053,8 @@ class MainWindow(QMainWindow):
 
     def del_camera_info(self):
         try:
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : del_camera_info")
+
             selected_indexes = self.ui_main.camera_list_table.selectedIndexes()
             if selected_indexes:
                 selected_row = selected_indexes[0].row()  # 선택된 셀의 행 인덱스
@@ -1068,6 +1099,8 @@ class MainWindow(QMainWindow):
         return super().eventFilter(obj, event)
 
     def login_NVR(self):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : try login NVR")
+
         login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
 
         login_info["NVR"]["IP"] = self.ui_main.server_ip_input.text()
@@ -1169,6 +1202,8 @@ class MainWindow(QMainWindow):
             print_error(e)
 
     def check_nvr_login(self):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : check_nvr_login")
+
         login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
         data = {"msg" : {"ip" : login_info["NVR"]["IP"], 
                         "pw" : login_info["NVR"]["PW"],
@@ -1183,6 +1218,8 @@ class MainWindow(QMainWindow):
             return False
 
     def setup_init_GUI(self, reset=False):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : setup main GUI")
+
         self.ui_main.stackedWidget.setCurrentIndex(0)
 
         #초기 변수 설정
@@ -1249,6 +1286,8 @@ class MainWindow(QMainWindow):
         self.ui_main.verticalLayout_10.addWidget(self.ui_main.camera_page_viewer)
 
     def setup_slot_connect(self):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : setup_QT_slot_connect")
+
         self.ui_main.sever_login_bnt.clicked.connect(self.login_NVR)
         self.ui_main.shutdown_bnt.clicked.connect(self.shutdown) #종료 버튼 활성화
 
@@ -1322,6 +1361,9 @@ class MainWindow(QMainWindow):
 
 
     def update_setting(self):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : setting update")
+
+
         setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
         self.ui_main.setting_email_active_bnt.setChecked(setting_info_temp["EMAIL"]["active"])  #알람 정보 이메일 전송 기능 활성화 여부
 

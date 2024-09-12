@@ -365,7 +365,7 @@ class Connect_Playback(QThread):
     # Signal emitted when a new image or a new frame is ready.
     ImageUpdated = Signal(QImage)
 
-    def __init__(self, url, output_size = (360, 216), play_fps = 30, roi_thickness = 1) -> None:
+    def __init__(self, url, viewers_widget, play_fps = 30, roi_thickness = 1) -> None:
         super(Connect_Playback, self).__init__()
         # Declare and initialize instance variables.
         self.url = url
@@ -373,18 +373,17 @@ class Connect_Playback(QThread):
         self.fps = 0
         self.disconnect_cnt = 0
 
-        self.output_size = output_size
         self.play_fps = int(play_fps)
 
         self.roi_thickness = roi_thickness
+        self.viewers_widget = viewers_widget
 
     def run(self) -> None:
-        frame_num = 0
-
         while self.__thread_active:
             bytes_data = b''  # 스트리밍 데이터 저장할 바이트 버퍼
 
             for chunk in self.url.iter_content(chunk_size=1024):
+                t0 = time.time()
                 bytes_data += chunk
 
                 # JPEG 이미지의 시작과 끝을 찾습니다.
@@ -395,19 +394,22 @@ class Connect_Playback(QThread):
                     jpg = bytes_data[a:b+2]
                     bytes_data = bytes_data[b+2:]
 
-                    frame = cv2.resize(cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR), dsize=self.output_size)
+                    frame = cv2.resize(cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR), dsize=(self.viewers_widget.width(), self.viewers_widget.height()))
                     # frame = cv2.resize(self.jpeg.decode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR), dsize=self.output_size)
 
                     height, width, channels = frame.shape
                     # Calculate the number of bytes per line.
                     bytes_per_line = width * channels
                     self.ImageUpdated.emit(QImage(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB).data, width, height, bytes_per_line, QImage.Format_RGB888))
-                    frame_num += 1
+                    # frame_num += 1
 
                     if not self.__thread_active:
                         break
-                        
-                    time.sleep(1/self.play_fps)
+                    
+                    try:
+                        time.sleep((1/self.play_fps) - (time.time() - t0))
+                    except:
+                        time.sleep((1/self.play_fps))
                     
             else:
                 self.stop()

@@ -24,6 +24,8 @@ import traceback
 
 
 def open_search_window(click, self):
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : open search window")
+
     self.search_window = QDialog()  # QDialog 인스턴스 생성
     self.search_ui = Ui_Search_window()
     self.search_ui.setupUi(self.search_window)
@@ -61,6 +63,8 @@ def open_search_window(click, self):
 
 
 def get_alarm_info(click, self):
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : get alarm info")
+
     day_start = self.search_ui.time_day_start_input.text()
     date_time = datetime.strptime(day_start, "%Y. %m. %d")
     before_day = date_time.strftime("%y.%m.%d")
@@ -144,6 +148,8 @@ def get_alarm_info(click, self):
 
 def search_viewer_playback(click, self):
     try:
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : play alarm video")
+
         if self.search_page_worker is not None:
             self.search_page_worker.stop()  # 기존 쓰레드를 종료
             self.search_page_worker.wait()  # 종료를 기다림
@@ -172,12 +178,10 @@ def search_viewer_playback(click, self):
             response = requests.post(url, json=data)
 
             if response.status_code == 200:
-                speed = float(self.search_ui.time_video_time_speed_input.text())
-
-                play_fps = 30 * speed
+                play_fps = 30 * float(self.search_ui.time_video_time_speed_input.text())
 
                 viewer = self.search_ui.search_viewer
-                self.search_page_worker = Connect_Playback(response, output_size = (viewer.width(),viewer.height()), play_fps = play_fps, roi_thickness=2)
+                self.search_page_worker = Connect_Playback(response, viewers_widget = viewer, play_fps = play_fps, roi_thickness=2)
 
                 self.search_page_worker.ImageUpdated.connect(lambda image, viewer=viewer: self.ShowCamera(viewer, image))
                 self.search_page_worker.start()
@@ -213,6 +217,8 @@ def search_viewer_playback(click, self):
             print(f"Error occurred at {current_time}: {e}\n{tb}", file=sys.stderr)
 
 def search_close_window(click, self):
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : close search window")
+
     self.search_window.close()
 
     if self.search_page_worker is not None:
