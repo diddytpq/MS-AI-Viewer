@@ -70,17 +70,19 @@ class Video_Buffer:
         self.connection_status = True  # RTSP 연결 상태를 추적하는 변수
         self.video_source = f'rtspsrc location=rtsp://{pipe} latency=10 buffer-mode=0 protocols=tcp'
         # self.video_codec = '! application/x-rtp, encoding-name=(string)H264, payload=96 ! rtph264depay ! h264parse '
-        self.video_codec = '! rtph264depay ! h264parse '  # 'application/x-rtp' 생략
+        
         # self.video_decode = f'! decodebin ! videorate ! capsfilter name=capsfilter0 caps=video/x-raw,framerate=30/1 ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
         # self.video_decode = f'! decodebin ! videorate ! videoscale ! capsfilter name=capsfilter0 caps=video/x-raw,width={resolution[0]},height={resolution[1]},framerate=5/1 ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
         # self.video_decode = f'! decodebin ! videorate ! videoscale ! video/x-raw,format=(string)BGR,width={resolution[0]},height={resolution[1]},framerate=5/1 ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
         
         if chg_fps_mode == True:
+            self.video_codec = '! rtph264depay ! h264parse '  # 'application/x-rtp' 생략
             self.video_decode = f'! decodebin ! videorate ! capsfilter name=capsfilter0 caps=video/x-raw,framerate=30/1 ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
 
         else:
-            self.video_decode = f'! decodebin ! videorate ! video/x-raw,framerate=30/1 ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
-        # self.video_decode = f'! decodebin ! videorate ! video/x-raw,framerate=30/1,format=(string)BGR ! videoconvert ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
+            # self.video_decode = f'! decodebin ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
+            self.video_codec = '! application/x-rtp, encoding-name=(string)H264, payload=96 ! rtph264depay ! h264parse '
+            self.video_decode = f'! decodebin ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=1 drop=true'
         self.video_pipe = None
         self.video_sink = None
         self.appsink_name = appsink_name
@@ -125,9 +127,6 @@ class Video_Buffer:
     def get_frame(self):
         return self._frame
 
-    # def frame_available(self):
-    #     return self._frame is not None
-
     def frame_available(self):
         # 연결 상태를 먼저 확인하고, 끊겨있으면 False를 리턴
         if not self.connection_status:
@@ -140,7 +139,7 @@ class Video_Buffer:
                 [
                     self.video_source,
                     self.video_codec,
-                    ' ! queue leaky=downstream max-size-buffers=20 ',
+                    ' ! queue leaky=downstream max-size-buffers=10 ',
                     self.video_decode
                 ]
             )
