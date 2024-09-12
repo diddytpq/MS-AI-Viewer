@@ -651,7 +651,13 @@ class MainWindow(QMainWindow):
                 gc.collect()
 
             self.connect_live_page_camera()
+<<<<<<< HEAD
             time.sleep(1)
+=======
+
+            time.sleep(1)
+
+>>>>>>> 84f681f9fcd988428ddee74b558b85feb8c44acf
             if self.isActiveWindow() == False:
                 if self.live_page_worker_dict != None :
                     for worker in self.live_page_worker_dict.values():
