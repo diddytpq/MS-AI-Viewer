@@ -258,7 +258,7 @@ lineedit-password-character: 9679; /* Unicode for '•' */</string>
            <string/>
           </property>
           <property name="echoMode">
-           <enum>QLineEdit::EchoMode::PasswordEchoOnEdit</enum>
+           <enum>QLineEdit::EchoMode::Password</enum>
           </property>
          </widget>
         </item>

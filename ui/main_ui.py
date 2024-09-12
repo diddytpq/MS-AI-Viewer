@@ -134,7 +134,7 @@ class Ui_MainWindow(object):
 "color: rgb(255, 255, 255);\n"
 "background-color: rgba(255, 255, 255, 0);\n"
 "lineedit-password-character: 9679; /* Unicode for '\u2022' */")
-        self.server_ip_input.setEchoMode(QLineEdit.EchoMode.PasswordEchoOnEdit)
+        self.server_ip_input.setEchoMode(QLineEdit.EchoMode.Password)
 
         self.horizontalLayout.addWidget(self.server_ip_input)
 
