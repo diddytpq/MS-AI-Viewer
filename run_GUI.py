@@ -378,7 +378,11 @@ class MainWindow(QMainWindow):
 
     def login_admin_page(self):
         try:
-            if "0512" == self.ui_main.admin_pw_input.text():
+            data = {"msg" : str(self.ui_main.admin_pw_input.text())}
+            url = f'http://{self.HOST}:{self.PORT}/login_admin_page'
+            receive_data = requests.post(url, json=data).json()
+
+            if receive_data["msg"] == True:
                 self.switch_main_display_to_admin_2()
                 self.ui_main.stackedWidget_2.setCurrentIndex(0)
                 self.reset_admin_license_list()
