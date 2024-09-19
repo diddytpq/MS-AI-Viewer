@@ -65,7 +65,7 @@ class Colors:
         return tuple(int(h[1 + i:1 + i + 2], 16) for i in (0, 2, 4))    
 
 class Video_Buffer:
-    def __init__(self, pipe="video1", appsink_name="video_sink", resolution=(640,480), chg_fps_mode = False):
+    def __init__(self, pipe="video1", appsink_name="video_sink", resolution=(640,480), chg_fps_mode = False, fps = 30):
         self._frame = None
         self.connection_status = True  # RTSP 연결 상태를 추적하는 변수
         self.video_source = f'rtspsrc location=rtsp://{pipe} latency=10 buffer-mode=0 protocols=tcp'
@@ -77,7 +77,7 @@ class Video_Buffer:
         
         if chg_fps_mode == True:
             self.video_codec = '! rtph264depay ! h264parse '  # 'application/x-rtp' 생략
-            self.video_decode = f'! decodebin ! videorate ! capsfilter name=capsfilter0 caps=video/x-raw,framerate=30/1 ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
+            self.video_decode = f'! decodebin ! videorate ! capsfilter name=capsfilter0 caps=video/x-raw,framerate={fps}/1 ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
 
         else:
             # self.video_decode = f'! decodebin ! videoscale ! video/x-raw,width={resolution[0]},height={resolution[1]} ! videoconvert ! video/x-raw,format=(string)BGR ! appsink name={appsink_name} emit-signals=true sync=false max-buffers=3 drop=true'
@@ -292,7 +292,7 @@ class Connect_Camera_Group(QThread):
     ImageUpdated = Signal(str, QImage)  # 카메라 이름과 함께 이미지를 보냄
     doubleClicked = Signal()
 
-    def __init__(self, cameras, host, port, viewers, viewers_widget, settings) -> None:
+    def __init__(self, cameras, host, port, viewers, viewers_widget, settings, fps) -> None:
         super(Connect_Camera_Group, self).__init__()
         self.cameras = cameras
         self.__thread_active = True
@@ -303,10 +303,11 @@ class Connect_Camera_Group(QThread):
         self.viewers_widget = viewers_widget
         self.settings = settings
         self.camera_connect_flag = {}
+        self.fps = fps
 
     def run(self) -> None:
         sessions = {camera_name: requests.Session() for camera_name in self.cameras}
-        self.caps = {camera_name: Video_Buffer(pipe=camera_info['pipe'], resolution=(640,480), chg_fps_mode=True) for camera_name, camera_info in self.cameras.items()}
+        self.caps = {camera_name: Video_Buffer(pipe=camera_info['pipe'], resolution=(640,480), chg_fps_mode=True, fps = self.fps) for camera_name, camera_info in self.cameras.items()}
 
         while self.__thread_active:
             for camera_name, camera_info in self.cameras.items():
@@ -382,6 +383,9 @@ class Connect_Playback(QThread):
             bytes_data = b''  # 스트리밍 데이터 저장할 바이트 버퍼
 
             for chunk in self.url.iter_content(chunk_size=1024):
+                if not self.__thread_active:
+                        break
+                
                 t0 = time.time()
                 bytes_data += chunk
 
@@ -402,17 +406,13 @@ class Connect_Playback(QThread):
                     self.ImageUpdated.emit(QImage(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB).data, width, height, bytes_per_line, QImage.Format_RGB888))
                     # frame_num += 1
 
-                    if not self.__thread_active:
-                        break
                     
-                    try:
-                        time.sleep((1/self.play_fps) - (time.time() - t0))
-                    except:
-                        time.sleep((1/self.play_fps))
                     
+                    sleep_time = max(0, (1 / self.play_fps) - (time.time() - t0))
+                    time.sleep(sleep_time)
+                        
             else:
                 self.stop()
-                break
 
     def stop(self) -> None:
         self.__thread_active = False

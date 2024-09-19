@@ -130,18 +130,25 @@ def open_ai_setting_window(click, self):
         
         getattr(self.popup_ui, f"camera_view_name_{num}").setText(camera_name)
     
+    # for camera_name, camera_viewer in self.ai_setting_camera_view_list.items():
+    #     find_worker_flag = False
+    #     if camera_name in self.camera_view_list.keys():
+    #         for worker in self.live_page_worker_dict.values():
+    #             if camera_name in worker.caps.keys():
+    #                 img = worker.caps[camera_name].get_frame()
+    #                 frame = cv2.resize(img, (camera_viewer.width(), camera_viewer.height()))
+    #                 camera_viewer.set_img(frame, 0.5)
+    #                 find_worker_flag = True
+    #                 break
+
     for camera_name, camera_viewer in self.ai_setting_camera_view_list.items():
         find_worker_flag = False
         if camera_name in self.camera_view_list.keys():
-            for worker in self.live_page_worker_dict.values():
-                if camera_name in worker.caps.keys():
-                    img = worker.caps[camera_name].get_frame()
+            img = self.camera_img_temp[camera_name]
+            frame = cv2.resize(img, (camera_viewer.width(), camera_viewer.height()))
+            camera_viewer.set_img(frame, 0.5)
+            find_worker_flag = True
 
-                    frame = cv2.resize(img, (camera_viewer.width(), camera_viewer.height()))
-                    camera_viewer.set_img(frame, 0.5)
-                    find_worker_flag = True
-
-                    break
 
         if find_worker_flag == False:
             camera_viewer.setPixmap(QPixmap(u":/newPrefix/ui/images/ico_video_off.svg"))

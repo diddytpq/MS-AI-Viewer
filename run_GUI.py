@@ -182,6 +182,9 @@ class MainWindow(QMainWindow):
     def connect_live_page_camera(self, reset=False):
         try:
             print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : connect live page camera")
+            if self.isActiveWindow(): fps = 30
+            else: fps = 1
+
             ret, self.camera_info_dict_temp = self.load_camera_info(reset=reset, connect_nvr=self.check_nvr_login())
 
             self.live_page_worker_dict = {}
@@ -224,10 +227,9 @@ class MainWindow(QMainWindow):
                                               port=self.PORT, 
                                               viewers=camera_viewers[idx],
                                               viewers_widget=self.ui_main.live_page,
-                                              settings={"plot_bbox": setting_info_temp["DETECT"]["Bbox"],
-                                                        "plot_label": setting_info_temp["DETECT"]["Label"]},
-                                                
-                                                )
+                                              settings={"plot_bbox": setting_info_temp["DETECT"]["Bbox"],"plot_label": setting_info_temp["DETECT"]["Label"]},
+                                              fps = fps
+                                            )
                 worker.ImageUpdated.connect(self.ShowCamera_Group)
                 worker.start()
                 self.live_page_worker_dict[f"worker_{idx}"] = worker
@@ -348,7 +350,7 @@ class MainWindow(QMainWindow):
                 
         except Exception as e:
             print_error(e)
-            self.check_window_active()
+
 
     def set_person_conf_value(self):
         try:
@@ -656,14 +658,6 @@ class MainWindow(QMainWindow):
 
             self.connect_live_page_camera()
 
-            if self.isActiveWindow() == False:
-                if self.live_page_worker_dict != None :
-                    for worker in self.live_page_worker_dict.values():
-                        for camera_name, camera_info in worker.cameras.items():
-                            worker.caps[camera_name].change_framerate(1)
-                print("chg 1fps")
-
-
         except Exception as e:
             print_error(e)
 
@@ -758,10 +752,17 @@ class MainWindow(QMainWindow):
     
     def stop_live_page_worker(self):
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : stop live page camera")
+
+        self.camera_img_temp = {}
+
         if self.live_page_worker_dict != None :
             for worker in self.live_page_worker_dict.values():
+                for camera_name in worker.caps.keys():
+                    self.camera_img_temp[camera_name] = worker.caps[camera_name].get_frame()
+
                 worker.stop()
                 del worker
+
 
     def stop_camera_page_worker(self):
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : stop camera page camera")

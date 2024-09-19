@@ -29,14 +29,14 @@ class Ui_Search_window(object):
     def setupUi(self, Search_window):
         if not Search_window.objectName():
             Search_window.setObjectName(u"Search_window")
-        Search_window.resize(1147, 560)
+        Search_window.resize(1180, 614)
         Search_window.setWindowTitle(u"Search")
         Search_window.setStyleSheet(u"background-color: rgb(20, 20, 20);\n"
 "")
-        self.horizontalLayout_14 = QHBoxLayout(Search_window)
+        self.verticalLayout_4 = QVBoxLayout(Search_window)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.horizontalLayout_14 = QHBoxLayout()
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.horizontalLayout_13 = QHBoxLayout()
-        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.widget = QWidget(Search_window)
@@ -85,15 +85,24 @@ class Ui_Search_window(object):
         self.verticalLayout_2.addWidget(self.search_viewer)
 
 
-        self.horizontalLayout_13.addLayout(self.verticalLayout_2)
+        self.horizontalLayout_14.addLayout(self.verticalLayout_2)
 
+        self.widget_2 = QWidget(Search_window)
+        self.widget_2.setObjectName(u"widget_2")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.widget_2.sizePolicy().hasHeightForWidth())
+        self.widget_2.setSizePolicy(sizePolicy1)
+        self.horizontalLayout_2 = QHBoxLayout(self.widget_2)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.time_label = QLabel(Search_window)
+        self.time_label = QLabel(self.widget_2)
         self.time_label.setObjectName(u"time_label")
         font1 = QFont()
         font1.setFamilies([u"Sans"])
@@ -105,38 +114,39 @@ class Ui_Search_window(object):
 
         self.horizontalLayout_4.addWidget(self.time_label)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.time_day_start_input = QDateEdit(Search_window)
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.time_day_start_input = QDateEdit(self.widget_2)
         self.time_day_start_input.setObjectName(u"time_day_start_input")
+        self.time_day_start_input.setMinimumSize(QSize(115, 0))
+        self.time_day_start_input.setMaximumSize(QSize(105, 16777215))
         font2 = QFont()
         font2.setFamilies([u"Sans"])
         font2.setPointSize(10)
         self.time_day_start_input.setFont(font2)
         self.time_day_start_input.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-        self.time_day_start_input.setStyleSheet(u"\n"
+        self.time_day_start_input.setStyleSheet(u"QDateEdit {\n"
+"    padding: 5px;\n"
+"    color: rgb(255, 255, 255);\n"
+"    background-color: rgb(13, 16, 23);\n"
+"    selection-background-color: rgb(53, 132, 228);\n"
+"}\n"
+"QCalendarWidget {\n"
+"    font-size: 11pt; /* \ud3f0\ud2b8 \ud06c\uae30\ub97c \ud06c\uac8c \uc124\uc815\ud558\uc5ec \uc804\uccb4 \ud06c\uae30 \uc99d\uac00 */\n"
+"    background-color: rgb(87, 227, 137);\n"
+"    alternate-background-color: rgb(87, 227, 137);\n"
+"}\n"
+"QCalendarWidget QWidget { /* All child widgets of QCalendarWidget */\n"
+"color: rgb(255, 255, 255);\n"
+"background-color: #323232;  \n"
+"alternate-background-color: rgb(28, 113, 216);\n"
+"border-radius: 15px;\n"
+"}\n"
+"QCalendarWidget QAbstractItemView {\n"
+"selection-background-color: rgb(100, 100, 100);;\n"
+"selection-color: white;\n"
+"}\n"
 "\n"
-"\n"
-"            QDateEdit {\n"
-"                padding: 5px;\n"
-"					color: rgb(255, 255, 255);\n"
-"					background-color: rgb(13, 16, 23);\n"
-"					selection-background-color: rgb(53, 132, 228);\n"
-"\n"
-"            }\n"
-"			QCalendarWidget {\n"
-"                background-color: rgb(87, 227, 137);\n"
-"                alternate-background-color: rgb(87, 227, 137);\n"
-"            }\n"
-"            QCalendarWidget QWidget { /* All child widgets of QCalendarWidget */\n"
-"                color: black;\n"
-"					background-color: #f0f0f0;  \n"
-"					alternate-background-color: rgb(28, 113, 216);\n"
-"            }\n"
-"            QCalendarWidget QAbstractItemView {\n"
-"                selection-background-color: rgb(87, 227, 137);;\n"
-"                selection-color: white;\n"
-"            }\n"
 "\n"
 "")
         self.time_day_start_input.setFrame(False)
@@ -149,9 +159,9 @@ class Ui_Search_window(object):
         self.time_day_start_input.setCurrentSection(QDateTimeEdit.Section.YearSection)
         self.time_day_start_input.setCalendarPopup(True)
 
-        self.horizontalLayout_2.addWidget(self.time_day_start_input)
+        self.horizontalLayout_3.addWidget(self.time_day_start_input)
 
-        self.time_hour_start_box = QComboBox(Search_window)
+        self.time_hour_start_box = QComboBox(self.widget_2)
         self.time_hour_start_box.addItem("")
         self.time_hour_start_box.addItem("")
         self.time_hour_start_box.addItem("")
@@ -177,6 +187,8 @@ class Ui_Search_window(object):
         self.time_hour_start_box.addItem("")
         self.time_hour_start_box.addItem("")
         self.time_hour_start_box.setObjectName(u"time_hour_start_box")
+        self.time_hour_start_box.setMinimumSize(QSize(68, 0))
+        self.time_hour_start_box.setMaximumSize(QSize(68, 16777215))
         font3 = QFont()
         font3.setFamilies([u"Sans"])
         font3.setPointSize(10)
@@ -188,15 +200,15 @@ class Ui_Search_window(object):
         self.time_hour_start_box.setEditable(True)
         self.time_hour_start_box.setMinimumContentsLength(0)
 
-        self.horizontalLayout_2.addWidget(self.time_hour_start_box)
+        self.horizontalLayout_3.addWidget(self.time_hour_start_box)
 
 
-        self.horizontalLayout_4.addLayout(self.horizontalLayout_2)
+        self.horizontalLayout_4.addLayout(self.horizontalLayout_3)
 
 
         self.horizontalLayout_5.addLayout(self.horizontalLayout_4)
 
-        self.time_tilde = QLabel(Search_window)
+        self.time_tilde = QLabel(self.widget_2)
         self.time_tilde.setObjectName(u"time_tilde")
         sizePolicy.setHeightForWidth(self.time_tilde.sizePolicy().hasHeightForWidth())
         self.time_tilde.setSizePolicy(sizePolicy)
@@ -210,29 +222,36 @@ class Ui_Search_window(object):
 
         self.horizontalLayout_5.addWidget(self.time_tilde)
 
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.time_day_end_input = QDateEdit(Search_window)
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.time_day_end_input = QDateEdit(self.widget_2)
         self.time_day_end_input.setObjectName(u"time_day_end_input")
+        self.time_day_end_input.setMinimumSize(QSize(115, 0))
+        self.time_day_end_input.setMaximumSize(QSize(105, 16777215))
         self.time_day_end_input.setFont(font2)
         self.time_day_end_input.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-        self.time_day_end_input.setStyleSheet(u"            QDateEdit {\n"
-"                padding: 5px;\n"
-"                color: white;\n"
-"            }\n"
-"			QCalendarWidget {\n"
-"                background-color: rgb(87, 227, 137);\n"
-"                alternate-background-color: rgb(87, 227, 137);\n"
-"            }\n"
-"            QCalendarWidget QWidget { /* All child widgets of QCalendarWidget */\n"
-"                color: black;\n"
-"					background-color: #f0f0f0;  \n"
-"					alternate-background-color: rgb(28, 113, 216);\n"
-"            }\n"
-"            QCalendarWidget QAbstractItemView {\n"
-"                selection-background-color: rgb(87, 227, 137);;\n"
-"                selection-color: white;\n"
-"            }\n"
+        self.time_day_end_input.setStyleSheet(u"QDateEdit {\n"
+"    padding: 5px;\n"
+"    color: rgb(255, 255, 255);\n"
+"    background-color: rgb(13, 16, 23);\n"
+"    selection-background-color: rgb(53, 132, 228);\n"
+"}\n"
+"QCalendarWidget {\n"
+"    font-size: 11pt; /* \ud3f0\ud2b8 \ud06c\uae30\ub97c \ud06c\uac8c \uc124\uc815\ud558\uc5ec \uc804\uccb4 \ud06c\uae30 \uc99d\uac00 */\n"
+"    background-color: rgb(87, 227, 137);\n"
+"    alternate-background-color: rgb(87, 227, 137);\n"
+"}\n"
+"QCalendarWidget QWidget { /* All child widgets of QCalendarWidget */\n"
+"color: rgb(255, 255, 255);\n"
+"background-color: #323232;  \n"
+"alternate-background-color: rgb(28, 113, 216);\n"
+"border-radius: 15px;\n"
+"}\n"
+"QCalendarWidget QAbstractItemView {\n"
+"selection-background-color: rgb(100, 100, 100);;\n"
+"selection-color: white;\n"
+"}\n"
+"\n"
 "\n"
 "")
         self.time_day_end_input.setWrapping(False)
@@ -242,9 +261,9 @@ class Ui_Search_window(object):
         self.time_day_end_input.setCurrentSection(QDateTimeEdit.Section.YearSection)
         self.time_day_end_input.setCalendarPopup(True)
 
-        self.horizontalLayout_3.addWidget(self.time_day_end_input)
+        self.horizontalLayout_6.addWidget(self.time_day_end_input)
 
-        self.time_hour_end_box = QComboBox(Search_window)
+        self.time_hour_end_box = QComboBox(self.widget_2)
         self.time_hour_end_box.addItem("")
         self.time_hour_end_box.addItem("")
         self.time_hour_end_box.addItem("")
@@ -270,6 +289,8 @@ class Ui_Search_window(object):
         self.time_hour_end_box.addItem("")
         self.time_hour_end_box.addItem("")
         self.time_hour_end_box.setObjectName(u"time_hour_end_box")
+        self.time_hour_end_box.setMinimumSize(QSize(68, 0))
+        self.time_hour_end_box.setMaximumSize(QSize(68, 16777215))
         self.time_hour_end_box.setFont(font3)
         self.time_hour_end_box.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "selection-background-color: rgb(53, 132, 228);\n"
@@ -277,19 +298,23 @@ class Ui_Search_window(object):
         self.time_hour_end_box.setEditable(True)
         self.time_hour_end_box.setMinimumContentsLength(0)
 
-        self.horizontalLayout_3.addWidget(self.time_hour_end_box)
+        self.horizontalLayout_6.addWidget(self.time_hour_end_box)
+
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_5)
 
 
-        self.horizontalLayout_5.addLayout(self.horizontalLayout_3)
+        self.horizontalLayout_5.addLayout(self.horizontalLayout_6)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_5)
 
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.horizontalLayout_6 = QHBoxLayout()
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.camera_num_label = QLabel(Search_window)
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.camera_num_label = QLabel(self.widget_2)
         self.camera_num_label.setObjectName(u"camera_num_label")
         self.camera_num_label.setMaximumSize(QSize(81, 25))
         self.camera_num_label.setFont(font1)
@@ -297,10 +322,12 @@ class Ui_Search_window(object):
 "background-color: rgba(191, 64, 64, 0);")
         self.camera_num_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_6.addWidget(self.camera_num_label)
+        self.horizontalLayout_7.addWidget(self.camera_num_label)
 
-        self.camera_name_box = QComboBox(Search_window)
+        self.camera_name_box = QComboBox(self.widget_2)
         self.camera_name_box.setObjectName(u"camera_name_box")
+        self.camera_name_box.setMinimumSize(QSize(128, 0))
+        self.camera_name_box.setMaximumSize(QSize(16777215, 24))
         font5 = QFont()
         font5.setFamilies([u"Sans"])
         font5.setPointSize(11)
@@ -312,14 +339,18 @@ class Ui_Search_window(object):
 "")
         self.camera_name_box.setMinimumContentsLength(0)
 
-        self.horizontalLayout_6.addWidget(self.camera_name_box)
+        self.horizontalLayout_7.addWidget(self.camera_name_box)
 
 
-        self.horizontalLayout_8.addLayout(self.horizontalLayout_6)
+        self.horizontalLayout_8.addLayout(self.horizontalLayout_7)
 
-        self.horizontalLayout_7 = QHBoxLayout()
-        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.sort_label = QLabel(Search_window)
+        self.horizontalSpacer_3 = QSpacerItem(26, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_8.addItem(self.horizontalSpacer_3)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.sort_label = QLabel(self.widget_2)
         self.sort_label.setObjectName(u"sort_label")
         self.sort_label.setMaximumSize(QSize(70, 57))
         self.sort_label.setFont(font4)
@@ -327,32 +358,37 @@ class Ui_Search_window(object):
 "background-color: rgba(191, 64, 64, 0);")
         self.sort_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_7.addWidget(self.sort_label)
+        self.horizontalLayout_9.addWidget(self.sort_label)
 
-        self.sort_box = QComboBox(Search_window)
+        self.sort_box = QComboBox(self.widget_2)
         self.sort_box.addItem("")
         self.sort_box.addItem("")
         self.sort_box.setObjectName(u"sort_box")
-        self.sort_box.setFont(font3)
+        self.sort_box.setMaximumSize(QSize(71, 16777215))
+        self.sort_box.setFont(font5)
         self.sort_box.setStyleSheet(u"color: rgb(255, 255, 255);\n"
 "background-color: rgb(13, 16, 23);\n"
 "selection-background-color: rgb(53, 132, 228);\n"
 "")
         self.sort_box.setMinimumContentsLength(0)
 
-        self.horizontalLayout_7.addWidget(self.sort_box)
+        self.horizontalLayout_9.addWidget(self.sort_box)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_9.addItem(self.horizontalSpacer_2)
 
 
-        self.horizontalLayout_8.addLayout(self.horizontalLayout_7)
+        self.horizontalLayout_8.addLayout(self.horizontalLayout_9)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_8)
 
         self.horizontalLayout_12 = QHBoxLayout()
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.event_label = QLabel(Search_window)
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.event_label = QLabel(self.widget_2)
         self.event_label.setObjectName(u"event_label")
         self.event_label.setMaximumSize(QSize(52, 16777215))
         self.event_label.setFont(font4)
@@ -360,9 +396,9 @@ class Ui_Search_window(object):
 "background-color: rgba(191, 64, 64, 0);")
         self.event_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_9.addWidget(self.event_label)
+        self.horizontalLayout_10.addWidget(self.event_label)
 
-        self.event_box = QComboBox(Search_window)
+        self.event_box = QComboBox(self.widget_2)
         self.event_box.addItem("")
         self.event_box.addItem("")
         self.event_box.addItem("")
@@ -377,14 +413,14 @@ class Ui_Search_window(object):
 "")
         self.event_box.setMinimumContentsLength(0)
 
-        self.horizontalLayout_9.addWidget(self.event_box)
+        self.horizontalLayout_10.addWidget(self.event_box)
 
 
-        self.horizontalLayout_12.addLayout(self.horizontalLayout_9)
+        self.horizontalLayout_12.addLayout(self.horizontalLayout_10)
 
-        self.horizontalLayout_10 = QHBoxLayout()
-        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.time_video_time_speed_label = QLabel(Search_window)
+        self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.time_video_time_speed_label = QLabel(self.widget_2)
         self.time_video_time_speed_label.setObjectName(u"time_video_time_speed_label")
         self.time_video_time_speed_label.setMaximumSize(QSize(49, 16777215))
         self.time_video_time_speed_label.setFont(font1)
@@ -393,27 +429,29 @@ class Ui_Search_window(object):
 "background-color: rgba(255, 255, 255, 0);")
         self.time_video_time_speed_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_10.addWidget(self.time_video_time_speed_label)
+        self.horizontalLayout_11.addWidget(self.time_video_time_speed_label)
 
-        self.time_video_time_speed_input = QDoubleSpinBox(Search_window)
+        self.time_video_time_speed_input = QDoubleSpinBox(self.widget_2)
         self.time_video_time_speed_input.setObjectName(u"time_video_time_speed_input")
+        self.time_video_time_speed_input.setMinimumSize(QSize(0, 24))
+        self.time_video_time_speed_input.setMaximumSize(QSize(65, 24))
         self.time_video_time_speed_input.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.time_video_time_speed_input.setMinimum(1.000000000000000)
         self.time_video_time_speed_input.setMaximum(10.000000000000000)
         self.time_video_time_speed_input.setSingleStep(0.200000000000000)
 
-        self.horizontalLayout_10.addWidget(self.time_video_time_speed_input)
+        self.horizontalLayout_11.addWidget(self.time_video_time_speed_input)
 
-        self.horizontalSpacer_2 = QSpacerItem(19, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_4 = QSpacerItem(19, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_10.addItem(self.horizontalSpacer_2)
+        self.horizontalLayout_11.addItem(self.horizontalSpacer_4)
 
 
-        self.horizontalLayout_12.addLayout(self.horizontalLayout_10)
+        self.horizontalLayout_12.addLayout(self.horizontalLayout_11)
 
-        self.horizontalLayout_11 = QHBoxLayout()
-        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.time_search_bnt = QPushButton(Search_window)
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.time_search_bnt = QPushButton(self.widget_2)
         self.time_search_bnt.setObjectName(u"time_search_bnt")
         self.time_search_bnt.setMinimumSize(QSize(61, 31))
         self.time_search_bnt.setMaximumSize(QSize(61, 31))
@@ -424,9 +462,9 @@ class Ui_Search_window(object):
 "border-radius: 10px;\n"
 "")
 
-        self.horizontalLayout_11.addWidget(self.time_search_bnt)
+        self.horizontalLayout_13.addWidget(self.time_search_bnt)
 
-        self.search_close_bnt = QPushButton(Search_window)
+        self.search_close_bnt = QPushButton(self.widget_2)
         self.search_close_bnt.setObjectName(u"search_close_bnt")
         self.search_close_bnt.setMinimumSize(QSize(61, 31))
         self.search_close_bnt.setMaximumSize(QSize(61, 31))
@@ -437,19 +475,19 @@ class Ui_Search_window(object):
 "border-radius: 10px;\n"
 "")
 
-        self.horizontalLayout_11.addWidget(self.search_close_bnt)
+        self.horizontalLayout_13.addWidget(self.search_close_bnt)
 
 
-        self.horizontalLayout_12.addLayout(self.horizontalLayout_11)
+        self.horizontalLayout_12.addLayout(self.horizontalLayout_13)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_12)
 
-        self.event_table = QTableWidget(Search_window)
+        self.event_table = QTableWidget(self.widget_2)
         if (self.event_table.columnCount() < 4):
             self.event_table.setColumnCount(4)
         font6 = QFont()
-        font6.setPointSize(12)
+        font6.setPointSize(11)
         __qtablewidgetitem = QTableWidgetItem()
         __qtablewidgetitem.setFont(font6);
         self.event_table.setHorizontalHeaderItem(0, __qtablewidgetitem)
@@ -520,10 +558,13 @@ class Ui_Search_window(object):
         self.verticalLayout_3.addWidget(self.event_table)
 
 
-        self.horizontalLayout_13.addLayout(self.verticalLayout_3)
+        self.horizontalLayout_2.addLayout(self.verticalLayout_3)
 
 
-        self.horizontalLayout_14.addLayout(self.horizontalLayout_13)
+        self.horizontalLayout_14.addWidget(self.widget_2)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_14)
 
 
         self.retranslateUi(Search_window)
