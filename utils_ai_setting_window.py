@@ -107,76 +107,80 @@ class Ai_setting_page_view(QLabel):
         self.setPixmap(QPixmap.fromImage(qt_rgb_image))
 
 def open_ai_setting_window(click, self):
-    self.dark_layer.show()
-    self.popup_window = QDialog()  # QDialog 인스턴스 생성
-    self.popup_window.setWindowFlag(Qt.FramelessWindowHint)
+    if self.camera_edit_permission:
+        self.dark_layer.show()
+        self.popup_window = QDialog()  # QDialog 인스턴스 생성
+        self.popup_window.setWindowFlag(Qt.FramelessWindowHint)
 
-    self.popup_ui = Ui_Ai_Setting_Window()
-    self.popup_ui.setupUi(self.popup_window)
+        self.popup_ui = Ui_Ai_Setting_Window()
+        self.popup_ui.setupUi(self.popup_window)
 
 
-    self.ai_setting_camera_view_list = {}
+        self.ai_setting_camera_view_list = {}
 
-    save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
+        save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
 
-    for camera_name, camera_info in self.camera_info_dict_temp.items():
-        num = str(camera_info["Num"])
-        self.ai_setting_camera_view_list[camera_name] = Ai_setting_page_view(getattr(self.popup_ui, f"camera_view_{num}"), 
-                                                                             camera_name = camera_name, 
-                                                                             camera_num = str(num), 
-                                                                             ai_check_box = getattr(self.popup_ui, f"camera_view_ai_check_{num}"),
-                                                                             name_label = getattr(self.popup_ui, f"camera_view_name_{num}"),
-                                                                             instance = self)
+        for camera_name, camera_info in self.camera_info_dict_temp.items():
+            num = str(camera_info["Num"])
+            self.ai_setting_camera_view_list[camera_name] = Ai_setting_page_view(getattr(self.popup_ui, f"camera_view_{num}"), 
+                                                                                camera_name = camera_name, 
+                                                                                camera_num = str(num), 
+                                                                                ai_check_box = getattr(self.popup_ui, f"camera_view_ai_check_{num}"),
+                                                                                name_label = getattr(self.popup_ui, f"camera_view_name_{num}"),
+                                                                                instance = self)
+            
+            getattr(self.popup_ui, f"camera_view_name_{num}").setText(camera_name)
         
-        getattr(self.popup_ui, f"camera_view_name_{num}").setText(camera_name)
-    
-    # for camera_name, camera_viewer in self.ai_setting_camera_view_list.items():
-    #     find_worker_flag = False
-    #     if camera_name in self.camera_view_list.keys():
-    #         for worker in self.live_page_worker_dict.values():
-    #             if camera_name in worker.caps.keys():
-    #                 img = worker.caps[camera_name].get_frame()
-    #                 frame = cv2.resize(img, (camera_viewer.width(), camera_viewer.height()))
-    #                 camera_viewer.set_img(frame, 0.5)
-    #                 find_worker_flag = True
-    #                 break
+        # for camera_name, camera_viewer in self.ai_setting_camera_view_list.items():
+        #     find_worker_flag = False
+        #     if camera_name in self.camera_view_list.keys():
+        #         for worker in self.live_page_worker_dict.values():
+        #             if camera_name in worker.caps.keys():
+        #                 img = worker.caps[camera_name].get_frame()
+        #                 frame = cv2.resize(img, (camera_viewer.width(), camera_viewer.height()))
+        #                 camera_viewer.set_img(frame, 0.5)
+        #                 find_worker_flag = True
+        #                 break
 
-    for camera_name, camera_viewer in self.ai_setting_camera_view_list.items():
-        find_worker_flag = False
-        if camera_name in self.camera_view_list.keys():
-            img = self.camera_img_temp[camera_name]
-            frame = cv2.resize(img, (camera_viewer.width(), camera_viewer.height()))
-            camera_viewer.set_img(frame, 0.5)
-            find_worker_flag = True
+        for camera_name, camera_viewer in self.ai_setting_camera_view_list.items():
+            find_worker_flag = False
+            if camera_name in self.camera_view_list.keys():
+                img = self.camera_img_temp[camera_name]
+                frame = cv2.resize(img, (camera_viewer.width(), camera_viewer.height()))
+                camera_viewer.set_img(frame, 0.5)
+                find_worker_flag = True
 
 
-        if find_worker_flag == False:
-            camera_viewer.setPixmap(QPixmap(u":/newPrefix/ui/images/ico_video_off.svg"))
-            camera_viewer.setAlignment(Qt.AlignCenter)
-            # getattr(self.popup_ui, f"camera_view_dark_{camera_viewer.camera_num}").hide()
-            getattr(self.popup_ui, f"camera_view_ai_check_{camera_viewer.camera_num}").hide()
+            if find_worker_flag == False:
+                camera_viewer.setPixmap(QPixmap(u":/newPrefix/ui/images/ico_video_off.svg"))
+                camera_viewer.setAlignment(Qt.AlignCenter)
+                # getattr(self.popup_ui, f"camera_view_dark_{camera_viewer.camera_num}").hide()
+                getattr(self.popup_ui, f"camera_view_ai_check_{camera_viewer.camera_num}").hide()
 
-    check_camera_viewer(self)
+        check_camera_viewer(self)
 
-    self.popup_ui.camera_save_bnt.clicked.connect(lambda click, instance = self : send_camera_info_and_close(click, instance))
-    self.popup_ui.close_bnt.clicked.connect(lambda click, instance = self : cancel_ai_setting(click, instance))
-    self.popup_ui.all_select_bnt.clicked.connect(lambda click, instance = self : select_camera(click, instance))
+        self.popup_ui.camera_save_bnt.clicked.connect(lambda click, instance = self : send_camera_info_and_close(click, instance))
+        self.popup_ui.close_bnt.clicked.connect(lambda click, instance = self : cancel_ai_setting(click, instance))
+        self.popup_ui.all_select_bnt.clicked.connect(lambda click, instance = self : select_camera(click, instance))
 
-    self.popup_window.finished.connect(self.dark_layer.hide)
+        self.popup_window.finished.connect(self.dark_layer.hide)
 
-    # 메인 윈도우의 중앙에 팝업 윈도우 위치 계산
-    mainWindowGeometry = self.frameGeometry()
-    centerPoint = mainWindowGeometry.center()
+        # 메인 윈도우의 중앙에 팝업 윈도우 위치 계산
+        mainWindowGeometry = self.frameGeometry()
+        centerPoint = mainWindowGeometry.center()
 
-    popupWindowGeometry = self.popup_window.frameGeometry()
-    popupCenterPoint = popupWindowGeometry.center()
+        popupWindowGeometry = self.popup_window.frameGeometry()
+        popupCenterPoint = popupWindowGeometry.center()
 
-    # 중앙점에서 팝업 윈도우의 절반 크기를 빼서 팝업 윈도우의 좌상단 좌표를 계산
-    topLeftPoint = centerPoint - (popupCenterPoint - popupWindowGeometry.topLeft())
-    self.popup_window.move(topLeftPoint)
+        # 중앙점에서 팝업 윈도우의 절반 크기를 빼서 팝업 윈도우의 좌상단 좌표를 계산
+        topLeftPoint = centerPoint - (popupCenterPoint - popupWindowGeometry.topLeft())
+        self.popup_window.move(topLeftPoint)
 
-    # 팝업 윈도우 표시
-    self.popup_window.show()
+        # 팝업 윈도우 표시
+        self.popup_window.show()
+
+    else:
+        self.create_fade_out_msg("수정 권한이 없습니다.")
 
 def select_camera(click, self):
     all_check_flag = False

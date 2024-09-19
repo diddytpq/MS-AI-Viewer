@@ -1541,6 +1541,37 @@ class Ui_MainWindow(object):
         self.verticalLayout_30.setObjectName(u"verticalLayout_30")
         self.horizontalLayout_54 = QHBoxLayout()
         self.horizontalLayout_54.setObjectName(u"horizontalLayout_54")
+        self.horizontalLayout_63 = QHBoxLayout()
+        self.horizontalLayout_63.setSpacing(0)
+        self.horizontalLayout_63.setObjectName(u"horizontalLayout_63")
+        self.camera_page_readmod_icon = QLabel(self.widget_5)
+        self.camera_page_readmod_icon.setObjectName(u"camera_page_readmod_icon")
+        sizePolicy1.setHeightForWidth(self.camera_page_readmod_icon.sizePolicy().hasHeightForWidth())
+        self.camera_page_readmod_icon.setSizePolicy(sizePolicy1)
+        self.camera_page_readmod_icon.setMinimumSize(QSize(21, 21))
+        self.camera_page_readmod_icon.setMaximumSize(QSize(21, 21))
+        self.camera_page_readmod_icon.setFont(font12)
+        self.camera_page_readmod_icon.setStyleSheet(u"color: rgb(242, 18, 94);")
+        self.camera_page_readmod_icon.setScaledContents(True)
+        self.camera_page_readmod_icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_63.addWidget(self.camera_page_readmod_icon)
+
+        self.camera_page_readmod_label = QLabel(self.widget_5)
+        self.camera_page_readmod_label.setObjectName(u"camera_page_readmod_label")
+        sizePolicy1.setHeightForWidth(self.camera_page_readmod_label.sizePolicy().hasHeightForWidth())
+        self.camera_page_readmod_label.setSizePolicy(sizePolicy1)
+        self.camera_page_readmod_label.setMinimumSize(QSize(63, 21))
+        self.camera_page_readmod_label.setMaximumSize(QSize(38, 21))
+        self.camera_page_readmod_label.setFont(font14)
+        self.camera_page_readmod_label.setStyleSheet(u"color: rgb(242, 18, 94);")
+        self.camera_page_readmod_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_63.addWidget(self.camera_page_readmod_label)
+
+
+        self.horizontalLayout_54.addLayout(self.horizontalLayout_63)
+
         self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_54.addItem(self.horizontalSpacer_14)
@@ -3317,7 +3348,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
         self.setting_stack_widget.setCurrentIndex(2)
         self.setting_popup_alarm_cnt.setCurrentIndex(2)
         self.setting_setting_ai_weight_box.setCurrentIndex(0)
@@ -3401,6 +3432,8 @@ class Ui_MainWindow(object):
         self.camera_page_detect_area_del_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc0ad\uc81c", None))
         self.camera_page_camera_event_label_2.setText(QCoreApplication.translate("MainWindow", u"\uc0ac\ub78c \uac80\ucd9c \uc784\uacc4\uac12", None))
         self.camera_page_ai_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc9c0\ub2a5\ud615 \ubd84\uc11d \uc124\uc815", None))
+        self.camera_page_readmod_icon.setText(QCoreApplication.translate("MainWindow", u"\u203b", None))
+        self.camera_page_readmod_label.setText(QCoreApplication.translate("MainWindow", u"\uc77d\uae30 \ubaa8\ub4dc", None))
         self.camera_page_ai_active_icon.setText("")
         self.camera_page_ai_active_label.setText(QCoreApplication.translate("MainWindow", u"\uc9c0\ub2a5\ud615 \ubd84\uc11d \uc9c4\ud589\uc911", None))
         self.camera_page_viewer.setText("")

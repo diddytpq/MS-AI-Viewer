@@ -496,21 +496,6 @@ class MainWindow(QMainWindow):
         except Exception as e:
             print_error(e)
 
-    def camera_page_del_detect_area(self):
-        try:
-            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera_page_del_detect_area")
-            camera_name = self.ui_main.camera_page_name_box.currentText()
-
-            select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
-            if select_index:  # 선택된 행이 있다면
-                select_row = select_index[0].row()
-                del self.camera_info_dict_temp[camera_name]["detect_info"][select_row]
-
-            self.reset_detect_area_list(self.camera_info_dict_temp[camera_name]["detect_info"])
-            self.ui_main.camera_page_viewer.reset_green_area()
-
-        except Exception as e:
-            print_error(e)
 
     def move_active_license_list(self):
         try:
@@ -572,68 +557,101 @@ class MainWindow(QMainWindow):
 
     def camera_page_add_detect_type(self):
         try:
-            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera_page_add_detect_type")
-            camera_name = self.ui_main.camera_page_name_box.currentText()
-            detect_type = self.ui_main.camera_page_camera_event_box.currentText()
+            if self.camera_edit_permission:
+                print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera_page_add_detect_type")
+                camera_name = self.ui_main.camera_page_name_box.currentText()
+                detect_type = self.ui_main.camera_page_camera_event_box.currentText()
 
-            detect_type = Kor2eng(detect_type)
+                detect_type = Kor2eng(detect_type)
 
-            #add_detect_type
-            if detect_type in ["Intrusion", "Loitering", "Falldown", "Fire", "Fight"]:
-                self.camera_info_dict_temp[camera_name]["detect_info"].append([detect_type])
+                #add_detect_type
+                if detect_type in ["Intrusion", "Loitering", "Falldown", "Fire", "Fight"]:
+                    self.camera_info_dict_temp[camera_name]["detect_info"].append([detect_type])
 
-            self.reset_detect_area_list(self.camera_info_dict_temp[camera_name]["detect_info"])
+                self.reset_detect_area_list(self.camera_info_dict_temp[camera_name]["detect_info"])
 
-            lastRow = self.ui_main.camera_page_detect_area_table.rowCount() - 1  
-            if lastRow >= 0:
-                # 마지막 행의 첫 번째 셀을 현재 셀로 설정
-                self.ui_main.camera_page_detect_area_table.setCurrentCell(lastRow, 0)
+                lastRow = self.ui_main.camera_page_detect_area_table.rowCount() - 1  
+                if lastRow >= 0:
+                    # 마지막 행의 첫 번째 셀을 현재 셀로 설정
+                    self.ui_main.camera_page_detect_area_table.setCurrentCell(lastRow, 0)
+                else:
+                    self.create_fade_out_msg(msg="테이블이 비어 있습니다.")
+                    
+
+                gray_point_list = []
+                if self.camera_info_dict_temp[camera_name]["AI"] == False:
+                    for index, value in enumerate(self.camera_info_dict_temp[camera_name]["detect_info"]):
+                        # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
+                        gray_point_list.append(value[1:])
+
+                self.ui_main.camera_page_viewer.reset_green_area()
+                self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
+
             else:
-                self.create_fade_out_msg(msg="테이블이 비어 있습니다.")
-                
-
-            gray_point_list = []
-            if self.camera_info_dict_temp[camera_name]["AI"] == False:
-                for index, value in enumerate(self.camera_info_dict_temp[camera_name]["detect_info"]):
-                    # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
-                    gray_point_list.append(value[1:])
-
-            self.ui_main.camera_page_viewer.reset_green_area()
-            self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
+                print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : Not allow camera page edit permission")
+                self.create_fade_out_msg("수정 권한이 없습니다.")
 
         except Exception as e:
             print_error(e)
 
     def camera_page_add_detect_area_point(self, point): #마우스 클릭으로 생성된 포인트를 viewer에 표시
         try:
-            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera_page_add_detect_area_point")
-            camera_num = self.ui_main.camera_page_name_box.currentText()
-            select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
+            if self.camera_edit_permission:
+                print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera_page_add_detect_area_point")
+                camera_num = self.ui_main.camera_page_name_box.currentText()
+                select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
 
-            if select_index:  # 선택된 행이 있다면
-                select_row = select_index[0].row()
+                if select_index:  # 선택된 행이 있다면
+                    select_row = select_index[0].row()
 
-                if point.x() == -1 :
-                    if len(self.camera_info_dict_temp[camera_num]["detect_info"][select_row]) > 1:
-                        self.camera_info_dict_temp[camera_num]["detect_info"][select_row].pop()
+                    if point.x() == -1 :
+                        if len(self.camera_info_dict_temp[camera_num]["detect_info"][select_row]) > 1:
+                            self.camera_info_dict_temp[camera_num]["detect_info"][select_row].pop()
 
-                    else: pass
-                else:
-                    self.camera_info_dict_temp[camera_num]["detect_info"][select_row].append([point.x()/ self.ui_main.camera_page_viewer.width(), 
-                                                                                            point.y()/self.ui_main.camera_page_viewer.height()])
+                        else: pass
+                    else:
+                        self.camera_info_dict_temp[camera_num]["detect_info"][select_row].append([point.x()/ self.ui_main.camera_page_viewer.width(), 
+                                                                                                point.y()/self.ui_main.camera_page_viewer.height()])
 
-                self.ui_main.camera_page_viewer.set_point(self.camera_info_dict_temp[camera_num]["detect_info"][select_row][1:], [self.ui_main.camera_page_viewer.width(), self.ui_main.camera_page_viewer.height()])
+                    self.ui_main.camera_page_viewer.set_point(self.camera_info_dict_temp[camera_num]["detect_info"][select_row][1:], [self.ui_main.camera_page_viewer.width(), self.ui_main.camera_page_viewer.height()])
 
-                gray_point_list = []
-                if self.camera_info_dict_temp[camera_num]["AI"] == False:
-                    for index, value in enumerate(self.camera_info_dict_temp[camera_num]["detect_info"]):
-                        # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
-                        if index != select_row:
-                            gray_point_list.append(value[1:])
+                    gray_point_list = []
+                    if self.camera_info_dict_temp[camera_num]["AI"] == False:
+                        for index, value in enumerate(self.camera_info_dict_temp[camera_num]["detect_info"]):
+                            # 현재 인덱스가 제외할 인덱스 목록에 없으면 결과 리스트에 추가
+                            if index != select_row:
+                                gray_point_list.append(value[1:])
 
-                self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
+                    self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
+            
+            else:
+                print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : Not allow camera page edit permission")
+                self.create_fade_out_msg("수정 권한이 없습니다.")
+
         except Exception as e:
             print_error(e)
+
+    def camera_page_del_detect_area(self):
+        try:
+            if self.camera_edit_permission:
+                print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera_page_del_detect_area")
+                camera_name = self.ui_main.camera_page_name_box.currentText()
+
+                select_index = self.ui_main.camera_page_detect_area_table.selectionModel().selectedRows()
+                if select_index:  # 선택된 행이 있다면
+                    select_row = select_index[0].row()
+                    del self.camera_info_dict_temp[camera_name]["detect_info"][select_row]
+
+                self.reset_detect_area_list(self.camera_info_dict_temp[camera_name]["detect_info"])
+                self.ui_main.camera_page_viewer.reset_green_area()
+
+            else:
+                print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : Not allow camera page edit permission")
+                self.create_fade_out_msg("수정 권한이 없습니다.")
+
+        except Exception as e:
+            print_error(e)
+
 
     def reset_detect_area_list(self, camera_detect_info):
         self.ui_main.camera_page_detect_area_table.setRowCount(0)
@@ -772,6 +790,12 @@ class MainWindow(QMainWindow):
             del self.camera_page_worker
             self.camera_page_worker = None
 
+    def return_camera_page_permission(self):
+        if self.camera_edit_permission:
+            data = {"msg" : ""}
+            url = f'http://{self.HOST}:{self.PORT}/return_camera_page_permission'
+            self.camera_edit_permission = requests.put(url, json=data).json()
+
     def switch_main_display_to_live(self):
         try:
             self.set_button_style('live')
@@ -780,6 +804,8 @@ class MainWindow(QMainWindow):
 
             self.live_refresh_live_viewer()
             self.stop_camera_page_worker()
+
+            self.return_camera_page_permission()
 
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
             # self.live_refresh_live_viewer()
@@ -793,6 +819,22 @@ class MainWindow(QMainWindow):
             self.ui_main.camera_refresh_bnt.hide()
 
             self.ui_main.camera_page_camera_event_box.clear()
+
+            data = {"msg" : ""}
+            url = f'http://{self.HOST}:{self.PORT}/get_camera_page_permission'
+            self.camera_edit_permission = requests.get(url, json=data).json()
+
+            if self.camera_edit_permission:
+                self.ui_main.camera_page_readmod_label.hide()
+                self.ui_main.camera_page_readmod_icon.hide()
+                self.ui_main.camera_page_person_conf_value.setEnabled(True)
+                self.ui_main.camera_page_person_conf_slider.setEnabled(True)
+
+            else:
+                self.ui_main.camera_page_readmod_label.show()
+                self.ui_main.camera_page_readmod_icon.show()
+                self.ui_main.camera_page_person_conf_value.setEnabled(False)
+                self.ui_main.camera_page_person_conf_slider.setEnabled(False)
 
             ret, self.camera_info_dict_temp = self.load_camera_info()
             self.admin_info_temp = load_info(host=self.HOST,port=self.PORT,file_name="admin_info")
@@ -823,6 +865,8 @@ class MainWindow(QMainWindow):
 
             self.stop_camera_page_worker()
             self.stop_live_page_worker()
+            self.return_camera_page_permission()
+
 
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
             self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
@@ -843,6 +887,7 @@ class MainWindow(QMainWindow):
 
             self.stop_camera_page_worker()
             self.stop_live_page_worker()
+            self.return_camera_page_permission()
 
             save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
 
@@ -1235,6 +1280,7 @@ class MainWindow(QMainWindow):
         self.search_page_worker = None
         self.timer = None
         self.camera_connect_timer = None
+        self.camera_edit_permission = False
 
         # 카메라 리스트 테이블 설정
         self.ui_main.camera_list_table.setColumnWidth(0, 30)
@@ -1415,11 +1461,13 @@ class MainWindow(QMainWindow):
         QApplication.instance().quit()
         self.stop_camera_page_worker()
         self.stop_live_page_worker()
+        self.return_camera_page_permission()
 
     def closeEvent(self, event):
         # 창이 닫힐 때 실행되는 코드
         self.stop_camera_page_worker()
         self.stop_live_page_worker()
+        self.return_camera_page_permission()
 
         data = {"msg" : ""}
         url = f'http://{self.HOST}:{self.PORT}/logout'

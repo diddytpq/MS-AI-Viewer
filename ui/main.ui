@@ -2072,7 +2072,7 @@ color: rgb(255, 255, 255);
              </size>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="live_page">
              <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -3463,6 +3463,90 @@ border-radius: 20px;
                     <layout class="QVBoxLayout" name="verticalLayout_30">
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_54">
+                       <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_63">
+                         <property name="spacing">
+                          <number>0</number>
+                         </property>
+                         <item>
+                          <widget class="QLabel" name="camera_page_readmod_icon">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="minimumSize">
+                            <size>
+                             <width>21</width>
+                             <height>21</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>21</width>
+                             <height>21</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Sans</family>
+                             <pointsize>16</pointsize>
+                            </font>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">color: rgb(242, 18, 94);</string>
+                           </property>
+                           <property name="text">
+                            <string>※</string>
+                           </property>
+                           <property name="scaledContents">
+                            <bool>true</bool>
+                           </property>
+                           <property name="alignment">
+                            <set>Qt::AlignmentFlag::AlignCenter</set>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLabel" name="camera_page_readmod_label">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="minimumSize">
+                            <size>
+                             <width>63</width>
+                             <height>21</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>38</width>
+                             <height>21</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Sans</family>
+                             <pointsize>11</pointsize>
+                            </font>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">color: rgb(242, 18, 94);</string>
+                           </property>
+                           <property name="text">
+                            <string>읽기 모드</string>
+                           </property>
+                           <property name="alignment">
+                            <set>Qt::AlignmentFlag::AlignCenter</set>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
                        <item>
                         <spacer name="horizontalSpacer_14">
                          <property name="orientation">
