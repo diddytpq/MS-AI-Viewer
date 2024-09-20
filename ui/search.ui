@@ -942,7 +942,7 @@ background-color: rgba(255, 255, 255, 0);</string>
                <widget class="QDoubleSpinBox" name="time_video_time_speed_input">
                 <property name="minimumSize">
                  <size>
-                  <width>0</width>
+                  <width>88</width>
                   <height>24</height>
                  </size>
                 </property>
