@@ -119,6 +119,8 @@ class schedule_page_view(QLabel):
 
 def open_schedule_window(click, self):
     self.schedule_window = QDialog()  # QDialog 인스턴스 생성
+    self.schedule_window.setWindowFlags(self.schedule_window.windowFlags() | Qt.WindowStaysOnTopHint)
+
     self.schedule_ui = Ui_schedule_window()
     self.schedule_ui.setupUi(self.schedule_window)
     self.schedule_ui.schedule_move_oneshot_bnt.hide()
@@ -194,8 +196,6 @@ def apply_schedule(click, instance):
     for day, info in selected_indexes_dict.items():
         for camera_name, camera_viewer in instance.schedule_page_camera_view_list.items():
             if camera_viewer.checked:
-                print(str(day))
-                print(group_ranges(info))
                 instance.camera_info_dict_temp[camera_name]["detect_schedule"][str(day)][Kor2eng(instance.schedule_ui.event_box.currentText())] = group_ranges(info)
                 break
 

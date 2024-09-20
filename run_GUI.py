@@ -1201,12 +1201,12 @@ class MainWindow(QMainWindow):
                         main_window_rect.top() + (main_window_rect.height() - fadeout_window_rect.height()) * 4 // 5
                     )
                     # Ensure it is above the schedule_window
-                    self.fadeout_window.raise_()
-                    self.fadeout_window.activateWindow()
+                    # self.fadeout_window.raise_()
+                    # self.fadeout_window.activateWindow()
 
             self.fadeout_window.show()
-            self.fadeout_window.raise_()          # Bring the window to the front
-            self.fadeout_window.activateWindow()  # Focus the window
+            # self.fadeout_window.raise_()          # Bring the window to the front
+            # self.fadeout_window.activateWindow()  # Focus the window
 
         except Exception as e:
             print_error(e)
