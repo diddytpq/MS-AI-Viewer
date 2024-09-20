@@ -180,7 +180,7 @@ def open_ai_setting_window(click, self):
         self.popup_window.show()
 
     else:
-        self.create_fade_out_msg("수정 권한이 없습니다.")
+        self.create_fade_out_msg(msg = "수정 권한이 없습니다.")
 
 def select_camera(click, self):
     all_check_flag = False
