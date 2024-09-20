@@ -1745,7 +1745,16 @@ border-radius: 10px;
 gridline-color: rgb(119, 118, 123);
 	background-color: rgba(0, 0, 0, 0);
 
-}</string>
+}
+
+QTableWidget::item:selected {
+        background-color:  rgba(30, 195, 55, 130); /* 드래그 시 선택된 셀의 배경색 */
+		border: 1px solid rgba(30, 195, 55, 130);
+        color: white; /* 선택된 셀의 글자 색 */
+    }
+    QTableWidget::item:hover {
+        background-color: rgba(209, 209, 209, 30);; /* 드래그할 때 마우스가 위치한 셀의 배경색 */
+    }</string>
                </property>
                <property name="showDropIndicator" stdset="0">
                 <bool>true</bool>
