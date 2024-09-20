@@ -892,7 +892,16 @@ class Ui_schedule_window(object):
 "gridline-color: rgb(119, 118, 123);\n"
 "	background-color: rgba(0, 0, 0, 0);\n"
 "\n"
-"}")
+"}\n"
+"\n"
+"QTableWidget::item:selected {\n"
+"        background-color:  rgba(30, 195, 55, 130); /* \ub4dc\ub798\uadf8 \uc2dc \uc120\ud0dd\ub41c \uc140\uc758 \ubc30\uacbd\uc0c9 */\n"
+"		border: 1px solid rgba(30, 195, 55, 130);\n"
+"        color: white; /* \uc120\ud0dd\ub41c \uc140\uc758 \uae00\uc790 \uc0c9 */\n"
+"    }\n"
+"    QTableWidget::item:hover {\n"
+"        background-color: rgba(209, 209, 209, 30);; /* \ub4dc\ub798\uadf8\ud560 \ub54c \ub9c8\uc6b0\uc2a4\uac00 \uc704\uce58\ud55c \uc140\uc758 \ubc30\uacbd\uc0c9 */\n"
+"    }")
         self.schedule_time_table.setProperty("showDropIndicator", True)
         self.schedule_time_table.setDragEnabled(False)
         self.schedule_time_table.setDragDropOverwriteMode(True)
