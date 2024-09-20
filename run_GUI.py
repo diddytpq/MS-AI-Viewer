@@ -595,7 +595,7 @@ class MainWindow(QMainWindow):
 
             else:
                 print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : Not allow camera page edit permission")
-                self.create_fade_out_msg("수정 권한이 없습니다.")
+                self.create_fade_out_msg(msg = "수정 권한이 없습니다.")
 
         except Exception as e:
             print_error(e)
@@ -632,7 +632,8 @@ class MainWindow(QMainWindow):
             
             else:
                 print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : Not allow camera page edit permission")
-                self.create_fade_out_msg("수정 권한이 없습니다.")
+                self.create_fade_out_msg(msg ="수정 권한이 없습니다.")
+
 
         except Exception as e:
             print_error(e)
@@ -653,7 +654,7 @@ class MainWindow(QMainWindow):
 
             else:
                 print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : Not allow camera page edit permission")
-                self.create_fade_out_msg("수정 권한이 없습니다.")
+                self.create_fade_out_msg(msg ="수정 권한이 없습니다.")
 
         except Exception as e:
             print_error(e)
