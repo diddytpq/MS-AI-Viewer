@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'schedule.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.7.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -151,7 +151,7 @@ class Ui_schedule_window(object):
         font2 = QFont()
         font2.setPointSize(10)
         self.intr_bnt.setFont(font2)
-        self.intr_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.intr_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.intr_bnt.setStyleSheet(u"QPushButton {\n"
 "				background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.233831 rgba(237, 87, 4, 255), stop:1 rgba(253, 207, 137, 255));\n"
 "				border-radius: 14px;\n"
@@ -174,7 +174,7 @@ class Ui_schedule_window(object):
         self.fire_bnt.setSizePolicy(sizePolicy1)
         self.fire_bnt.setMinimumSize(QSize(50, 29))
         self.fire_bnt.setFont(font2)
-        self.fire_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.fire_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.fire_bnt.setStyleSheet(u"\n"
 "QPushButton {\n"
 "				background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0.298507 rgba(30, 92, 184, 255), stop:0.905473 rgba(3, 254, 254, 255));\n"
@@ -197,7 +197,7 @@ class Ui_schedule_window(object):
         self.loit_bnt.setSizePolicy(sizePolicy1)
         self.loit_bnt.setMinimumSize(QSize(50, 29))
         self.loit_bnt.setFont(font2)
-        self.loit_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.loit_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.loit_bnt.setStyleSheet(u"\n"
 "\n"
 "QPushButton {\n"
@@ -222,7 +222,7 @@ class Ui_schedule_window(object):
         self.fall_bnt.setSizePolicy(sizePolicy1)
         self.fall_bnt.setMinimumSize(QSize(50, 29))
         self.fall_bnt.setFont(font2)
-        self.fall_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.fall_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.fall_bnt.setStyleSheet(u"\n"
 "\n"
 "QPushButton {\n"
@@ -250,7 +250,7 @@ class Ui_schedule_window(object):
         self.fight_bnt.setMinimumSize(QSize(50, 29))
         self.fight_bnt.setMaximumSize(QSize(50, 29))
         self.fight_bnt.setFont(font2)
-        self.fight_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.fight_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.fight_bnt.setStyleSheet(u"\n"
 "\n"
 "QPushButton {\n"
@@ -382,10 +382,21 @@ class Ui_schedule_window(object):
         self.check_box_mon.setObjectName(u"check_box_mon")
         self.check_box_mon.setGeometry(QRect(3, 135, 23, 23))
         self.check_box_mon.setStyleSheet(u"\n"
-"background-color: rgb(32,39,49);")
+"            QPushButton {\n"
+"                border: none;  /* No border in normal state */\n"
+"	\n"
+"color: rgb(179,179,179);\n"
+"            }\n"
+"            QPushButton:checked {\n"
+"                border: none;  /* No border when checked */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                border: none;  /* No border when hovered */\n"
+"            }\n"
+"")
         icon = QIcon()
-        icon.addFile(u":/newPrefix/ui/images/check_off.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        icon.addFile(u":/newPrefix/ui/images/check.png", QSize(), QIcon.Mode.Normal, QIcon.State.On)
+        icon.addFile(u":/newPrefix/ui/images/check_off.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/newPrefix/ui/images/check.png", QSize(), QIcon.Normal, QIcon.On)
         self.check_box_mon.setIcon(icon)
         self.check_box_mon.setIconSize(QSize(20, 20))
         self.check_box_mon.setCheckable(True)
@@ -394,7 +405,18 @@ class Ui_schedule_window(object):
         self.check_box_tue.setObjectName(u"check_box_tue")
         self.check_box_tue.setGeometry(QRect(3, 216, 23, 23))
         self.check_box_tue.setStyleSheet(u"\n"
-"background-color: rgb(32,39,49);")
+"            QPushButton {\n"
+"                border: none;  /* No border in normal state */\n"
+"	\n"
+"color: rgb(179,179,179);\n"
+"            }\n"
+"            QPushButton:checked {\n"
+"                border: none;  /* No border when checked */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                border: none;  /* No border when hovered */\n"
+"            }\n"
+"")
         self.check_box_tue.setIcon(icon)
         self.check_box_tue.setIconSize(QSize(20, 20))
         self.check_box_tue.setCheckable(True)
@@ -403,7 +425,18 @@ class Ui_schedule_window(object):
         self.check_box_wed.setObjectName(u"check_box_wed")
         self.check_box_wed.setGeometry(QRect(3, 298, 23, 23))
         self.check_box_wed.setStyleSheet(u"\n"
-"background-color: rgb(32,39,49);")
+"            QPushButton {\n"
+"                border: none;  /* No border in normal state */\n"
+"	\n"
+"color: rgb(179,179,179);\n"
+"            }\n"
+"            QPushButton:checked {\n"
+"                border: none;  /* No border when checked */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                border: none;  /* No border when hovered */\n"
+"            }\n"
+"")
         self.check_box_wed.setIcon(icon)
         self.check_box_wed.setIconSize(QSize(20, 20))
         self.check_box_wed.setCheckable(True)
@@ -412,7 +445,18 @@ class Ui_schedule_window(object):
         self.check_box_thu.setObjectName(u"check_box_thu")
         self.check_box_thu.setGeometry(QRect(3, 380, 23, 23))
         self.check_box_thu.setStyleSheet(u"\n"
-"background-color: rgb(32,39,49);")
+"            QPushButton {\n"
+"                border: none;  /* No border in normal state */\n"
+"	\n"
+"color: rgb(179,179,179);\n"
+"            }\n"
+"            QPushButton:checked {\n"
+"                border: none;  /* No border when checked */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                border: none;  /* No border when hovered */\n"
+"            }\n"
+"")
         self.check_box_thu.setIcon(icon)
         self.check_box_thu.setIconSize(QSize(20, 20))
         self.check_box_thu.setCheckable(True)
@@ -421,7 +465,18 @@ class Ui_schedule_window(object):
         self.check_box_fri.setObjectName(u"check_box_fri")
         self.check_box_fri.setGeometry(QRect(3, 465, 23, 23))
         self.check_box_fri.setStyleSheet(u"\n"
-"background-color: rgb(32,39,49);")
+"            QPushButton {\n"
+"                border: none;  /* No border in normal state */\n"
+"	\n"
+"color: rgb(179,179,179);\n"
+"            }\n"
+"            QPushButton:checked {\n"
+"                border: none;  /* No border when checked */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                border: none;  /* No border when hovered */\n"
+"            }\n"
+"")
         self.check_box_fri.setIcon(icon)
         self.check_box_fri.setIconSize(QSize(20, 20))
         self.check_box_fri.setCheckable(True)
@@ -430,7 +485,18 @@ class Ui_schedule_window(object):
         self.check_box_sat.setObjectName(u"check_box_sat")
         self.check_box_sat.setGeometry(QRect(3, 547, 23, 23))
         self.check_box_sat.setStyleSheet(u"\n"
-"background-color: rgb(32,39,49);")
+"            QPushButton {\n"
+"                border: none;  /* No border in normal state */\n"
+"	\n"
+"color: rgb(179,179,179);\n"
+"            }\n"
+"            QPushButton:checked {\n"
+"                border: none;  /* No border when checked */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                border: none;  /* No border when hovered */\n"
+"            }\n"
+"")
         self.check_box_sat.setIcon(icon)
         self.check_box_sat.setIconSize(QSize(20, 20))
         self.check_box_sat.setCheckable(True)
@@ -439,7 +505,18 @@ class Ui_schedule_window(object):
         self.check_box_sun.setObjectName(u"check_box_sun")
         self.check_box_sun.setGeometry(QRect(3, 51, 23, 23))
         self.check_box_sun.setStyleSheet(u"\n"
-"background-color: rgb(32,39,49);")
+"            QPushButton {\n"
+"                border: none;  /* No border in normal state */\n"
+"	\n"
+"color: rgb(179,179,179);\n"
+"            }\n"
+"            QPushButton:checked {\n"
+"                border: none;  /* No border when checked */\n"
+"            }\n"
+"            QPushButton:hover {\n"
+"                border: none;  /* No border when hovered */\n"
+"            }\n"
+"")
         self.check_box_sun.setIcon(icon)
         self.check_box_sun.setIconSize(QSize(20, 20))
         self.check_box_sun.setCheckable(True)
@@ -451,7 +528,7 @@ class Ui_schedule_window(object):
         font4.setFamilies([u"Sans"])
         font4.setPointSize(10)
         self.schedule_close_bnt.setFont(font4)
-        self.schedule_close_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.schedule_close_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.schedule_close_bnt.setStyleSheet(u"background-color: rgb(237, 51, 59);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
@@ -461,7 +538,7 @@ class Ui_schedule_window(object):
         self.schedule_remove_bnt.setObjectName(u"schedule_remove_bnt")
         self.schedule_remove_bnt.setGeometry(QRect(500, 10, 71, 31))
         self.schedule_remove_bnt.setFont(font4)
-        self.schedule_remove_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.schedule_remove_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.schedule_remove_bnt.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"

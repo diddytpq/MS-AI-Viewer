@@ -789,7 +789,18 @@ background-color: rgb(32,39,49);
     </property>
     <property name="styleSheet">
      <string notr="true">
-background-color: rgb(32,39,49);</string>
+            QPushButton {
+                border: none;  /* No border in normal state */
+	
+color: rgb(179,179,179);
+            }
+            QPushButton:checked {
+                border: none;  /* No border when checked */
+            }
+            QPushButton:hover {
+                border: none;  /* No border when hovered */
+            }
+</string>
     </property>
     <property name="text">
      <string/>
@@ -823,7 +834,18 @@ background-color: rgb(32,39,49);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">
-background-color: rgb(32,39,49);</string>
+            QPushButton {
+                border: none;  /* No border in normal state */
+	
+color: rgb(179,179,179);
+            }
+            QPushButton:checked {
+                border: none;  /* No border when checked */
+            }
+            QPushButton:hover {
+                border: none;  /* No border when hovered */
+            }
+</string>
     </property>
     <property name="text">
      <string/>
@@ -857,7 +879,18 @@ background-color: rgb(32,39,49);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">
-background-color: rgb(32,39,49);</string>
+            QPushButton {
+                border: none;  /* No border in normal state */
+	
+color: rgb(179,179,179);
+            }
+            QPushButton:checked {
+                border: none;  /* No border when checked */
+            }
+            QPushButton:hover {
+                border: none;  /* No border when hovered */
+            }
+</string>
     </property>
     <property name="text">
      <string/>
@@ -891,7 +924,18 @@ background-color: rgb(32,39,49);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">
-background-color: rgb(32,39,49);</string>
+            QPushButton {
+                border: none;  /* No border in normal state */
+	
+color: rgb(179,179,179);
+            }
+            QPushButton:checked {
+                border: none;  /* No border when checked */
+            }
+            QPushButton:hover {
+                border: none;  /* No border when hovered */
+            }
+</string>
     </property>
     <property name="text">
      <string/>
@@ -925,7 +969,18 @@ background-color: rgb(32,39,49);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">
-background-color: rgb(32,39,49);</string>
+            QPushButton {
+                border: none;  /* No border in normal state */
+	
+color: rgb(179,179,179);
+            }
+            QPushButton:checked {
+                border: none;  /* No border when checked */
+            }
+            QPushButton:hover {
+                border: none;  /* No border when hovered */
+            }
+</string>
     </property>
     <property name="text">
      <string/>
@@ -959,7 +1014,18 @@ background-color: rgb(32,39,49);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">
-background-color: rgb(32,39,49);</string>
+            QPushButton {
+                border: none;  /* No border in normal state */
+	
+color: rgb(179,179,179);
+            }
+            QPushButton:checked {
+                border: none;  /* No border when checked */
+            }
+            QPushButton:hover {
+                border: none;  /* No border when hovered */
+            }
+</string>
     </property>
     <property name="text">
      <string/>
@@ -993,7 +1059,18 @@ background-color: rgb(32,39,49);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">
-background-color: rgb(32,39,49);</string>
+            QPushButton {
+                border: none;  /* No border in normal state */
+	
+color: rgb(179,179,179);
+            }
+            QPushButton:checked {
+                border: none;  /* No border when checked */
+            }
+            QPushButton:hover {
+                border: none;  /* No border when hovered */
+            }
+</string>
     </property>
     <property name="text">
      <string/>

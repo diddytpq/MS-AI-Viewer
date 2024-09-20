@@ -536,7 +536,10 @@ class FadeOutWindow(QWidget):
         self.setLayout(layout)
 
         # self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window | Qt.WindowStaysOnTopHint)
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
+        # self.setWindowFlags(Qt.FramelessWindowHint | Qt.Window)
+        # self.fadeout_window.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
+
 
     def startFadeOut(self):
         QTimer.singleShot(1000, self.fadeOut)
@@ -971,3 +974,5 @@ def check_nvidia_gpu():
     except FileNotFoundError:
         print("nvidia-smi command not found. No NVIDIA GPU available or drivers not installed.")
         return False
+
+

@@ -4,7 +4,7 @@ from pathlib import Path
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLabel, QWidget, QDialog, QListWidgetItem
 from PySide6.QtGui import QImage, QPixmap, QPainter, QPen, QColor, QPolygon, QBrush, QFont, QStandardItem, QStandardItemModel, QIcon, QWheelEvent
-from PySide6.QtCore import QEvent, Qt, QThread, Signal, QRect, QPoint, QTimer, QDate, QUrl, QSize
+from PySide6.QtCore import QEvent, Qt, QThread, Signal, QRect, QPoint, QTimer, QDate, QUrl, QSize, QItemSelection
 from PySide6 import QtCore
 from ui.login_ui import Ui_Dialog
 from ui.main_ui import Ui_MainWindow
@@ -12,9 +12,11 @@ from ui.main_ui import Ui_MainWindow
 
 from utils_ai_setting_window import open_ai_setting_window
 from utils_search_window import open_search_window
-from utils_schedule_window import open_schedule_window
-from utils_labeling_window import open_labeling_window
+# from utils_schedule_window import open_schedule_window
+from utils_schedule_window_test import open_schedule_window
 
+from utils_labeling_window import open_labeling_window
+import numpy as np
 
 import socket
 import json
@@ -568,6 +570,10 @@ class MainWindow(QMainWindow):
                 if detect_type in ["Intrusion", "Loitering", "Falldown", "Fire", "Fight"]:
                     self.camera_info_dict_temp[camera_name]["detect_info"].append([detect_type])
 
+                    for i in range(7):
+                        self.camera_info_dict_temp[camera_name]["detect_schedule"][str(i)][detect_type] = [[0, 24]]
+
+
                 self.reset_detect_area_list(self.camera_info_dict_temp[camera_name]["detect_info"])
 
                 lastRow = self.ui_main.camera_page_detect_area_table.rowCount() - 1  
@@ -676,6 +682,8 @@ class MainWindow(QMainWindow):
 
             self.connect_live_page_camera()
 
+            time.sleep(0.5)
+
         except Exception as e:
             print_error(e)
 
@@ -771,8 +779,6 @@ class MainWindow(QMainWindow):
     def stop_live_page_worker(self):
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : stop live page camera")
 
-        self.camera_img_temp = {}
-
         if self.live_page_worker_dict != None :
             for worker in self.live_page_worker_dict.values():
                 for camera_name in worker.caps.keys():
@@ -798,16 +804,18 @@ class MainWindow(QMainWindow):
 
     def switch_main_display_to_live(self):
         try:
+            save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
+
             self.set_button_style('live')
             self.ui_main.stackedWidget.setCurrentIndex(0)
             self.ui_main.camera_refresh_bnt.show()
 
             self.live_refresh_live_viewer()
+
             self.stop_camera_page_worker()
 
             self.return_camera_page_permission()
 
-            save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
             # self.live_refresh_live_viewer()
         except Exception as e:
             print_error(e)
@@ -854,6 +862,8 @@ class MainWindow(QMainWindow):
 
     def switch_main_display_to_setting(self):
         try:
+            save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
+
             self.set_button_style('setting')
             self.ui_main.stackedWidget.setCurrentIndex(2)
             self.ui_main.setting_stack_widget.setCurrentIndex(0)
@@ -868,7 +878,6 @@ class MainWindow(QMainWindow):
             self.return_camera_page_permission()
 
 
-            save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
             self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
 
             self.update_setting()
@@ -879,6 +888,8 @@ class MainWindow(QMainWindow):
 
     def switch_main_display_to_admin(self):
         try:
+            save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
+
             self.set_button_style('admin')
             self.ui_main.stackedWidget.setCurrentIndex(3)
             self.ui_main.camera_refresh_bnt.hide()
@@ -888,8 +899,6 @@ class MainWindow(QMainWindow):
             self.stop_camera_page_worker()
             self.stop_live_page_worker()
             self.return_camera_page_permission()
-
-            save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
 
         except Exception as e:
             print_error(e)
@@ -1031,6 +1040,7 @@ class MainWindow(QMainWindow):
             print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : live_camera_viewer_setup")
 
             self.camera_view_list = {}
+            self.camera_img_temp = {}
             ret, self.camera_info_dict_temp = self.load_camera_info(reset, connect_nvr)
 
             if connect_nvr and ret == True:
@@ -1094,6 +1104,8 @@ class MainWindow(QMainWindow):
                     col = num % 4
 
                     self.ui_main.gridLayout_2.addWidget(self.camera_view_list[camera_name], row, col, 1, 1)
+
+                    self.camera_img_temp[camera_name] = np.zeros((100, 100, 3), dtype=np.uint8)
             else:
                 self.camera_info_dict_temp = {}
                 self.create_fade_out_msg(msg="Disconnect NVR")
@@ -1167,18 +1179,34 @@ class MainWindow(QMainWindow):
         save_info(host=self.HOST, port=self.PORT, file_name="login_info", info=login_info)
         self.init_GUI_setup(reset=True)
     
-    def create_fade_out_msg(self, msg="None"):
+    def create_fade_out_msg(self, std_window=None, msg="None"):
         try:
             if not hasattr(self, 'fadeout_window') or not self.fadeout_window.isVisible():
                 self.fadeout_window = FadeOutWindow(self, msg)
-                main_window_rect = self.geometry()
-                fadeout_window_rect = self.fadeout_window.geometry()
-                self.fadeout_window.move(
-                    main_window_rect.left() + (main_window_rect.width() - fadeout_window_rect.width()) // 2,
-                    main_window_rect.top() + (main_window_rect.height() - fadeout_window_rect.height()) * 4 // 5
-                )
+
+                if std_window is None:
+                    main_window_rect = self.geometry()
+                    fadeout_window_rect = self.fadeout_window.geometry()
+                    self.fadeout_window.move(
+                        main_window_rect.left() + (main_window_rect.width() - fadeout_window_rect.width()) // 2,
+                        main_window_rect.top() + (main_window_rect.height() - fadeout_window_rect.height()) * 4 // 5
+                    )
+                else:
+                    # Always keep the fadeout window on top
+                    self.fadeout_window.setWindowFlags(self.fadeout_window.windowFlags() | Qt.WindowStaysOnTopHint)
+                    main_window_rect = std_window.geometry()
+                    fadeout_window_rect = self.fadeout_window.geometry()
+                    self.fadeout_window.move(
+                        main_window_rect.left() + (main_window_rect.width() - fadeout_window_rect.width()) // 2,
+                        main_window_rect.top() + (main_window_rect.height() - fadeout_window_rect.height()) * 4 // 5
+                    )
+                    # Ensure it is above the schedule_window
+                    self.fadeout_window.raise_()
+                    self.fadeout_window.activateWindow()
 
             self.fadeout_window.show()
+            self.fadeout_window.raise_()          # Bring the window to the front
+            self.fadeout_window.activateWindow()  # Focus the window
 
         except Exception as e:
             print_error(e)
@@ -1325,6 +1353,8 @@ class MainWindow(QMainWindow):
         ##좌측 카메라 리스트 변경시 속성 보여주기
         self.ui_main.camera_list_table.itemSelectionChanged.connect(self.camera_page_display_selected_row)
 
+        time.sleep(1)
+
     def setup_camera_viewer(self):
         ##카메라 페이지 영상 뷰어 생성
         self.ui_main.camera_page_viewer.hide()
@@ -1414,7 +1444,6 @@ class MainWindow(QMainWindow):
     def update_setting(self):
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : setting update")
 
-
         setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
         self.ui_main.setting_email_active_bnt.setChecked(setting_info_temp["EMAIL"]["active"])  #알람 정보 이메일 전송 기능 활성화 여부
 
@@ -1441,6 +1470,22 @@ class MainWindow(QMainWindow):
         
         else:
             self.ui_main.setting_popup_alarm_cnt.setEnabled(False)
+
+    def merge_intervals(self, intervals):
+        # 시간 구간을 시작 시간 기준으로 정렬
+        intervals.sort(key=lambda x: x[0])
+        merged = []
+
+        for current in intervals:
+            # 병합된 리스트가 비어있지 않고 현재 구간이 마지막에 추가된 구간과 겹치는 경우
+            if not merged or merged[-1][1] < current[0] - 1:
+                # 겹치지 않는 경우, 새로운 구간으로 추가
+                merged.append(current)
+            else:
+                # 현재 구간의 끝 시간이 마지막 구간의 끝 시간보다 클 경우 업데이트
+                merged[-1][1] = max(merged[-1][1], current[1])
+        
+        return merged
 
     def keyPressEvent(self, event):
         # Alt + Enter 키를 감지

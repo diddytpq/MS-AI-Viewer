@@ -1,71 +1,76 @@
-import cv2
-import subprocess
-import numpy as np
-import select
-import threading
+# from PySide6.QtWidgets import QApplication, QTableWidget, QTableWidgetItem, QTableWidgetSelectionRange
+
+# class MainWindow(QTableWidget):
+#     def __init__(self):
+#         super().__init__(5, 5)  # 5x5 table
+
+#         # Populate the table with some items
+#         # for row in range(5):
+#         #     for col in range(5):
+#         #         item = QTableWidgetItem(f"R{row+1}C{col+1}")
+#         #         self.setItem(row, col, item)
+
+#         # Enable drag selection and highlight of rows/columns
+#         self.setSelectionMode(QTableWidget.ExtendedSelection)  # Allow multiple item selection
+#         self.setSelectionBehavior(QTableWidget.SelectItems)    # Select individual cells
+
+#         # Set up the size of the table
+#         self.resize(500, 300)
+
+#         # Select a specific range (from row 3, column 3 to row 3, column 5)
+#         selection_range = QTableWidgetSelectionRange(0, 2, 4, 2)  # QTableWidgetSelectionRange(startRow, startColumn, endRow, endColumn)
+#         self.setRangeSelected(selection_range, True)
+
+#         selection_range = QTableWidgetSelectionRange(0, 1, 4, 1)  # QTableWidgetSelectionRange(startRow, startColumn, endRow, endColumn)
+#         self.setRangeSelected(selection_range, True)
 
 
-def read_stderr(ffmpeg_process):
-    # FFmpeg stderr 로그 출력 (오류나 경고 모니터링)
-    while True:
-        output = ffmpeg_process.stderr.readline()
-        if output == b'' and ffmpeg_process.poll() is not None:
-            break
-        if output:
-            print(output.decode('utf-8').strip())
+# if __name__ == "__main__":
+#     app = QApplication([])
+#     window = MainWindow()
+#     window.show()
+#     app.exec()
 
-def open_rtsp_stream():
-    ffmpeg_cmd = [
-        'ffmpeg',
-        '-rtsp_transport', 'tcp',               
-        # '-i', 'rtsp://admin:1234@117.17.159.143/video1',
-        '-i', 'rtsp://admin:1234@117.17.159.195/stream1',
+from PySide6.QtWidgets import QApplication, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QTableWidgetSelectionRange
 
-        '-c:v', 'h264_nvdec',
-        '-fflags', 'nobuffer',
-        '-flags', 'low_delay',
-        '-pix_fmt', 'bgr24',
-        '-f', 'rawvideo',
-        # '-f', 'h264'
-        '-vcodec', 'rawvideo',
-        '-'
-    ]
+class TableWidgetExample(QWidget):
+    def __init__(self):
+        super().__init__()
 
-    # FFmpeg 프로세스를 시작합니다.
-    ffmpeg_process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=10**8)
-    stderr_thread = threading.Thread(target=read_stderr, args=(ffmpeg_process,))
-    stderr_thread.start()
+        self.setWindowTitle("QTableWidget Example")
+        self.resize(400, 300)
 
-    width = 1920
-    height = 1080
-    frame_size = width * height * 3  # BGR 포맷에서 3채널 (BGR 24비트)
+        layout = QVBoxLayout(self)
 
-    # 프레임을 읽고 표시하는 루프
-    while True:
-        ready, _, _ = select.select([ffmpeg_process.stdout], [], [], 0.1)
+        # QTableWidget 생성
+        self.table_widget = QTableWidget(5, 5)  # 5x5 테이블 생성
+        layout.addWidget(self.table_widget)
 
-        if ready:
-            raw_frame = ffmpeg_process.stdout.read(frame_size)
+        # 테이블에 데이터를 추가
+        for row in range(5):
+            for column in range(5):
+                item = QTableWidgetItem(f"Cell {row+1},{column+1}")
+                self.table_widget.setItem(row, column, item)
 
-            if len(raw_frame) == 0:
-                # 데이터가 없으면 계속 시도
-                continue
+        # 3행 2열과 3행 4열을 선택
+        self.select_multiple_cells()
 
-            if len(raw_frame) != frame_size:
-                print(f"Incomplete frame received: {len(raw_frame)} bytes")
-                continue
+    def select_multiple_cells(self):
+        # 멀티 셀렉션을 활성화
+        self.table_widget.setSelectionMode(QTableWidget.MultiSelection)
 
-            # numpy 배열로 변환 후 OpenCV로 표시
-            frame = np.frombuffer(raw_frame, np.uint8).reshape((height, width, 3))
-            cv2.imshow('RTSP Stream', frame)
+        # 3행 2열 선택 (행과 열은 0부터 시작하므로 2, 1)
+        item_1 = self.table_widget.item(2, 1)  # 3행 2열
+        item_1.setSelected(True)
 
-            # ESC 키를 누르면 종료
-            if cv2.waitKey(1) & 0xFF == 27:
-                break
+        # 3행 4열 선택 (행과 열은 0부터 시작하므로 2, 3)
+        item_2 = self.table_widget.item(2, 3)  # 3행 4열
+        item_2.setSelected(True)
 
-    cv2.destroyAllWindows()
-    ffmpeg_process.terminate()
+if __name__ == "__main__":
+    app = QApplication([])
 
+    window = TableWidgetExample()
+    window.show()
 
-if __name__ == '__main__':
-    open_rtsp_stream()
+    app.exec()
