@@ -895,7 +895,7 @@ class Ui_schedule_window(object):
 "}\n"
 "\n"
 "QTableWidget::item:selected {\n"
-"        background-color:  rgba(209, 209, 209, 30); /* \ub4dc\ub798\uadf8 \uc2dc \uc120\ud0dd\ub41c \uc140\uc758 \ubc30\uacbd\uc0c9 */\n"
+"        background-color:  rgba(109, 109, 109, 150); /* \ub4dc\ub798\uadf8 \uc2dc \uc120\ud0dd\ub41c \uc140\uc758 \ubc30\uacbd\uc0c9 */\n"
 "		border: 1px solid rgba(209, 209, 209, 30);\n"
 "        color: white; /* \uc120\ud0dd\ub41c \uc140\uc758 \uae00\uc790 \uc0c9 */\n"
 "    }\n"

@@ -433,7 +433,7 @@ class Ui_Search_window(object):
 
         self.time_video_time_speed_input = QDoubleSpinBox(self.widget_2)
         self.time_video_time_speed_input.setObjectName(u"time_video_time_speed_input")
-        self.time_video_time_speed_input.setMinimumSize(QSize(0, 24))
+        self.time_video_time_speed_input.setMinimumSize(QSize(88, 24))
         self.time_video_time_speed_input.setMaximumSize(QSize(65, 24))
         self.time_video_time_speed_input.setStyleSheet(u"color: rgb(255, 255, 255);")
         self.time_video_time_speed_input.setMinimum(1.000000000000000)

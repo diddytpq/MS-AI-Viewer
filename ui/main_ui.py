@@ -30,7 +30,7 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.WindowModality.NonModal)
-        MainWindow.resize(1501, 799)
+        MainWindow.resize(1505, 807)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -1858,7 +1858,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_26.setObjectName(u"horizontalLayout_26")
         self.setting_video_save_alarm_active_label = QLabel(self.setting_notice_tab)
         self.setting_video_save_alarm_active_label.setObjectName(u"setting_video_save_alarm_active_label")
-        self.setting_video_save_alarm_active_label.setMinimumSize(QSize(161, 28))
+        self.setting_video_save_alarm_active_label.setMinimumSize(QSize(173, 28))
         self.setting_video_save_alarm_active_label.setMaximumSize(QSize(9999, 28))
         self.setting_video_save_alarm_active_label.setFont(font14)
         self.setting_video_save_alarm_active_label.setStyleSheet(u"color: rgb(179,179,179);\n"
@@ -1940,8 +1940,8 @@ class Ui_MainWindow(object):
 
         self.setting_popup_alarm_active_label = QLabel(self.setting_notice_tab)
         self.setting_popup_alarm_active_label.setObjectName(u"setting_popup_alarm_active_label")
-        self.setting_popup_alarm_active_label.setMinimumSize(QSize(154, 28))
-        self.setting_popup_alarm_active_label.setMaximumSize(QSize(148, 28))
+        self.setting_popup_alarm_active_label.setMinimumSize(QSize(165, 28))
+        self.setting_popup_alarm_active_label.setMaximumSize(QSize(200, 28))
         self.setting_popup_alarm_active_label.setFont(font14)
         self.setting_popup_alarm_active_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
@@ -2324,8 +2324,8 @@ class Ui_MainWindow(object):
         sizePolicy5.setVerticalStretch(0)
         sizePolicy5.setHeightForWidth(self.setting_user_id_label.sizePolicy().hasHeightForWidth())
         self.setting_user_id_label.setSizePolicy(sizePolicy5)
-        self.setting_user_id_label.setMinimumSize(QSize(43, 22))
-        self.setting_user_id_label.setMaximumSize(QSize(43, 22))
+        self.setting_user_id_label.setMinimumSize(QSize(60, 22))
+        self.setting_user_id_label.setMaximumSize(QSize(60, 22))
         self.setting_user_id_label.setFont(font14)
         self.setting_user_id_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
@@ -2368,6 +2368,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_29.addLayout(self.horizontalLayout_40)
 
         self.horizontalLayout_39 = QHBoxLayout()
+        self.horizontalLayout_39.setSpacing(6)
         self.horizontalLayout_39.setObjectName(u"horizontalLayout_39")
         self.horizontalSpacer_60 = QSpacerItem(5, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
@@ -2377,7 +2378,7 @@ class Ui_MainWindow(object):
         self.setting_user_pw_label.setObjectName(u"setting_user_pw_label")
         sizePolicy5.setHeightForWidth(self.setting_user_pw_label.sizePolicy().hasHeightForWidth())
         self.setting_user_pw_label.setSizePolicy(sizePolicy5)
-        self.setting_user_pw_label.setMinimumSize(QSize(87, 22))
+        self.setting_user_pw_label.setMinimumSize(QSize(104, 22))
         self.setting_user_pw_label.setMaximumSize(QSize(104, 22))
         self.setting_user_pw_label.setFont(font14)
         self.setting_user_pw_label.setStyleSheet(u"color: rgb(179,179,179);\n"
@@ -2387,6 +2388,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_39.addWidget(self.setting_user_pw_label)
 
         self.verticalLayout_19 = QVBoxLayout()
+        self.verticalLayout_19.setSpacing(5)
         self.verticalLayout_19.setObjectName(u"verticalLayout_19")
         self.setting_user_pw_input = QLineEdit(self.setting_user_setting_tab)
         self.setting_user_pw_input.setObjectName(u"setting_user_pw_input")
@@ -2428,8 +2430,8 @@ class Ui_MainWindow(object):
         self.setting_user_new_pw_label.setObjectName(u"setting_user_new_pw_label")
         sizePolicy5.setHeightForWidth(self.setting_user_new_pw_label.sizePolicy().hasHeightForWidth())
         self.setting_user_new_pw_label.setSizePolicy(sizePolicy5)
-        self.setting_user_new_pw_label.setMinimumSize(QSize(87, 22))
-        self.setting_user_new_pw_label.setMaximumSize(QSize(97, 22))
+        self.setting_user_new_pw_label.setMinimumSize(QSize(104, 22))
+        self.setting_user_new_pw_label.setMaximumSize(QSize(104, 22))
         self.setting_user_new_pw_label.setFont(font14)
         self.setting_user_new_pw_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
@@ -2480,8 +2482,8 @@ class Ui_MainWindow(object):
         self.setting_user_new_pw_label2.setObjectName(u"setting_user_new_pw_label2")
         sizePolicy5.setHeightForWidth(self.setting_user_new_pw_label2.sizePolicy().hasHeightForWidth())
         self.setting_user_new_pw_label2.setSizePolicy(sizePolicy5)
-        self.setting_user_new_pw_label2.setMinimumSize(QSize(87, 27))
-        self.setting_user_new_pw_label2.setMaximumSize(QSize(98, 27))
+        self.setting_user_new_pw_label2.setMinimumSize(QSize(104, 27))
+        self.setting_user_new_pw_label2.setMaximumSize(QSize(104, 27))
         self.setting_user_new_pw_label2.setFont(font14)
         self.setting_user_new_pw_label2.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
@@ -2687,7 +2689,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_57.addWidget(self.setting_self_training_zeroshot_label)
 
-        self.horizontalSpacer_58 = QSpacerItem(54, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_58 = QSpacerItem(69, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_57.addItem(self.horizontalSpacer_58)
 
@@ -3348,7 +3350,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         self.setting_stack_widget.setCurrentIndex(2)
         self.setting_popup_alarm_cnt.setCurrentIndex(2)
         self.setting_setting_ai_weight_box.setCurrentIndex(0)
