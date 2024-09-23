@@ -125,6 +125,12 @@ border-radius: 10px ;</string>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>500</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -239,8 +245,8 @@ selection-color: white;
                  <widget class="QComboBox" name="time_hour_start_box">
                   <property name="minimumSize">
                    <size>
-                    <width>68</width>
-                    <height>0</height>
+                    <width>80</width>
+                    <height>24</height>
                    </size>
                   </property>
                   <property name="maximumSize">
@@ -497,8 +503,8 @@ selection-color: white;
                <widget class="QComboBox" name="time_hour_end_box">
                 <property name="minimumSize">
                  <size>
-                  <width>68</width>
-                  <height>0</height>
+                  <width>80</width>
+                  <height>24</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -1063,7 +1069,7 @@ border-radius: 10px;
             <property name="minimumSize">
              <size>
               <width>477</width>
-              <height>0</height>
+              <height>5</height>
              </size>
             </property>
             <property name="maximumSize">
