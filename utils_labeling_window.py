@@ -520,9 +520,11 @@ class LabelingDialog(QDialog):
 
         if event.key() == Qt.Key_F:
             self.del_label_data()
+            self.parent.create_fade_out_msg(std_window = self, msg="삭제 완료")
 
         if (event.key() == Qt.Key_S and event.modifiers() == Qt.ControlModifier) or event.key() == Qt.Key_Space:
             self.save_label_buffer()
+            self.parent.create_fade_out_msg(std_window = self, msg="저장 완료")
 
         if event.key() == Qt.Key_Q:
             self.del_all_label()

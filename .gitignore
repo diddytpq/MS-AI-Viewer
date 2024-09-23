@@ -2,3 +2,4 @@ __pycache__/*
 ui/__pycache__/*
 .vscode/*
 MS-AI-env/*
+ai_sever_info.json
