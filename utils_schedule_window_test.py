@@ -15,7 +15,7 @@ import ms_ai_img_rc
 
 class schedule_page_view(QLabel):
     Checked = Signal(QLabel)
-    def __init__(self, base_viewer, camera_num, camera_name, name_label, instance, time_table):
+    def __init__(self, base_viewer, camera_num, camera_name, name_label, main_instance, schedule_instance, time_table):
         super().__init__(base_viewer)
         # self.setGeometry(QRect(1, 1, base_viewer.width(), base_viewer.height()))
         self.setGeometry(QRect(1, 1, 203, 131))
@@ -25,21 +25,23 @@ class schedule_page_view(QLabel):
         self.camera_name = camera_name
         self.name_label = name_label
 
-        self.instance = instance
+        self.main_instance = main_instance
+        self.schedule_instance = schedule_instance
+
         self.time_table = time_table
 
         self.frame_flag = False
 
     def setChecked(self, checked):
-        for camera_name, camera_viewer in self.instance.schedule_page_camera_view_list.items():
+        for camera_name, camera_viewer in self.schedule_instance.schedule_page_camera_view_list.items():
             if camera_viewer.checked:
                 camera_viewer.checked = False
                 camera_viewer.updateStyle()
                 
         self.checked = checked
-        self.instance.schedule_ui.event_box.clear()
-        for detect_info in self.instance.camera_info_dict_temp[self.camera_name]["detect_info"]:
-            self.instance.schedule_ui.event_box.addItem(Eng2kor(detect_info[0]))
+        self.schedule_instance.schedule_ui.event_box.clear()
+        for detect_info in self.main_instance.camera_info_dict_temp[self.camera_name]["detect_info"]:
+            self.schedule_instance.schedule_ui.event_box.addItem(Eng2kor(detect_info[0]))
 
         self.updateStyle()
 
@@ -54,9 +56,9 @@ class schedule_page_view(QLabel):
     def updateStyle(self):
             if self.checked:
                 self.time_table.clearSelection()
-                for week_num, schedule_info in self.instance.camera_info_dict_temp[self.camera_name]["detect_schedule"].items():
+                for week_num, schedule_info in self.main_instance.camera_info_dict_temp[self.camera_name]["detect_schedule"].items():
                     for detect_type, time_table_info in schedule_info.items():
-                        if Eng2kor(detect_type) == self.instance.schedule_ui.event_box.currentText():
+                        if Eng2kor(detect_type) == self.schedule_instance.schedule_ui.event_box.currentText():
                             for start, end in time_table_info:
                                 for i in range(start, end):
                                     item_1 = self.time_table.item(i, int(week_num))
@@ -116,90 +118,109 @@ class schedule_page_view(QLabel):
 
         self.setPixmap(QPixmap.fromImage(qt_rgb_image))
 
+class ScheduleDialog(QDialog):
+    def __init__(self, parent=None):
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : open schedule window")
+        super().__init__(parent)
 
-def open_schedule_window(click, self):
-    self.schedule_window = QDialog()  # QDialog 인스턴스 생성
-    self.schedule_window.setWindowFlags(self.schedule_window.windowFlags() | Qt.WindowStaysOnTopHint)
+        self.parent = parent
 
-    self.schedule_ui = Ui_schedule_window()
-    self.schedule_ui.setupUi(self.schedule_window)
-    self.schedule_ui.schedule_move_oneshot_bnt.hide()
+        # self.schedule_window = QDialog()  # QDialog 인스턴스 생성
+        # self.schedule_window.setWindowFlags(self.schedule_window.windowFlags() | Qt.WindowStaysOnTopHint)
 
-    self.schedule_ui.schedule_time_table.setSelectionMode(QTableWidget.MultiSelection)
+        self.schedule_ui = Ui_schedule_window()
+        self.schedule_ui.setupUi(self)
+        self.schedule_ui.schedule_move_oneshot_bnt.hide()
 
-    self.schedule_ui.event_box.clear()
+        self.schedule_ui.schedule_time_table.setSelectionMode(QTableWidget.MultiSelection)
 
-    for row in range(24):
-        for column in range(7):
-            item = QTableWidgetItem(f" ")
-            self.schedule_ui.schedule_time_table.setItem(row, column, item)
+        self.schedule_ui.event_box.clear()
 
-    if self.live_page_worker_dict != None :
-        for worker in self.live_page_worker_dict.values():
-            for camera_name in worker.caps.keys():
-                self.camera_img_temp[camera_name] = worker.caps[camera_name].get_frame()
+        for row in range(24):
+            for column in range(7):
+                item = QTableWidgetItem(f" ")
+                self.schedule_ui.schedule_time_table.setItem(row, column, item)
 
-    # 메인 윈도우의 중앙에 팝업 윈도우 위치 계산
-    mainWindowGeometry = self.frameGeometry()
-    centerPoint = mainWindowGeometry.center() - self.schedule_window.rect().center()
-    self.schedule_window.move(centerPoint.x(), centerPoint.y())
+        if self.parent.live_page_worker_dict != None :
+            for worker in self.parent.live_page_worker_dict.values():
+                for camera_name in worker.caps.keys():
+                    self.parent.camera_img_temp[camera_name] = worker.caps[camera_name].get_frame()
 
-    self.schedule_page_camera_view_list = {}
+        # 메인 윈도우의 중앙에 팝업 윈도우 위치 계산
+        mainWindowGeometry = self.parent.frameGeometry()
+        # centerPoint = mainWindowGeometry.center() - self.schedule_window.rect().center()
+        # self.schedule_window.move(centerPoint.x(), centerPoint.y())
+        centerPoint = mainWindowGeometry.center() - self.rect().center()
+        self.move(centerPoint.x(), centerPoint.y())
 
-    for camera_name, camera_info in self.camera_info_dict_temp.items():
-        num = str(camera_info["Num"])
-        self.schedule_page_camera_view_list[camera_name] = schedule_page_view(getattr(self.schedule_ui, f"camera_view_{num}"), 
-                                                                            camera_name = camera_name, 
-                                                                            camera_num = str(num), 
-                                                                            name_label = getattr(self.schedule_ui, f"camera_view_name_{num}"),
-                                                                            instance = self,
-                                                                            time_table=self.schedule_ui.schedule_time_table)
+        self.schedule_page_camera_view_list = {}
+
+        for camera_name, camera_info in self.parent.camera_info_dict_temp.items():
+            num = str(camera_info["Num"])
+            self.schedule_page_camera_view_list[camera_name] = schedule_page_view(getattr(self.schedule_ui, f"camera_view_{num}"), 
+                                                                                camera_name = camera_name, 
+                                                                                camera_num = str(num), 
+                                                                                name_label = getattr(self.schedule_ui, f"camera_view_name_{num}"),
+                                                                                main_instance = self.parent,
+                                                                                schedule_instance = self,
+                                                                                time_table=self.schedule_ui.schedule_time_table)
+            
+            getattr(self.schedule_ui, f"camera_view_name_{num}").setText(camera_name)
+
+        for camera_name, camera_viewer in self.schedule_page_camera_view_list.items():
+            find_worker_flag = False
+            if camera_name in self.parent.camera_view_list.keys():
+                img = self.parent.camera_img_temp[camera_name]
+                frame = cv2.resize(img, (camera_viewer.width(), camera_viewer.height()))
+                camera_viewer.set_img(frame, 0.5)
+                find_worker_flag = True
+
+            if find_worker_flag == False:
+                camera_viewer.setPixmap(QPixmap(u":/newPrefix/ui/images/ico_video_off.svg"))
+                camera_viewer.setAlignment(Qt.AlignCenter)
+
+        self.schedule_ui.event_box.currentIndexChanged.connect(lambda index: self.change_time_table(index))
+
+        self.schedule_ui.schedule_apply_bnt.clicked.connect(lambda click, instance = self.parent: self.apply_schedule(click, instance))
+        self.schedule_ui.schedule_close_bnt.clicked.connect(lambda click, instance = self.parent: self.schedule_close_window(click, instance))
+        self.schedule_ui.schedule_all_remove_bnt.clicked.connect(self.schedule_ui.schedule_time_table.clearSelection)
+
         
-        getattr(self.schedule_ui, f"camera_view_name_{num}").setText(camera_name)
+    def schedule_close_window(self, click, parent):
+        save_info(host=parent.HOST, port=parent.PORT, file_name="camera_info", info=parent.camera_info_dict_temp)
+        data = {"msg" : "ms_ai"}
+        url = f'http://{parent.HOST}:{parent.PORT}/run_ms_ai'
+        receive_data = requests.post(url, json=data).json()
 
-    for camera_name, camera_viewer in self.schedule_page_camera_view_list.items():
-        find_worker_flag = False
-        if camera_name in self.camera_view_list.keys():
-            img = self.camera_img_temp[camera_name]
-            frame = cv2.resize(img, (camera_viewer.width(), camera_viewer.height()))
-            camera_viewer.set_img(frame, 0.5)
-            find_worker_flag = True
+        self.close()
 
-        if find_worker_flag == False:
-            camera_viewer.setPixmap(QPixmap(u":/newPrefix/ui/images/ico_video_off.svg"))
-            camera_viewer.setAlignment(Qt.AlignCenter)
+    def apply_schedule(self, click, instance):
+        selected_indexes_dict = {0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []}
+        selected_indexes = self.schedule_ui.schedule_time_table.selectedIndexes()
 
-    self.schedule_ui.event_box.currentIndexChanged.connect(lambda index: change_time_table(index, self))
+        for index in selected_indexes:
+            time = index.row()
+            day = index.column()
+            selected_indexes_dict[day].append(time)
 
-    self.schedule_ui.schedule_apply_bnt.clicked.connect(lambda click, instance = self: apply_schedule(click, instance))
-    self.schedule_ui.schedule_close_bnt.clicked.connect(lambda click, instance = self: schedule_close_window(click, instance))
+        for day, info in selected_indexes_dict.items():
+            for camera_name, camera_viewer in self.schedule_page_camera_view_list.items():
+                if camera_viewer.checked:
+                    instance.camera_info_dict_temp[camera_name]["detect_schedule"][str(day)][Kor2eng(self.schedule_ui.event_box.currentText())] = group_ranges(info)
+                    break
 
-    # 팝업 윈도우 표시
-    self.schedule_window.show()    
+        # instance.create_fade_out_msg(std_window = instance.schedule_window, msg="저장 완료")
+        instance.create_fade_out_msg(std_window = self, msg="저장 완료")
 
-
-def change_time_table(index, self):
-    for camera_name, camera_viewer in self.schedule_page_camera_view_list.items():
-        if camera_viewer.checked:
-            camera_viewer.updateStyle()
-            break
-
-def apply_schedule(click, instance):
-    selected_indexes_dict = {0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []}
-    selected_indexes = instance.schedule_ui.schedule_time_table.selectedIndexes()
-
-    for index in selected_indexes:
-        time = index.row()
-        day = index.column()
-        selected_indexes_dict[day].append(time)
-
-    for day, info in selected_indexes_dict.items():
-        for camera_name, camera_viewer in instance.schedule_page_camera_view_list.items():
+    def change_time_table(self, index):
+        for camera_name, camera_viewer in self.schedule_page_camera_view_list.items():
             if camera_viewer.checked:
-                instance.camera_info_dict_temp[camera_name]["detect_schedule"][str(day)][Kor2eng(instance.schedule_ui.event_box.currentText())] = group_ranges(info)
+                camera_viewer.updateStyle()
                 break
 
-    instance.create_fade_out_msg(std_window = instance.schedule_window, msg="저장 완료")
+    def keyPressEvent(self, event):
+        if (event.key() == Qt.Key_S and event.modifiers() == Qt.ControlModifier) :
+            self.apply_schedule(None, self.parent)
 
 def group_ranges(lst):
     if not lst:
@@ -221,13 +242,11 @@ def group_ranges(lst):
     result.append([start, end + 1])
     return result
 
-def schedule_close_window(click, self):
-    save_info(host=self.HOST, port=self.PORT, file_name="camera_info", info=self.camera_info_dict_temp)
-    data = {"msg" : "ms_ai"}
-    url = f'http://{self.HOST}:{self.PORT}/run_ms_ai'
-    receive_data = requests.post(url, json=data).json()
+def open_schedule_window(click, self):
+    self.labeling_window = ScheduleDialog(self)
+    self.labeling_window.show()
 
-    self.schedule_window.close()
+    
 
 
     
