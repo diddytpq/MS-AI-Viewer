@@ -520,6 +520,7 @@ class Ui_Search_window(object):
 "\n"
 "QHeaderView::section {\n"
 "    color: rgb(209, 209, 209); /* \ud5e4\ub354 \ud14d\uc2a4\ud2b8 \uc0c9\uc0c1 - \ud68c\uc0c9 */\n"
+"background-color: rgb(7, 7, 16); /* \ud14c\uc774\ube14 \uc804\uccb4 \ubc30\uacbd\uc0c9 */\n"
 "}\n"
 "\n"
 "QTableWidget::item {\n"

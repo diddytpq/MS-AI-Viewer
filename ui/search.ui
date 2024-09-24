@@ -1103,6 +1103,7 @@ border-radius: 10px;
 
 QHeaderView::section {
     color: rgb(209, 209, 209); /* 헤더 텍스트 색상 - 회색 */
+background-color: rgb(7, 7, 16); /* 테이블 전체 배경색 */
 }
 
 QTableWidget::item {
