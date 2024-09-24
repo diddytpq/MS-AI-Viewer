@@ -319,6 +319,8 @@ class Ui_MainWindow(object):
 "\n"
 "QHeaderView::section {\n"
 "    color: rgb(209, 209, 209); /* \ud5e4\ub354 \ud14d\uc2a4\ud2b8 \uc0c9\uc0c1 - \ud68c\uc0c9 */\n"
+"	background-color: rgb(7, 7, 16); \n"
+"\n"
 "}\n"
 "\n"
 "QTableWidget::item {\n"
@@ -1335,6 +1337,7 @@ class Ui_MainWindow(object):
 "\n"
 "QHeaderView::section {\n"
 "    color: rgb(209, 209, 209); /* \ud5e4\ub354 \ud14d\uc2a4\ud2b8 \uc0c9\uc0c1 - \ud68c\uc0c9 */\n"
+"background-color: rgb(7, 7, 16); /* \ud14c\uc774\ube14 \uc804\uccb4 \ubc30\uacbd\uc0c9 */\n"
 "}\n"
 "\n"
 "QTableWidget::item {\n"
@@ -1480,7 +1483,14 @@ class Ui_MainWindow(object):
         font18 = QFont()
         font18.setPointSize(10)
         self.camera_page_person_conf_value.setFont(font18)
-        self.camera_page_person_conf_value.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.camera_page_person_conf_value.setStyleSheet(u"\n"
+"    QSpinBox {\n"
+"        subcontrol-origin: padding;\n"
+"        subcontrol-position: top right;\n"
+"        background: rgb(13, 16, 23);\n"
+"        color: rgb(255, 255, 255);\n"
+"\n"
+"    }")
         self.camera_page_person_conf_value.setMinimum(1)
         self.camera_page_person_conf_value.setValue(33)
 
@@ -3350,8 +3360,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
-        self.setting_stack_widget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(3)
+        self.setting_stack_widget.setCurrentIndex(0)
         self.setting_popup_alarm_cnt.setCurrentIndex(2)
         self.setting_setting_ai_weight_box.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)

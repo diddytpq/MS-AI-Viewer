@@ -93,7 +93,7 @@ class LoginWindow(QMainWindow):
 
     def check_login(self):
         try:
-            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : check login")
+            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : Try login")
 
             # 로그인 데이터 준비
             data = {"msg" : 
@@ -104,7 +104,7 @@ class LoginWindow(QMainWindow):
             
             url = f'http://{self.ui_login.ai_server_ip_input.text()}:{self.ui_login.ai_server_port_input.text()}/login'
 
-            receive_data = requests.post(url, json=data).json()
+            receive_data = requests.post(url, json=data, timeout=3).json()
 
             if receive_data["success"]:
                 self.handle_successful_login(receive_data)

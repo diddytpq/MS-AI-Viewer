@@ -127,10 +127,10 @@ class Ui_Search_window(object):
         self.time_day_start_input.setFont(font2)
         self.time_day_start_input.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.time_day_start_input.setStyleSheet(u"QDateEdit {\n"
-"    padding: 5px;\n"
+"\n"
 "    color: rgb(255, 255, 255);\n"
 "    background-color: rgb(13, 16, 23);\n"
-"    selection-background-color: rgb(53, 132, 228);\n"
+"\n"
 "}\n"
 "QCalendarWidget {\n"
 "    font-size: 11pt; /* \ud3f0\ud2b8 \ud06c\uae30\ub97c \ud06c\uac8c \uc124\uc815\ud558\uc5ec \uc804\uccb4 \ud06c\uae30 \uc99d\uac00 */\n"
@@ -232,10 +232,10 @@ class Ui_Search_window(object):
         self.time_day_end_input.setFont(font2)
         self.time_day_end_input.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.time_day_end_input.setStyleSheet(u"QDateEdit {\n"
-"    padding: 5px;\n"
+"\n"
 "    color: rgb(255, 255, 255);\n"
 "    background-color: rgb(13, 16, 23);\n"
-"    selection-background-color: rgb(53, 132, 228);\n"
+"\n"
 "}\n"
 "QCalendarWidget {\n"
 "    font-size: 11pt; /* \ud3f0\ud2b8 \ud06c\uae30\ub97c \ud06c\uac8c \uc124\uc815\ud558\uc5ec \uc804\uccb4 \ud06c\uae30 \uc99d\uac00 */\n"
@@ -436,7 +436,14 @@ class Ui_Search_window(object):
         self.time_video_time_speed_input.setObjectName(u"time_video_time_speed_input")
         self.time_video_time_speed_input.setMinimumSize(QSize(88, 24))
         self.time_video_time_speed_input.setMaximumSize(QSize(65, 24))
-        self.time_video_time_speed_input.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.time_video_time_speed_input.setStyleSheet(u"\n"
+"    QDoubleSpinBox {\n"
+"        subcontrol-origin: padding;\n"
+"        subcontrol-position: top right;\n"
+"        background: rgb(13, 16, 23);\n"
+"        color: rgb(255, 255, 255);\n"
+"\n"
+"    }")
         self.time_video_time_speed_input.setMinimum(1.000000000000000)
         self.time_video_time_speed_input.setMaximum(10.000000000000000)
         self.time_video_time_speed_input.setSingleStep(0.200000000000000)

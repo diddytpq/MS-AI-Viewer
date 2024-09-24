@@ -207,6 +207,7 @@ class ScheduleDialog(QDialog):
             for camera_name, camera_viewer in self.schedule_page_camera_view_list.items():
                 if camera_viewer.checked:
                     instance.camera_info_dict_temp[camera_name]["detect_schedule"][str(day)][Kor2eng(self.schedule_ui.event_box.currentText())] = group_ranges(info)
+                    print(instance.camera_info_dict_temp[camera_name]["detect_schedule"][str(day)][Kor2eng(self.schedule_ui.event_box.currentText())])
                     break
 
         # instance.create_fade_out_msg(std_window = instance.schedule_window, msg="저장 완료")

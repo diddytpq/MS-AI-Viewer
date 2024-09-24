@@ -185,10 +185,10 @@ background-color: rgba(191, 64, 64, 0);</string>
                   </property>
                   <property name="styleSheet">
                    <string notr="true">QDateEdit {
-    padding: 5px;
+
     color: rgb(255, 255, 255);
     background-color: rgb(13, 16, 23);
-    selection-background-color: rgb(53, 132, 228);
+
 }
 QCalendarWidget {
     font-size: 11pt; /* 폰트 크기를 크게 설정하여 전체 크기 증가 */
@@ -452,10 +452,10 @@ background-color: rgba(191, 64, 64, 0);</string>
                 </property>
                 <property name="styleSheet">
                  <string notr="true">QDateEdit {
-    padding: 5px;
+
     color: rgb(255, 255, 255);
     background-color: rgb(13, 16, 23);
-    selection-background-color: rgb(53, 132, 228);
+
 }
 QCalendarWidget {
     font-size: 11pt; /* 폰트 크기를 크게 설정하여 전체 크기 증가 */
@@ -959,7 +959,14 @@ background-color: rgba(255, 255, 255, 0);</string>
                  </size>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">color: rgb(255, 255, 255);</string>
+                 <string notr="true">
+    QDoubleSpinBox {
+        subcontrol-origin: padding;
+        subcontrol-position: top right;
+        background: rgb(13, 16, 23);
+        color: rgb(255, 255, 255);
+
+    }</string>
                 </property>
                 <property name="minimum">
                  <double>1.000000000000000</double>

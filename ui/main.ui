@@ -597,6 +597,8 @@ border-radius: 15px;
 
 QHeaderView::section {
     color: rgb(209, 209, 209); /* 헤더 텍스트 색상 - 회색 */
+	background-color: rgb(7, 7, 16); 
+
 }
 
 QTableWidget::item {
@@ -2072,7 +2074,7 @@ color: rgb(255, 255, 255);
              </size>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="live_page">
              <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -3029,6 +3031,7 @@ color: rgb(255, 255, 255);
 
 QHeaderView::section {
     color: rgb(209, 209, 209); /* 헤더 텍스트 색상 - 회색 */
+background-color: rgb(7, 7, 16); /* 테이블 전체 배경색 */
 }
 
 QTableWidget::item {
@@ -3324,7 +3327,14 @@ QSlider::sub-page:horizontal {
                           </font>
                          </property>
                          <property name="styleSheet">
-                          <string notr="true">color: rgb(255, 255, 255);</string>
+                          <string notr="true">
+    QSpinBox {
+        subcontrol-origin: padding;
+        subcontrol-position: top right;
+        background: rgb(13, 16, 23);
+        color: rgb(255, 255, 255);
+
+    }</string>
                          </property>
                          <property name="minimum">
                           <number>1</number>
@@ -3903,7 +3913,7 @@ background-color: rgb(13, 16, 23);</string>
                    <enum>QFrame::Shadow::Plain</enum>
                   </property>
                   <property name="currentIndex">
-                   <number>2</number>
+                   <number>0</number>
                   </property>
                   <widget class="QWidget" name="setting_notice_tab">
                    <layout class="QVBoxLayout" name="verticalLayout_14">

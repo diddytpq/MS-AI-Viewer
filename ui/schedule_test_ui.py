@@ -836,52 +836,76 @@ class Ui_schedule_window(object):
         if (self.schedule_time_table.rowCount() < 24):
             self.schedule_time_table.setRowCount(24)
         __qtablewidgetitem7 = QTableWidgetItem()
+        __qtablewidgetitem7.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(0, __qtablewidgetitem7)
         __qtablewidgetitem8 = QTableWidgetItem()
+        __qtablewidgetitem8.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(1, __qtablewidgetitem8)
         __qtablewidgetitem9 = QTableWidgetItem()
+        __qtablewidgetitem9.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(2, __qtablewidgetitem9)
         __qtablewidgetitem10 = QTableWidgetItem()
+        __qtablewidgetitem10.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(3, __qtablewidgetitem10)
         __qtablewidgetitem11 = QTableWidgetItem()
+        __qtablewidgetitem11.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(4, __qtablewidgetitem11)
         __qtablewidgetitem12 = QTableWidgetItem()
+        __qtablewidgetitem12.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(5, __qtablewidgetitem12)
         __qtablewidgetitem13 = QTableWidgetItem()
+        __qtablewidgetitem13.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(6, __qtablewidgetitem13)
         __qtablewidgetitem14 = QTableWidgetItem()
+        __qtablewidgetitem14.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(7, __qtablewidgetitem14)
         __qtablewidgetitem15 = QTableWidgetItem()
+        __qtablewidgetitem15.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(8, __qtablewidgetitem15)
         __qtablewidgetitem16 = QTableWidgetItem()
+        __qtablewidgetitem16.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(9, __qtablewidgetitem16)
         __qtablewidgetitem17 = QTableWidgetItem()
+        __qtablewidgetitem17.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(10, __qtablewidgetitem17)
         __qtablewidgetitem18 = QTableWidgetItem()
+        __qtablewidgetitem18.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(11, __qtablewidgetitem18)
         __qtablewidgetitem19 = QTableWidgetItem()
+        __qtablewidgetitem19.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(12, __qtablewidgetitem19)
         __qtablewidgetitem20 = QTableWidgetItem()
+        __qtablewidgetitem20.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(13, __qtablewidgetitem20)
         __qtablewidgetitem21 = QTableWidgetItem()
+        __qtablewidgetitem21.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(14, __qtablewidgetitem21)
         __qtablewidgetitem22 = QTableWidgetItem()
+        __qtablewidgetitem22.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(15, __qtablewidgetitem22)
         __qtablewidgetitem23 = QTableWidgetItem()
+        __qtablewidgetitem23.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(16, __qtablewidgetitem23)
         __qtablewidgetitem24 = QTableWidgetItem()
+        __qtablewidgetitem24.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(17, __qtablewidgetitem24)
         __qtablewidgetitem25 = QTableWidgetItem()
+        __qtablewidgetitem25.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(18, __qtablewidgetitem25)
         __qtablewidgetitem26 = QTableWidgetItem()
+        __qtablewidgetitem26.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(19, __qtablewidgetitem26)
         __qtablewidgetitem27 = QTableWidgetItem()
+        __qtablewidgetitem27.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(20, __qtablewidgetitem27)
         __qtablewidgetitem28 = QTableWidgetItem()
+        __qtablewidgetitem28.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(21, __qtablewidgetitem28)
         __qtablewidgetitem29 = QTableWidgetItem()
+        __qtablewidgetitem29.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(22, __qtablewidgetitem29)
         __qtablewidgetitem30 = QTableWidgetItem()
+        __qtablewidgetitem30.setTextAlignment(Qt.AlignCenter);
         self.schedule_time_table.setVerticalHeaderItem(23, __qtablewidgetitem30)
         self.schedule_time_table.setObjectName(u"schedule_time_table")
         self.schedule_time_table.setMinimumSize(QSize(0, 575))
@@ -891,6 +915,12 @@ class Ui_schedule_window(object):
 "\n"
 "gridline-color: rgb(119, 118, 123);\n"
 "	background-color: rgba(0, 0, 0, 0);\n"
+"\n"
+"}\n"
+"\n"
+"QHeaderView::section {\n"
+"    color: rgb(209, 209, 209); /* \ud5e4\ub354 \ud14d\uc2a4\ud2b8 \uc0c9\uc0c1 - \ud68c\uc0c9 */\n"
+"	background-color: rgb(44, 51, 60); \n"
 "\n"
 "}\n"
 "\n"
