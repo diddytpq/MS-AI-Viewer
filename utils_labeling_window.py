@@ -397,7 +397,8 @@ class LabelingDialog(QDialog):
 
         self.label_ui.camera_name_box.currentTextChanged.connect(self.set_date_list)
         self.label_ui.event_date_box.currentTextChanged.connect(self.set_event_list)
-        self.label_ui.label_list_table.itemSelectionChanged.connect(self.load_event_data)
+        # self.label_ui.label_list_table.itemSelectionChanged.connect(self.load_event_data)
+        self.label_ui.label_list_table.itemDoubleClicked.connect(self.load_event_data)
 
         self.label_ui.shutdown_bnt.clicked.connect(self.close_window)
         self.label_ui.label_save_bnt.clicked.connect(self.save_label_buffer)
@@ -570,6 +571,8 @@ class LabelingDialog(QDialog):
                 self.label_ui.label_list_table.setCurrentCell(0, 0)
 
     def load_event_data(self):
+        # self.parent.create_fade_out_msg(std_window = self, msg="라벨 데이터 로딩중")
+
         self.img_buffer = []
         selected_indexes = self.label_ui.label_list_table.selectedIndexes()
 
@@ -600,14 +603,41 @@ class LabelingDialog(QDialog):
         date = self.label_ui.event_date_box.currentText()
         selected_indexes = self.label_ui.label_list_table.selectedIndexes()
 
+        # if selected_indexes:
+        #     selected_row = selected_indexes[0].row()
+        #     event_name = self.label_ui.label_list_table.item(selected_row, 0).text()
+
+        #     data = {"msg" : {"cmd" : "del_label", 
+        #                     "camera_name" : camera_name,
+        #                     "date" : date,
+        #                     "event_name" : event_name},
+        #                     } 
+            
+        #     url = f'http://{self.parent.HOST}:{self.parent.PORT}/get-autolabel-info'
+        #     self.receive_data = requests.get(url, json=data).json()
+
+        #     if self.receive_data["msg"] == True:
+        #         data = {"msg" : {"cmd" : "get_label_info"}} 
+        #         url = f'http://{self.parent.HOST}:{self.parent.PORT}/get-autolabel-info'
+        #         receive_data = requests.get(url, json=data).json()
+        #         self.label_data_info = receive_data["label_data_info"]
+
+        #         self.label_flag = receive_data["label_flag"]
+        #         self.set_event_list()
+        #         self.label_ui.label_list_table.selectRow(selected_row)
+
+        event_name_list = []
         if selected_indexes:
-            selected_row = selected_indexes[0].row()
-            event_name = self.label_ui.label_list_table.item(selected_row, 0).text()
+            for i in range(len(selected_indexes)):
+                selected_row = selected_indexes[i].row()
+                event_name = self.label_ui.label_list_table.item(selected_row, 0).text()
+                # print(event_name)
+                event_name_list.append(event_name)
 
             data = {"msg" : {"cmd" : "del_label", 
                             "camera_name" : camera_name,
                             "date" : date,
-                            "event_name" : event_name},
+                            "event_name" : event_name_list},
                             } 
             
             url = f'http://{self.parent.HOST}:{self.parent.PORT}/get-autolabel-info'
@@ -622,6 +652,8 @@ class LabelingDialog(QDialog):
                 self.label_flag = receive_data["label_flag"]
                 self.set_event_list()
                 self.label_ui.label_list_table.selectRow(selected_row)
+                self.load_event_data()
+
 
 
     def save_label_buffer(self):
@@ -651,6 +683,7 @@ class LabelingDialog(QDialog):
                 self.label_flag = receive_data["label_flag"]
                 self.set_event_list()
                 self.label_ui.label_list_table.selectRow(selected_row+1)
+                self.load_event_data()
             # self.parent.create_fade_out_msg("Save Label")
 
 def open_labeling_window(click, self):

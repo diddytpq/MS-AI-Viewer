@@ -443,6 +443,7 @@ border: 1px solid rgb(20, 20, 20);</string>
 
 QHeaderView::section {
     color: rgb(209, 209, 209); /* 헤더 텍스트 색상 - 회색 */
+background-color: rgb(7, 7, 16); /* 테이블 전체 배경색 */
 }
 
 QTableWidget::item {
@@ -478,11 +479,14 @@ width: 8px;
               <property name="tabKeyNavigation">
                <bool>false</bool>
               </property>
+              <property name="dragEnabled">
+               <bool>false</bool>
+              </property>
               <property name="dragDropOverwriteMode">
                <bool>false</bool>
               </property>
               <property name="selectionMode">
-               <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+               <enum>QAbstractItemView::SelectionMode::ContiguousSelection</enum>
               </property>
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
@@ -532,6 +536,52 @@ width: 8px;
               <attribute name="verticalHeaderStretchLastSection">
                <bool>false</bool>
               </attribute>
+              <row/>
+              <row>
+               <property name="text">
+                <string>New Row</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>2 </string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>New Row</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>New Row</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>New Row</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>New Row</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>New Row</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>New Row</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>New Row</string>
+               </property>
+              </row>
               <column>
                <property name="text">
                 <string>이벤트 목록</string>
