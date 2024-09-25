@@ -62,7 +62,7 @@
                <string/>
               </property>
               <property name="pixmap">
-               <pixmap resource="../ms_ai_img.qrc">:/newPrefix/ui/images/logo.svg</pixmap>
+               <pixmap resource="../ms_ai_img.qrc">:/newPrefix/ui/images/logo.png</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>

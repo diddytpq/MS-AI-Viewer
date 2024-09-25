@@ -229,7 +229,9 @@ class MainWindow(QMainWindow):
                                               port=self.PORT, 
                                               viewers=camera_viewers[idx],
                                               viewers_widget=self.ui_main.live_page,
-                                              settings={"plot_bbox": setting_info_temp["DETECT"]["Bbox"],"plot_label": setting_info_temp["DETECT"]["Label"]},
+                                              plot_bbox = self.setting_info_temp["DETECT"]["Bbox"],
+                                              plot_label = self.setting_info_temp["DETECT"]["Label"],
+                                              plot_roi = self.setting_info_temp["DETECT"]["Roi"],
                                               fps = fps
                                             )
                 worker.ImageUpdated.connect(self.ShowCamera_Group)
@@ -312,6 +314,7 @@ class MainWindow(QMainWindow):
                                                         roi_thickness = 2,
                                                         plot_bbox=self.setting_info_temp["DETECT"]["Bbox"],
                                                         plot_label=self.setting_info_temp["DETECT"]["Label"],
+                                                        plot_roi = self.setting_info_temp["DETECT"]["Roi"],
                                                         viewer = self.ui_main.camera_page_viewer)
 
                 self.camera_page_worker.ImageUpdated.connect(lambda image, viewer=self.ui_main.camera_page_viewer: self.ShowCamera(viewer, image))
@@ -332,27 +335,24 @@ class MainWindow(QMainWindow):
 
         try:
             if self.before_active_window == False and self.isActiveWindow():
-                if self.live_page_worker_dict != None :
-                    for worker in self.live_page_worker_dict.values():
-                        for camera_name, camera_info in worker.cameras.items():
-                            worker.caps[camera_name].change_framerate(30)
-                print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : chg 30fps")
-
+                self.change_live_page_camera_fps(30)
                 self.before_active_window = self.isActiveWindow()
                         
                 # if self.camera_page_worker != None :
                 #     self.camera_page_worker.cap.change_framerate(30)
             elif self.before_active_window == True and self.isActiveWindow() == False:
-                if self.live_page_worker_dict != None :
-                    for worker in self.live_page_worker_dict.values():
-                        for camera_name, camera_info in worker.cameras.items():
-                            worker.caps[camera_name].change_framerate(1)
-                print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : chg 1fps")
+                self.change_live_page_camera_fps(1)
                 self.before_active_window = self.isActiveWindow()
                 
         except Exception as e:
             print_error(e)
 
+    def change_live_page_camera_fps(self, fps = 30):
+        if self.live_page_worker_dict != None :
+            for worker in self.live_page_worker_dict.values():
+                for camera_name, camera_info in worker.cameras.items():
+                    worker.caps[camera_name].change_framerate(fps)
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : chg {fps}fps")
 
     def set_person_conf_value(self):
         try:
@@ -434,10 +434,16 @@ class MainWindow(QMainWindow):
             self.setting_info_temp["VIDEO_SAVE"]["active"] = int(self.ui_main.setting_video_save_alarm_active_bnt.isChecked())
             self.setting_info_temp["DETECT"]["Bbox"] = int(self.ui_main.setting_detect_bbox_active_bnt.isChecked())
             self.setting_info_temp["DETECT"]["Label"] = int(self.ui_main.setting_detect_label_active_bnt.isChecked())
+            self.setting_info_temp["DETECT"]["Roi"] = int(self.ui_main.setting_detect_roi_active_bnt.isChecked())
 
             for worker in self.live_page_worker_dict.values():
                 worker.plot_bbox = self.setting_info_temp["DETECT"]["Bbox"] == 1
                 worker.plot_label = self.setting_info_temp["DETECT"]["Label"] == 1
+                worker.plot_roi = self.setting_info_temp["DETECT"]["Roi"] == 1
+
+            # self.camera_page_worker.plot_bbox = self.setting_info_temp["DETECT"]["Bbox"] == 1
+            # self.camera_page_worker.plot_label = self.setting_info_temp["DETECT"]["Label"] == 1
+            # self.camera_page_worker.plot_roi = self.setting_info_temp["DETECT"]["Roi"] == 1
 
 
             video_save_active = self.ui_main.setting_video_save_alarm_active_bnt.isChecked()
@@ -788,7 +794,6 @@ class MainWindow(QMainWindow):
                 worker.stop()
                 del worker
 
-
     def stop_camera_page_worker(self):
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : stop camera page camera")
 
@@ -811,13 +816,13 @@ class MainWindow(QMainWindow):
             self.ui_main.stackedWidget.setCurrentIndex(0)
             self.ui_main.camera_refresh_bnt.show()
 
-            self.live_refresh_live_viewer()
+            # self.live_refresh_live_viewer()
 
             self.stop_camera_page_worker()
 
             self.return_camera_page_permission()
+            self.change_live_page_camera_fps(30)
 
-            # self.live_refresh_live_viewer()
         except Exception as e:
             print_error(e)
 
@@ -850,7 +855,9 @@ class MainWindow(QMainWindow):
             self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
             self.login_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
 
-            self.stop_live_page_worker()
+            # self.stop_live_page_worker()
+            self.change_live_page_camera_fps(1)
+
             self.connect_camera_page_camera(camera_name=self.ui_main.camera_page_name_box.currentText())
             self.set_camera_page_viewer(camera_name=self.ui_main.camera_page_name_box.currentText())
             
@@ -875,7 +882,9 @@ class MainWindow(QMainWindow):
             self.ui_main.setting_user_new_pw_input2.clear()
 
             self.stop_camera_page_worker()
-            self.stop_live_page_worker()
+            # self.stop_live_page_worker()
+            self.change_live_page_camera_fps(1)
+
             self.return_camera_page_permission()
 
 
@@ -898,7 +907,9 @@ class MainWindow(QMainWindow):
             self.ui_main.admin_pw_input.clear()
 
             self.stop_camera_page_worker()
-            self.stop_live_page_worker()
+            # self.stop_live_page_worker()
+            self.change_live_page_camera_fps(1)
+
             self.return_camera_page_permission()
 
         except Exception as e:
@@ -1178,7 +1189,7 @@ class MainWindow(QMainWindow):
             del worker
         
         save_info(host=self.HOST, port=self.PORT, file_name="login_info", info=login_info)
-        self.init_GUI_setup(reset=True)
+        self.setup_init_GUI(reset=True)
     
     def create_fade_out_msg(self, std_window=None, msg="None"):
         try:
@@ -1412,6 +1423,8 @@ class MainWindow(QMainWindow):
         self.ui_main.setting_event_video_storage_period.currentIndexChanged.connect(self.change_setting_info)
         self.ui_main.setting_detect_bbox_active_bnt.clicked.connect(self.change_setting_info)
         self.ui_main.setting_detect_label_active_bnt.clicked.connect(self.change_setting_info)
+        self.ui_main.setting_detect_roi_active_bnt.clicked.connect(self.change_setting_info)
+
 
         # admin 메뉴 버튼
         self.ui_main.admin_page_bnt.clicked.connect(self.login_admin_page)
@@ -1457,6 +1470,7 @@ class MainWindow(QMainWindow):
 
         self.ui_main.setting_detect_bbox_active_bnt.setChecked(setting_info_temp["DETECT"]["Bbox"]) # 지능형 검출 결과 BBOX 출력 여부
         self.ui_main.setting_detect_label_active_bnt.setChecked(setting_info_temp["DETECT"]["Label"]) # 지능형 검출 결과 class 출력 여부
+        self.ui_main.setting_detect_roi_active_bnt.setChecked(setting_info_temp["DETECT"]["Roi"]) # 지능형 검출 결과 class 출력 여부
 
         if self.ui_main.setting_video_save_alarm_active_bnt.isChecked():
             self.ui_main.setting_event_video_storage_period.setEnabled(True)

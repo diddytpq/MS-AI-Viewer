@@ -210,7 +210,7 @@ class Connect_Camera(QThread):
     ImageUpdated = Signal(QImage)
     doubleClicked = Signal()
 
-    def __init__(self, pipe, host, port, camera_name, viewer, plot_bbox = True, plot_label = True,  roi_thickness = 1, ai_active = False) -> None:
+    def __init__(self, pipe, host, port, camera_name, viewer, plot_bbox = True, plot_label = True,  plot_roi = True,roi_thickness = 1, ai_active = False) -> None:
         super(Connect_Camera, self).__init__()
         # Declare and initialize instance variables.
         self.pipe = pipe
@@ -236,6 +236,7 @@ class Connect_Camera(QThread):
 
         self.plot_bbox = plot_bbox
         self.plot_label = plot_label
+        self.plot_roi = plot_roi
 
     def mouseDoubleClickEvent(self, event):
         self.doubleClicked.emit()  # 더블 클릭 시 시그널 발생
@@ -252,7 +253,7 @@ class Connect_Camera(QThread):
                     # If frame is read correctly.
                     self.frame = cv2.resize(self.frame_ori, dsize=(self.viewer.width(), self.viewer.height()))
 
-                    if self.ai_active and  (self.plot_bbox or self.plot_label):
+                    if self.ai_active and  (self.plot_bbox or self.plot_label or self.plot_roi):
                         try:
                             receive_data = session.get(self.back_url, json={"msg" : self.camera_name}).json()
 
@@ -292,7 +293,7 @@ class Connect_Camera_Group(QThread):
     ImageUpdated = Signal(str, QImage)  # 카메라 이름과 함께 이미지를 보냄
     doubleClicked = Signal()
 
-    def __init__(self, cameras, host, port, viewers, viewers_widget, settings, fps) -> None:
+    def __init__(self, cameras, host, port, viewers, viewers_widget, plot_bbox = True, plot_label= True, plot_roi = True, fps = 30) -> None:
         super(Connect_Camera_Group, self).__init__()
         self.cameras = cameras
         self.__thread_active = True
@@ -301,7 +302,10 @@ class Connect_Camera_Group(QThread):
         self.port = port
         self.viewers = viewers
         self.viewers_widget = viewers_widget
-        self.settings = settings
+        self.plot_bbox = plot_bbox
+        self.plot_label = plot_label
+        self.plot_roi = plot_roi
+
         self.camera_connect_flag = {}
         self.fps = fps
 
@@ -318,14 +322,15 @@ class Connect_Camera_Group(QThread):
                     # frame = cv2.resize(frame_ori, dsize=(self.viewers[camera_name].width(), self.viewers[camera_name].height()))
                     frame = cv2.resize(frame_ori, dsize=(self.viewers_widget.width()//4 - 5, self.viewers_widget.height()//4 - 5))
 
-                    if camera_info["ai_active"] and (self.settings["plot_bbox"] or self.settings["plot_label"]):
+                    if camera_info["ai_active"] and (self.plot_bbox or self.plot_label or self.plot_roi):
                         try:
                             receive_data = sessions[camera_name].get(camera_info['back_url'], json={"msg": camera_name}).json()
                             if receive_data[camera_name]:
                                 frame = plot_detect_info(img=frame, detect_info=receive_data[camera_name],
-                                                        roi_thickness=camera_info["roi_thickness"],
-                                                        plot_bbox=self.settings["plot_bbox"],
-                                                        plot_label=self.settings["plot_label"])
+                                                        roi_thickness = camera_info["roi_thickness"],
+                                                        plot_bbox = self.plot_bbox,
+                                                        plot_label = self.plot_label,
+                                                        plot_roi = self.plot_roi)
                         except requests.RequestException as e:
                             print(f"Network error occurred while fetching data for {camera_name}: {e}")
                             
@@ -554,13 +559,13 @@ class FadeOutWindow(QWidget):
         self.anim.start()
 
 class FadeOutInWindow(QWidget):
-    def __init__(self, parent=None, camera_num = 0, data = {}, window_num = 0):
+    def __init__(self, parent=None, camera_name = 0, data = {}, window_num = 0):
         super().__init__(parent=parent)
         now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
         # print(data)
         self.window_title = f"Alarm {window_num}"
         if len(data):
-            self.msg = f"{camera_num}번 카메라 : {data[0]} \n {data[2]}"
+            self.msg = f"{camera_name} 카메라 : {Eng2kor(data[0])} \n {data[2]}"
 
         self.initUI()
         self.setAttribute(Qt.WA_TranslucentBackground)
@@ -740,7 +745,7 @@ def TF_bbox(bbox, ori_imsz=(640, 360), target_imsz=(1920, 1080)):
         
     return TF_boxes
 
-def plot_detect_info(img, detect_info, line_thickness = 1 , roi_thickness = 1, plot_bbox = True, plot_label = True):
+def plot_detect_info(img, detect_info, line_thickness = 1 , roi_thickness = 1, plot_bbox = True, plot_label = True, plot_roi = True):
     color = Colors()
     ROI_color_dict = {"Loitering": [53, 225, 225], "Intrusion": [35, 28, 255], "Fire": [33, 145, 237],
                                 "Fight": [255, 0, 127], "Falldown": [230, 255, 121]}
@@ -805,13 +810,14 @@ def plot_detect_info(img, detect_info, line_thickness = 1 , roi_thickness = 1, p
 
         plot_one_box(xyxy, img, label=label, bbox = plot_bbox, color=bbox_color, line_thickness=line_thickness) # 박스 그리기
 
-    TF_roi_info = TF_detect_area(detect_info["ROI_ori"], img_size=(img.shape[1], img.shape[0]))
-    for roi_info in TF_roi_info:
-        draw_roi(points = roi_info[1:], 
-                    image = img,
-                    color = ROI_color_dict[roi_info[0]], 
-                    thickness = roi_thickness, 
-                    is_closed = True)
+    if plot_roi:
+        TF_roi_info = TF_detect_area(detect_info["ROI_ori"], img_size=(img.shape[1], img.shape[0]))
+        for roi_info in TF_roi_info:
+            draw_roi(points = roi_info[1:], 
+                        image = img,
+                        color = ROI_color_dict[roi_info[0]], 
+                        thickness = roi_thickness, 
+                        is_closed = True)
 
     return img
 

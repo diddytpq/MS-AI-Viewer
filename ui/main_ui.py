@@ -1772,17 +1772,15 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_26.addLayout(self.horizontalLayout_29)
 
-        self.horizontalLayout_30 = QHBoxLayout()
-        self.horizontalLayout_30.setObjectName(u"horizontalLayout_30")
-        self.horizontalSpacer_32 = QSpacerItem(85, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.verticalLayout_60 = QVBoxLayout()
+        self.verticalLayout_60.setSpacing(8)
+        self.verticalLayout_60.setObjectName(u"verticalLayout_60")
+        self.horizontalLayout_62 = QHBoxLayout()
+        self.horizontalLayout_62.setObjectName(u"horizontalLayout_62")
+        self.horizontalSpacer_32 = QSpacerItem(99, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_30.addItem(self.horizontalSpacer_32)
+        self.horizontalLayout_62.addItem(self.horizontalSpacer_32)
 
-        self.verticalLayout_22 = QVBoxLayout()
-        self.verticalLayout_22.setSpacing(11)
-        self.verticalLayout_22.setObjectName(u"verticalLayout_22")
-        self.horizontalLayout_28 = QHBoxLayout()
-        self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
         self.setting_detect_bbox_active_label = QLabel(self.setting_notice_tab)
         self.setting_detect_bbox_active_label.setObjectName(u"setting_detect_bbox_active_label")
         self.setting_detect_bbox_active_label.setMinimumSize(QSize(91, 28))
@@ -1792,7 +1790,7 @@ class Ui_MainWindow(object):
 "background-color: rgba(255, 255, 255, 0);")
         self.setting_detect_bbox_active_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_28.addWidget(self.setting_detect_bbox_active_label)
+        self.horizontalLayout_62.addWidget(self.setting_detect_bbox_active_label)
 
         self.setting_detect_bbox_active_bnt = QPushButton(self.setting_notice_tab)
         self.setting_detect_bbox_active_bnt.setObjectName(u"setting_detect_bbox_active_bnt")
@@ -1805,17 +1803,21 @@ class Ui_MainWindow(object):
         self.setting_detect_bbox_active_bnt.setIconSize(QSize(55, 103))
         self.setting_detect_bbox_active_bnt.setCheckable(True)
 
-        self.horizontalLayout_28.addWidget(self.setting_detect_bbox_active_bnt)
+        self.horizontalLayout_62.addWidget(self.setting_detect_bbox_active_bnt)
 
         self.horizontalSpacer_27 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_28.addItem(self.horizontalSpacer_27)
+        self.horizontalLayout_62.addItem(self.horizontalSpacer_27)
 
 
-        self.verticalLayout_22.addLayout(self.horizontalLayout_28)
+        self.verticalLayout_60.addLayout(self.horizontalLayout_62)
 
-        self.horizontalLayout_27 = QHBoxLayout()
-        self.horizontalLayout_27.setObjectName(u"horizontalLayout_27")
+        self.horizontalLayout_66 = QHBoxLayout()
+        self.horizontalLayout_66.setObjectName(u"horizontalLayout_66")
+        self.horizontalSpacer_71 = QSpacerItem(99, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_66.addItem(self.horizontalSpacer_71)
+
         self.setting_detect_label_active_label = QLabel(self.setting_notice_tab)
         self.setting_detect_label_active_label.setObjectName(u"setting_detect_label_active_label")
         self.setting_detect_label_active_label.setMinimumSize(QSize(91, 28))
@@ -1825,7 +1827,7 @@ class Ui_MainWindow(object):
 "background-color: rgba(255, 255, 255, 0);")
         self.setting_detect_label_active_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_27.addWidget(self.setting_detect_label_active_label)
+        self.horizontalLayout_66.addWidget(self.setting_detect_label_active_label)
 
         self.setting_detect_label_active_bnt = QPushButton(self.setting_notice_tab)
         self.setting_detect_label_active_bnt.setObjectName(u"setting_detect_label_active_bnt")
@@ -1839,12 +1841,64 @@ class Ui_MainWindow(object):
         self.setting_detect_label_active_bnt.setIconSize(QSize(55, 103))
         self.setting_detect_label_active_bnt.setCheckable(True)
 
-        self.horizontalLayout_27.addWidget(self.setting_detect_label_active_bnt)
+        self.horizontalLayout_66.addWidget(self.setting_detect_label_active_bnt)
 
-        self.horizontalSpacer_26 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_73 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_27.addItem(self.horizontalSpacer_26)
+        self.horizontalLayout_66.addItem(self.horizontalSpacer_73)
 
+
+        self.verticalLayout_60.addLayout(self.horizontalLayout_66)
+
+        self.horizontalLayout_67 = QHBoxLayout()
+        self.horizontalLayout_67.setObjectName(u"horizontalLayout_67")
+        self.horizontalSpacer_74 = QSpacerItem(83, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_67.addItem(self.horizontalSpacer_74)
+
+        self.setting_detect_roi_active_label = QLabel(self.setting_notice_tab)
+        self.setting_detect_roi_active_label.setObjectName(u"setting_detect_roi_active_label")
+        self.setting_detect_roi_active_label.setMinimumSize(QSize(107, 28))
+        self.setting_detect_roi_active_label.setMaximumSize(QSize(117, 28))
+        self.setting_detect_roi_active_label.setFont(font14)
+        self.setting_detect_roi_active_label.setStyleSheet(u"color: rgb(179,179,179);\n"
+"background-color: rgba(255, 255, 255, 0);")
+        self.setting_detect_roi_active_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_67.addWidget(self.setting_detect_roi_active_label)
+
+        self.setting_detect_roi_active_bnt = QPushButton(self.setting_notice_tab)
+        self.setting_detect_roi_active_bnt.setObjectName(u"setting_detect_roi_active_bnt")
+        self.setting_detect_roi_active_bnt.setMinimumSize(QSize(61, 25))
+        self.setting_detect_roi_active_bnt.setMaximumSize(QSize(61, 25))
+        self.setting_detect_roi_active_bnt.setIcon(icon7)
+        self.setting_detect_roi_active_bnt.setIconSize(QSize(55, 103))
+        self.setting_detect_roi_active_bnt.setCheckable(True)
+
+        self.horizontalLayout_67.addWidget(self.setting_detect_roi_active_bnt)
+
+        self.horizontalSpacer_75 = QSpacerItem(38, 25, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_67.addItem(self.horizontalSpacer_75)
+
+
+        self.verticalLayout_60.addLayout(self.horizontalLayout_67)
+
+
+        self.verticalLayout_26.addLayout(self.verticalLayout_60)
+
+        self.horizontalLayout_30 = QHBoxLayout()
+        self.horizontalLayout_30.setObjectName(u"horizontalLayout_30")
+        self.verticalLayout_22 = QVBoxLayout()
+        self.verticalLayout_22.setSpacing(11)
+        self.verticalLayout_22.setObjectName(u"verticalLayout_22")
+        self.horizontalLayout_28 = QHBoxLayout()
+        self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
+
+        self.verticalLayout_22.addLayout(self.horizontalLayout_28)
+
+        self.horizontalLayout_27 = QHBoxLayout()
+        self.horizontalLayout_27.setObjectName(u"horizontalLayout_27")
 
         self.verticalLayout_22.addLayout(self.horizontalLayout_27)
 
@@ -3360,7 +3414,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(1)
         self.setting_stack_widget.setCurrentIndex(0)
         self.setting_popup_alarm_cnt.setCurrentIndex(2)
         self.setting_setting_ai_weight_box.setCurrentIndex(0)
@@ -3445,7 +3499,7 @@ class Ui_MainWindow(object):
         self.camera_page_camera_event_label_2.setText(QCoreApplication.translate("MainWindow", u"\uc0ac\ub78c \uac80\ucd9c \uc784\uacc4\uac12", None))
         self.camera_page_ai_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc9c0\ub2a5\ud615 \ubd84\uc11d \uc124\uc815", None))
         self.camera_page_readmod_icon.setText(QCoreApplication.translate("MainWindow", u"\u203b", None))
-        self.camera_page_readmod_label.setText(QCoreApplication.translate("MainWindow", u"\uc77d\uae30 \ubaa8\ub4dc", None))
+        self.camera_page_readmod_label.setText(QCoreApplication.translate("MainWindow", u"\uc77d\uae30 \uc804\uc6a9", None))
         self.camera_page_ai_active_icon.setText("")
         self.camera_page_ai_active_label.setText(QCoreApplication.translate("MainWindow", u"\uc9c0\ub2a5\ud615 \ubd84\uc11d \uc9c4\ud589\uc911", None))
         self.camera_page_viewer.setText("")
@@ -3457,6 +3511,8 @@ class Ui_MainWindow(object):
         self.setting_detect_bbox_active_bnt.setText("")
         self.setting_detect_label_active_label.setText(QCoreApplication.translate("MainWindow", u"Label \ud65c\uc131\ud654", None))
         self.setting_detect_label_active_bnt.setText("")
+        self.setting_detect_roi_active_label.setText(QCoreApplication.translate("MainWindow", u"\uad00\uc2ec\uc601\uc5ed \ud65c\uc131\ud654", None))
+        self.setting_detect_roi_active_bnt.setText("")
         self.setting_video_save_alarm_active_label.setText(QCoreApplication.translate("MainWindow", u"\uc774\ubca4\ud2b8 \uc601\uc0c1 \uc800\uc7a5 \ud65c\uc131\ud654", None))
         self.setting_video_save_alarm_active_bnt.setText("")
         self.setting_event_video_storage_period_label.setText(QCoreApplication.translate("MainWindow", u"\uc774\ubca4\ud2b8 \uc601\uc0c1 \uc720\uc9c0 \uae30\uac04", None))

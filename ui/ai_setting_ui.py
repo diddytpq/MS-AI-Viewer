@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'ai_setting.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.7.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -30,7 +30,7 @@ class Ui_Ai_Setting_Window(object):
         Ai_Setting_Window.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
         Ai_Setting_Window.setWindowTitle(u"\uc9c0\ub2a5\ud615 \ubd84\uc11d \uc124\uc815")
         icon = QIcon()
-        icon.addFile(u":/newPrefix/images/icon2.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/newPrefix/images/icon2.png", QSize(), QIcon.Normal, QIcon.Off)
         Ai_Setting_Window.setWindowIcon(icon)
         Ai_Setting_Window.setStyleSheet(u"\n"
 "background-color: rgb(3, 3, 13);")
@@ -257,7 +257,7 @@ class Ui_Ai_Setting_Window(object):
         font2.setFamilies([u"NanumBarunGothic"])
         font2.setPointSize(10)
         self.close_bnt.setFont(font2)
-        self.close_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.close_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.close_bnt.setStyleSheet(u"background-color: rgb(255, 49, 38);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 20px;\n"
@@ -275,7 +275,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_save_bnt.setMinimumSize(QSize(71, 41))
         self.camera_save_bnt.setMaximumSize(QSize(16777210, 41))
         self.camera_save_bnt.setFont(font2)
-        self.camera_save_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.camera_save_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_save_bnt.setStyleSheet(u"background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 20px;\n"
@@ -293,7 +293,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_ai_check_1.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_name_1 = QLabel(Ai_Setting_Window)
         self.camera_view_name_1.setObjectName(u"camera_view_name_1")
-        self.camera_view_name_1.setGeometry(QRect(8, 49, 250, 20))
+        self.camera_view_name_1.setGeometry(QRect(8, 51, 250, 20))
         sizePolicy.setHeightForWidth(self.camera_view_name_1.sizePolicy().hasHeightForWidth())
         self.camera_view_name_1.setSizePolicy(sizePolicy)
         self.camera_view_name_1.setMaximumSize(QSize(722, 37))
@@ -320,7 +320,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_ai_check_2.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_name_2 = QLabel(Ai_Setting_Window)
         self.camera_view_name_2.setObjectName(u"camera_view_name_2")
-        self.camera_view_name_2.setGeometry(QRect(264, 49, 250, 20))
+        self.camera_view_name_2.setGeometry(QRect(264, 51, 250, 20))
         sizePolicy.setHeightForWidth(self.camera_view_name_2.sizePolicy().hasHeightForWidth())
         self.camera_view_name_2.setSizePolicy(sizePolicy)
         self.camera_view_name_2.setMaximumSize(QSize(722, 37))
@@ -646,7 +646,7 @@ class Ui_Ai_Setting_Window(object):
         self.all_select_bnt.setGeometry(QRect(230, 7, 71, 33))
         self.all_select_bnt.setMinimumSize(QSize(17, 25))
         self.all_select_bnt.setFont(font2)
-        self.all_select_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.all_select_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.all_select_bnt.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 13px;\n"

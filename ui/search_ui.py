@@ -58,7 +58,7 @@ class Ui_Search_window(object):
         font = QFont()
         font.setFamilies([u"Sans"])
         self.top_logo.setFont(font)
-        self.top_logo.setPixmap(QPixmap(u":/newPrefix/ui/images/logo.svg"))
+        self.top_logo.setPixmap(QPixmap(u":/newPrefix/ui/images/logo.png"))
         self.top_logo.setScaledContents(True)
 
         self.horizontalLayout.addWidget(self.top_logo)

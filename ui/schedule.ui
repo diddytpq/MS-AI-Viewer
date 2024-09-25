@@ -1157,8 +1157,8 @@ border-radius: 10px;
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>184</width>
-     <height>31</height>
+     <width>191</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="minimumSize">

@@ -853,7 +853,7 @@ border-radius: 20px;
    <property name="geometry">
     <rect>
      <x>8</x>
-     <y>49</y>
+     <y>51</y>
      <width>250</width>
      <height>20</height>
     </rect>
@@ -938,7 +938,7 @@ background-color: rgba(0, 0, 0, 170);</string>
    <property name="geometry">
     <rect>
      <x>264</x>
-     <y>49</y>
+     <y>51</y>
      <width>250</width>
      <height>20</height>
     </rect>

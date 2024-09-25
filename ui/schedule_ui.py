@@ -546,7 +546,7 @@ class Ui_schedule_window(object):
 "")
         self.top_logo_2 = QLabel(schedule_window)
         self.top_logo_2.setObjectName(u"top_logo_2")
-        self.top_logo_2.setGeometry(QRect(10, 10, 184, 31))
+        self.top_logo_2.setGeometry(QRect(10, 10, 191, 30))
         self.top_logo_2.setMinimumSize(QSize(1, 1))
         self.top_logo_2.setMaximumSize(QSize(251, 41))
         self.top_logo_2.setFont(font3)
