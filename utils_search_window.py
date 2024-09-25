@@ -175,7 +175,9 @@ def search_viewer_playback(click, self):
 
             data = {"msg" : video_file_name}
             url = f'http://{self.HOST}:{self.PORT}/get-search-video'
-            response = requests.post(url, json=data)
+
+            response = requests.get(url, json=data, stream=True)
+            print(response)
 
             if response.status_code == 200:
                 play_fps = 30 * float(self.search_ui.time_video_time_speed_input.text())
@@ -186,29 +188,6 @@ def search_viewer_playback(click, self):
                 self.search_page_worker.ImageUpdated.connect(lambda image, viewer=viewer: self.ShowCamera(viewer, image))
                 self.search_page_worker.start()
 
-                # bytes_data = b''  # 스트리밍 데이터 저장할 바이트 버퍼
-
-                # for chunk in response.iter_content(chunk_size=1024):
-                #     bytes_data += chunk
-
-                #     # JPEG 이미지의 시작과 끝을 찾습니다.
-                #     a = bytes_data.find(b'\xff\xd8')
-                #     b = bytes_data.find(b'\xff\xd9')
-
-                #     if a != -1 and b != -1:
-                #         jpg = bytes_data[a:b+2]
-                #         bytes_data = bytes_data[b+2:]
-
-                #         # JPEG 데이터를 NumPy 배열로 디코딩하여 이미지로 변환
-                #         image = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
-
-                #         if image is not None:
-                #             # 이미지를 화면에 표시
-                #             cv2.imshow('Video Stream', image)
-
-                #             # ESC 키를 누르면 스트리밍 종료
-                #             if cv2.waitKey(1) == 27:
-                #                 break
             else:
                 print("Failed to retrieve video stream.")
     except Exception as e:
