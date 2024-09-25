@@ -496,7 +496,8 @@ class MainWindow(QMainWindow):
                     "new_password" : self.ui_main.setting_user_new_pw_input.text(),
                     "new_password2" : self.ui_main.setting_user_new_pw_input2.text(),
                     }
-            url = f'http://{self.HOST}:{self.PORT}/login_chg'
+
+            url = f'http://{self.HOST}:{self.PORT}/login_info_chg'
             receive_data = requests.post(url, json=data).json()
 
             self.create_fade_out_msg(msg=receive_data["message"])
@@ -925,6 +926,8 @@ class MainWindow(QMainWindow):
 
             self.ui_main.setting_stack_widget.setCurrentIndex(1)
             self.ui_main.setting_user_id_input.clear()
+            self.ui_main.setting_user_id_input.setText(self.user_info)
+
             self.ui_main.setting_user_pw_input.clear()
             self.ui_main.setting_user_new_pw_input.clear()
             self.ui_main.setting_user_new_pw_input2.clear()
@@ -1347,7 +1350,7 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_page_ai_active_label.hide()
         self.ui_main.camera_page_ai_active_icon.hide()
 
-        if self.user_info == "user":
+        if self.user_info != "admin":
             self.ui_main.tab_partion_3.hide()
             self.ui_main.admin_bnt.hide()
 

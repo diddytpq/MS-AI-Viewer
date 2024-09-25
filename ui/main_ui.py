@@ -2409,6 +2409,7 @@ class Ui_MainWindow(object):
         self.setting_user_id_input.setMinimumSize(QSize(246, 19))
         self.setting_user_id_input.setMaximumSize(QSize(9999, 19))
         self.setting_user_id_input.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.setting_user_id_input.setReadOnly(True)
 
         self.verticalLayout_20.addWidget(self.setting_user_id_input)
 
@@ -3414,8 +3415,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(1)
-        self.setting_stack_widget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
+        self.setting_stack_widget.setCurrentIndex(1)
         self.setting_popup_alarm_cnt.setCurrentIndex(2)
         self.setting_setting_ai_weight_box.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
