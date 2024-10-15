@@ -23,7 +23,6 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QStackedWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
     QWidget)
 import ms_ai_img_rc
-import ms_ai_img_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -54,8 +53,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setSizeConstraint(QLayout.SizeConstraint.SetMinimumSize)
         self.top_logo = QLabel(self.centralwidget)
         self.top_logo.setObjectName(u"top_logo")
-        self.top_logo.setMinimumSize(QSize(251, 41))
-        self.top_logo.setMaximumSize(QSize(251, 41))
+        self.top_logo.setMinimumSize(QSize(240, 38))
+        self.top_logo.setMaximumSize(QSize(240, 38))
         font = QFont()
         font.setFamilies([u"Sans"])
         self.top_logo.setFont(font)
@@ -134,7 +133,7 @@ class Ui_MainWindow(object):
 "color: rgb(255, 255, 255);\n"
 "background-color: rgba(255, 255, 255, 0);\n"
 "lineedit-password-character: 9679; /* Unicode for '\u2022' */")
-        self.server_ip_input.setEchoMode(QLineEdit.EchoMode.Password)
+        self.server_ip_input.setEchoMode(QLineEdit.EchoMode.PasswordEchoOnEdit)
 
         self.horizontalLayout.addWidget(self.server_ip_input)
 
@@ -183,24 +182,24 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.server_pw_input)
 
-        self.sever_login_bnt = QPushButton(self.centralwidget)
-        self.sever_login_bnt.setObjectName(u"sever_login_bnt")
-        self.sever_login_bnt.setMinimumSize(QSize(51, 21))
-        self.sever_login_bnt.setMaximumSize(QSize(51, 21))
+        self.server_login_bnt = QPushButton(self.centralwidget)
+        self.server_login_bnt.setObjectName(u"server_login_bnt")
+        self.server_login_bnt.setMinimumSize(QSize(51, 21))
+        self.server_login_bnt.setMaximumSize(QSize(51, 21))
         font3 = QFont()
         font3.setFamilies([u"\ub9d1\uc740 \uace0\ub515"])
         font3.setPointSize(10)
         font3.setBold(False)
-        self.sever_login_bnt.setFont(font3)
-        self.sever_login_bnt.setCursor(QCursor(Qt.PointingHandCursor))
-        self.sever_login_bnt.setStyleSheet(u"\n"
+        self.server_login_bnt.setFont(font3)
+        self.server_login_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.server_login_bnt.setStyleSheet(u"\n"
 "background-color: rgb(30, 195, 55);\n"
 "\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
 "")
 
-        self.horizontalLayout.addWidget(self.sever_login_bnt)
+        self.horizontalLayout.addWidget(self.server_login_bnt)
 
         self.horizontalSpacer_2 = QSpacerItem(37, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -208,7 +207,7 @@ class Ui_MainWindow(object):
 
         self.widget_6 = QWidget(self.centralwidget)
         self.widget_6.setObjectName(u"widget_6")
-        self.widget_6.setStyleSheet(u"border-radius: 20px;\n"
+        self.widget_6.setStyleSheet(u"border-radius: 19px;\n"
 "background-color: rgb(20, 22, 30);")
         self.horizontalLayout_64 = QHBoxLayout(self.widget_6)
         self.horizontalLayout_64.setObjectName(u"horizontalLayout_64")
@@ -1629,7 +1628,7 @@ class Ui_MainWindow(object):
         self.camera_page_viewer.setMinimumSize(QSize(472, 360))
         self.camera_page_viewer.setMaximumSize(QSize(9999, 9999))
         self.camera_page_viewer.setFont(font14)
-        self.camera_page_viewer.setStyleSheet(u"border: 1px solid rgb(255, 255, 255);\n"
+        self.camera_page_viewer.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "background-color: rgba(255, 255, 255, 0);")
         self.camera_page_viewer.setScaledContents(False)
 
@@ -2291,32 +2290,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_21.addWidget(self.setting_page_email_info_label)
 
-        self.horizontalSpacer_19 = QSpacerItem(128, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_19 = QSpacerItem(21, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_21.addItem(self.horizontalSpacer_19)
 
 
         self.verticalLayout_28.addLayout(self.horizontalLayout_21)
-
-        self.horizontalLayout_31 = QHBoxLayout()
-        self.horizontalLayout_31.setObjectName(u"horizontalLayout_31")
-        self.setting_page_email_info_label_2 = QLabel(self.setting_notice_tab)
-        self.setting_page_email_info_label_2.setObjectName(u"setting_page_email_info_label_2")
-        sizePolicy1.setHeightForWidth(self.setting_page_email_info_label_2.sizePolicy().hasHeightForWidth())
-        self.setting_page_email_info_label_2.setSizePolicy(sizePolicy1)
-        self.setting_page_email_info_label_2.setMinimumSize(QSize(281, 21))
-        self.setting_page_email_info_label_2.setMaximumSize(QSize(9999, 21))
-        self.setting_page_email_info_label_2.setFont(font2)
-        self.setting_page_email_info_label_2.setStyleSheet(u"color: rgb(242, 18, 94);")
-
-        self.horizontalLayout_31.addWidget(self.setting_page_email_info_label_2)
-
-        self.horizontalSpacer_20 = QSpacerItem(40, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_31.addItem(self.horizontalSpacer_20)
-
-
-        self.verticalLayout_28.addLayout(self.horizontalLayout_31)
 
 
         self.horizontalLayout_20.addLayout(self.verticalLayout_28)
@@ -3412,11 +3391,70 @@ class Ui_MainWindow(object):
         self.horizontalLayout_58.addLayout(self.verticalLayout_11)
 
         MainWindow.setCentralWidget(self.centralwidget)
+        QWidget.setTabOrder(self.live_bnt, self.camera_bnt)
+        QWidget.setTabOrder(self.camera_bnt, self.setting_bnt)
+        QWidget.setTabOrder(self.setting_bnt, self.admin_bnt)
+        QWidget.setTabOrder(self.admin_bnt, self.shutdown_bnt)
+        QWidget.setTabOrder(self.shutdown_bnt, self.camera_info_name_input)
+        QWidget.setTabOrder(self.camera_info_name_input, self.camera_info_ip_input)
+        QWidget.setTabOrder(self.camera_info_ip_input, self.camera_info_id_input)
+        QWidget.setTabOrder(self.camera_info_id_input, self.camera_info_pw_input)
+        QWidget.setTabOrder(self.camera_info_pw_input, self.camera_remove_bn)
+        QWidget.setTabOrder(self.camera_remove_bn, self.camera_add_bn)
+        QWidget.setTabOrder(self.camera_add_bn, self.camera_save_bn)
+        QWidget.setTabOrder(self.camera_save_bn, self.server_ip_input)
+        QWidget.setTabOrder(self.server_ip_input, self.server_id_input)
+        QWidget.setTabOrder(self.server_id_input, self.server_pw_input)
+        QWidget.setTabOrder(self.server_pw_input, self.server_login_bnt)
+        QWidget.setTabOrder(self.server_login_bnt, self.camera_refresh_bnt)
+        QWidget.setTabOrder(self.camera_refresh_bnt, self.labeling_bnt)
+        QWidget.setTabOrder(self.labeling_bnt, self.camera_schedule_bnt)
+        QWidget.setTabOrder(self.camera_schedule_bnt, self.alarm_search_bnt)
+        QWidget.setTabOrder(self.alarm_search_bnt, self.camera_page_name_box)
+        QWidget.setTabOrder(self.camera_page_name_box, self.camera_page_camera_event_box)
+        QWidget.setTabOrder(self.camera_page_camera_event_box, self.camera_page_detect_add_bnt)
+        QWidget.setTabOrder(self.camera_page_detect_add_bnt, self.camera_page_detect_area_table)
+        QWidget.setTabOrder(self.camera_page_detect_area_table, self.camera_page_detect_area_del_bnt)
+        QWidget.setTabOrder(self.camera_page_detect_area_del_bnt, self.camera_page_person_conf_slider)
+        QWidget.setTabOrder(self.camera_page_person_conf_slider, self.camera_page_person_conf_value)
+        QWidget.setTabOrder(self.camera_page_person_conf_value, self.camera_page_ai_bnt)
+        QWidget.setTabOrder(self.camera_page_ai_bnt, self.setting_alarm_bnt)
+        QWidget.setTabOrder(self.setting_alarm_bnt, self.setting_user_setting_bnt)
+        QWidget.setTabOrder(self.setting_user_setting_bnt, self.setting_ai_bnt)
+        QWidget.setTabOrder(self.setting_ai_bnt, self.setting_detect_bbox_active_bnt)
+        QWidget.setTabOrder(self.setting_detect_bbox_active_bnt, self.setting_detect_label_active_bnt)
+        QWidget.setTabOrder(self.setting_detect_label_active_bnt, self.setting_detect_roi_active_bnt)
+        QWidget.setTabOrder(self.setting_detect_roi_active_bnt, self.setting_video_save_alarm_active_bnt)
+        QWidget.setTabOrder(self.setting_video_save_alarm_active_bnt, self.setting_event_video_storage_period)
+        QWidget.setTabOrder(self.setting_event_video_storage_period, self.setting_popup_alarm_active_bnt)
+        QWidget.setTabOrder(self.setting_popup_alarm_active_bnt, self.setting_popup_alarm_cnt)
+        QWidget.setTabOrder(self.setting_popup_alarm_cnt, self.setting_email_active_bnt)
+        QWidget.setTabOrder(self.setting_email_active_bnt, self.setting_email_id_input)
+        QWidget.setTabOrder(self.setting_email_id_input, self.setting_email_pw_input)
+        QWidget.setTabOrder(self.setting_email_pw_input, self.setting_receive_email_id_input)
+        QWidget.setTabOrder(self.setting_receive_email_id_input, self.setting_email_save_bnt)
+        QWidget.setTabOrder(self.setting_email_save_bnt, self.setting_user_id_input)
+        QWidget.setTabOrder(self.setting_user_id_input, self.setting_user_pw_input)
+        QWidget.setTabOrder(self.setting_user_pw_input, self.setting_user_new_pw_input)
+        QWidget.setTabOrder(self.setting_user_new_pw_input, self.setting_user_new_pw_input2)
+        QWidget.setTabOrder(self.setting_user_new_pw_input2, self.setting_user_save_bnt)
+        QWidget.setTabOrder(self.setting_user_save_bnt, self.setting_setting_ai_weight_box)
+        QWidget.setTabOrder(self.setting_setting_ai_weight_box, self.setting_self_training_auto_labeling_bnt)
+        QWidget.setTabOrder(self.setting_self_training_auto_labeling_bnt, self.setting_self_training_zeroshot_bnt)
+        QWidget.setTabOrder(self.setting_self_training_zeroshot_bnt, self.setting_ai_setting_save_bnt)
+        QWidget.setTabOrder(self.setting_ai_setting_save_bnt, self.admin_pw_input)
+        QWidget.setTabOrder(self.admin_pw_input, self.admin_page_bnt)
+        QWidget.setTabOrder(self.admin_page_bnt, self.admin_license_bnt)
+        QWidget.setTabOrder(self.admin_license_bnt, self.admin_fn_permission_bnt)
+        QWidget.setTabOrder(self.admin_fn_permission_bnt, self.license_add_bnt)
+        QWidget.setTabOrder(self.license_add_bnt, self.license_remove_bnt)
+        QWidget.setTabOrder(self.license_remove_bnt, self.license_save_bnt)
+        QWidget.setTabOrder(self.license_save_bnt, self.admin_email_alarm_fn_active_bnt)
 
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(2)
-        self.setting_stack_widget.setCurrentIndex(1)
+        self.setting_stack_widget.setCurrentIndex(0)
         self.setting_popup_alarm_cnt.setCurrentIndex(2)
         self.setting_setting_ai_weight_box.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
@@ -3437,7 +3475,7 @@ class Ui_MainWindow(object):
         self.server_id_input.setText("")
         self.server_pw_label.setText(QCoreApplication.translate("MainWindow", u"\ube44\ubc00\ubc88\ud638", None))
         self.server_pw_input.setText("")
-        self.sever_login_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc5f0\uacb0", None))
+        self.server_login_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc5f0\uacb0", None))
         self.connected_user_icon_2.setText("")
         self.connected_user_label_2.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.shutdown_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc885\ub8cc", None))
@@ -3543,8 +3581,7 @@ class Ui_MainWindow(object):
         self.setting_email_pw_input.setText("")
         self.setting_email_active_to_id_label.setText(QCoreApplication.translate("MainWindow", u"\uc218\uc2e0 \uc774\uba54\uc77c", None))
         self.setting_receive_email_id_input.setText("")
-        self.setting_page_email_info_label.setText(QCoreApplication.translate("MainWindow", u"\u203bSTMP \uc11c\ubc84\ub97c \uc774\uc6a9\ud55c \uae30\ub2a5\uc785\ub2c8\ub2e4.", None))
-        self.setting_page_email_info_label_2.setText(QCoreApplication.translate("MainWindow", u"\uad00\ub828 \uc11c\ube44\uc2a4\ub97c \uc774\uc6a9\ud558\uae30 \uc704\ud574 \ub9e4\ub274\uc5bc\uc744 \ucc38\uace0\ud558\uc138\uc694.", None))
+        self.setting_page_email_info_label.setText(QCoreApplication.translate("MainWindow", u"\u203b\uc774\uba54\uc77c \uc804\uc1a1 \uae30\ub2a5\uc740 \ub9e4\ub274\uc5bc\uc744 \ucc38\uace0\ud558\uc138\uc694.", None))
         self.setting_email_save_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc774\uba54\uc77c \uc800\uc7a5", None))
         self.setting_user_id_label.setText(QCoreApplication.translate("MainWindow", u"\uc544\uc774\ub514", None))
         self.setting_user_id_input.setText("")
@@ -3563,8 +3600,8 @@ class Ui_MainWindow(object):
         self.setting_self_training_auto_labeling_bnt.setText("")
         self.setting_self_training_zeroshot_label.setText(QCoreApplication.translate("MainWindow", u"AI Labeling Assistance \ud65c\uc131\ud654", None))
         self.setting_self_training_zeroshot_bnt.setText("")
-        self.setting_page_email_info_label_5.setText(QCoreApplication.translate("MainWindow", u"\u203bObject Detection Assistance \uc740 \uc0c8\ub85c\uc6b4 \ud658\uacbd\uc5d0\uc11c", None))
-        self.setting_page_email_info_label_6.setText(QCoreApplication.translate("MainWindow", u" \ucd08\uae30  \ubaa8\ub378 \ud559\uc2b5 \uc131\ub2a5 \uac1c\uc120\uc744 \ub3c4\uc640 \uc90d\ub2c8\ub2e4", None))
+        self.setting_page_email_info_label_5.setText(QCoreApplication.translate("MainWindow", u"\u203bAI Labeling Assistance \uc740 \uc0c8\ub85c\uc6b4 \ud658\uacbd\uc5d0\uc11c", None))
+        self.setting_page_email_info_label_6.setText(QCoreApplication.translate("MainWindow", u" \ucd08\uae30  \ubaa8\ub378 \ud559\uc2b5 \uc131\ub2a5 \uac1c\uc120\uc744 \ub3c4\uc640\uc90d\ub2c8\ub2e4", None))
         self.setting_ai_setting_save_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc800\uc7a5", None))
         self.admin_pw_label.setText(QCoreApplication.translate("MainWindow", u"\uad00\ub9ac\uc790 \ube44\ubc00\ubc88\ud638", None))
         self.admin_pw_input.setText(QCoreApplication.translate("MainWindow", u"asdsad", None))

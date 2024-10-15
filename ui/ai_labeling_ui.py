@@ -43,8 +43,8 @@ class Ui_labeling_window(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.top_logo.sizePolicy().hasHeightForWidth())
         self.top_logo.setSizePolicy(sizePolicy)
-        self.top_logo.setMinimumSize(QSize(200, 34))
-        self.top_logo.setMaximumSize(QSize(200, 34))
+        self.top_logo.setMinimumSize(QSize(202, 32))
+        self.top_logo.setMaximumSize(QSize(202, 32))
         font = QFont()
         font.setFamilies([u"Sans"])
         self.top_logo.setFont(font)
@@ -385,6 +385,48 @@ class Ui_labeling_window(object):
 
         self.verticalLayout_3.addWidget(self.label_class_widget)
 
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.horizontalSpacer_4 = QSpacerItem(368, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_12.addItem(self.horizontalSpacer_4)
+
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.img_cur_num = QLabel(labeling_window)
+        self.img_cur_num.setObjectName(u"img_cur_num")
+        self.img_cur_num.setMaximumSize(QSize(20, 17))
+        self.img_cur_num.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.img_cur_num.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_13.addWidget(self.img_cur_num)
+
+        self.img_counter_bar = QLabel(labeling_window)
+        self.img_counter_bar.setObjectName(u"img_counter_bar")
+        self.img_counter_bar.setMaximumSize(QSize(20, 17))
+        self.img_counter_bar.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.img_counter_bar.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_13.addWidget(self.img_counter_bar)
+
+        self.img_total_num = QLabel(labeling_window)
+        self.img_total_num.setObjectName(u"img_total_num")
+        self.img_total_num.setMaximumSize(QSize(20, 17))
+        self.img_total_num.setStyleSheet(u"color: rgb(255, 255, 255);")
+        self.img_total_num.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_13.addWidget(self.img_total_num)
+
+
+        self.horizontalLayout_12.addLayout(self.horizontalLayout_13)
+
+        self.horizontalSpacer_5 = QSpacerItem(368, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_12.addItem(self.horizontalSpacer_5)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_12)
+
         self.label_image_viewer = QLabel(labeling_window)
         self.label_image_viewer.setObjectName(u"label_image_viewer")
         sizePolicy2.setHeightForWidth(self.label_image_viewer.sizePolicy().hasHeightForWidth())
@@ -489,6 +531,9 @@ class Ui_labeling_window(object):
         ___qtablewidgetitem9.setText(QCoreApplication.translate("labeling_window", u"New Row", None));
         self.cls_1.setText(QCoreApplication.translate("labeling_window", u"\uc0ac\ub78c1", None))
         self.label_del_bnt.setText(QCoreApplication.translate("labeling_window", u"\ub77c\ubca8 \ubaa8\ub450 \uc0ad\uc81c", None))
+        self.img_cur_num.setText(QCoreApplication.translate("labeling_window", u"0", None))
+        self.img_counter_bar.setText(QCoreApplication.translate("labeling_window", u"/", None))
+        self.img_total_num.setText(QCoreApplication.translate("labeling_window", u"0", None))
         self.label_image_viewer.setText("")
         self.label_save_bnt.setText(QCoreApplication.translate("labeling_window", u"\uc800\uc7a5", None))
         self.label_data_del_bnt.setText(QCoreApplication.translate("labeling_window", u"\uc0ad\uc81c", None))

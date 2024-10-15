@@ -187,7 +187,7 @@ class MainWindow(QMainWindow):
             if self.isActiveWindow(): fps = 30
             else: fps = 1
 
-            ret, self.camera_info_dict_temp = self.load_camera_info(reset=reset, connect_nvr=self.check_nvr_login())
+            ret, self.camera_info_dict_temp = self.load_camera_info(reset=reset)
 
             self.live_page_worker_dict = {}
             setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
@@ -348,7 +348,7 @@ class MainWindow(QMainWindow):
             print_error(e)
 
     def change_live_page_camera_fps(self, fps = 30):
-        if self.live_page_worker_dict != None :
+        if self.connect_nvr_flag and self.live_page_worker_dict != None :
             for worker in self.live_page_worker_dict.values():
                 for camera_name, camera_info in worker.cameras.items():
                     worker.caps[camera_name].change_framerate(fps)
@@ -766,9 +766,11 @@ class MainWindow(QMainWindow):
         
     @QtCore.Slot()
     def ShowCamera_Group(self, camera_name: str, frame: QImage) -> None:
-        viewer = self.camera_view_list[camera_name]
-        viewer.setPixmap(QPixmap.fromImage(frame))
-
+        try:
+            viewer = self.camera_view_list[camera_name]
+            viewer.setPixmap(QPixmap.fromImage(frame))
+        except:
+            pass
     def set_button_style(self, active_button):
         # 모든 버튼을 기본 스타일로 설정
         default_style = "color: white; border: 1px solid rgba(191, 64, 64, 0); background-color: rgba(191, 64, 64, 0);"
@@ -1032,7 +1034,7 @@ class MainWindow(QMainWindow):
         except Exception as e:
             print_error(e)
 
-    def load_camera_info(self, reset = False, connect_nvr = True):
+    def load_camera_info(self, reset = False):
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : load_camera_info")
         
         login_info = load_info(host=self.HOST, port=self.PORT, file_name="login_info")
@@ -1042,7 +1044,7 @@ class MainWindow(QMainWindow):
         receive_data = requests.post(url, json=data).json()
         camera_info_dict = {}
 
-        if connect_nvr and receive_data["success"] == True:
+        if receive_data["success"] == True:
             # self.create_fade_out_msg(msg="init camera")
             camera_info_dict = receive_data["data"]
 
@@ -1050,15 +1052,15 @@ class MainWindow(QMainWindow):
         
         return receive_data["success"], camera_info_dict
 
-    def live_camera_viewer_setup(self, reset = False, connect_nvr = True):
+    def live_camera_viewer_setup(self, reset = False):
         try:
             print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : live_camera_viewer_setup")
 
             self.camera_view_list = {}
             self.camera_img_temp = {}
-            ret, self.camera_info_dict_temp = self.load_camera_info(reset, connect_nvr)
+            self.connect_nvr_flag, self.camera_info_dict_temp = self.load_camera_info(reset)
 
-            if connect_nvr and ret == True:
+            if self.connect_nvr_flag == True:
                 for camera_name, camera_info in self.camera_info_dict_temp.items():
                     row_position = self.ui_main.camera_list_table.rowCount()
                     self.ui_main.camera_list_table.insertRow(row_position)
@@ -1187,11 +1189,29 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_list_table.setRowCount(0)
         self.ui_main.camera_page_name_box.clear()
 
-        for worker in self.live_page_worker_dict.values():
-            worker.stop()
-            del worker
+        if self.live_page_worker_dict is not None :
+            for worker in self.live_page_worker_dict.values():
+                worker.stop()
+                del worker
         
+        try:
+            self.timer.stop()
+        except:
+            pass
+        try:
+            self.active_window_timer.stop()
+        except:
+            pass
+        try:
+            self.camera_connect_timer.stop()
+        except:
+            pass
         save_info(host=self.HOST, port=self.PORT, file_name="login_info", info=login_info)
+        for camera_name, viewer in self.camera_view_list.items():
+            pixmap = QPixmap(u":/newPrefix/ui/images/ico_video_off.svg")
+            self.camera_view_list[camera_name].setAlignment(Qt.AlignCenter)
+            viewer.setPixmap(pixmap)
+
         self.setup_init_GUI(reset=True)
     
     def create_fade_out_msg(self, std_window=None, msg="None"):
@@ -1324,6 +1344,8 @@ class MainWindow(QMainWindow):
         self.timer = None
         self.camera_connect_timer = None
         self.camera_edit_permission = False
+        self.connect_nvr_flag = False
+        self.live_page_worker_dict = None
 
         # 카메라 리스트 테이블 설정
         self.ui_main.camera_list_table.setColumnWidth(0, 30)
@@ -1350,21 +1372,37 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_page_ai_active_label.hide()
         self.ui_main.camera_page_ai_active_icon.hide()
 
+        # 이메일 기능 관련 설정 숨기기
+        self.ui_main.setting_email_active_label.hide()
+        self.ui_main.setting_email_active_bnt.hide()
+        self.ui_main.setting_email_active_id_label.hide()
+        self.ui_main.setting_email_active_pw_label.hide()
+        self.ui_main.setting_email_active_to_id_label.hide()
+        self.ui_main.setting_page_email_info_label.hide()
+        self.ui_main.setting_email_save_bnt.hide()
+        self.ui_main.setting_email_id_input.hide()
+        self.ui_main.setting_email_id_input_line.hide()
+        self.ui_main.setting_email_pw_input.hide()
+        self.ui_main.setting_email_pw_input_line.hide()
+        self.ui_main.setting_receive_email_id_input.hide()
+        self.ui_main.setting_receive_email_id_input_line.hide()
+
         if self.user_info != "admin":
             self.ui_main.tab_partion_3.hide()
             self.ui_main.admin_bnt.hide()
 
         self.update_setting()
 
-        self.live_camera_viewer_setup()
+        self.live_camera_viewer_setup(reset = reset)
 
         ##live 페이지 카메라 연결
-        self.connect_live_page_camera(reset = reset)
 
-        self.start_notification_status_timer()
-        self.start_camera_refresh_timer()
-        self.setup_camera_viewer()
-
+        if self.connect_nvr_flag:
+            self.connect_live_page_camera(reset = reset)
+            self.start_notification_status_timer()
+            self.start_camera_refresh_timer()
+            self.setup_camera_viewer()
+            
         ##좌측 카메라 리스트 변경시 속성 보여주기
         self.ui_main.camera_list_table.itemSelectionChanged.connect(self.camera_page_display_selected_row)
 
@@ -1384,7 +1422,7 @@ class MainWindow(QMainWindow):
     def setup_slot_connect(self):
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : setup_QT_slot_connect")
 
-        self.ui_main.sever_login_bnt.clicked.connect(self.login_NVR)
+        self.ui_main.server_login_bnt.clicked.connect(self.login_NVR)
         self.ui_main.shutdown_bnt.clicked.connect(self.shutdown) #종료 버튼 활성화
 
         #우측 상단 버튼 활성화
@@ -1405,7 +1443,8 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_page_detect_area_del_bnt.clicked.connect(self.camera_page_del_detect_area)
 
         self.ui_main.camera_page_detect_area_table.itemClicked.connect(self.camera_page_update_camera_page_viewer_roi)
-        self.ui_main.camera_page_viewer.clicked.connect(self.camera_page_add_detect_area_point)
+        if self.connect_nvr_flag:
+            self.ui_main.camera_page_viewer.clicked.connect(self.camera_page_add_detect_area_point)
 
         self.ui_main.camera_page_person_conf_slider.valueChanged.connect(self.set_person_conf_value)
         self.ui_main.camera_page_person_conf_value.valueChanged.connect(self.set_person_conf_slider)

@@ -18,7 +18,7 @@ class schedule_page_view(QLabel):
     def __init__(self, base_viewer, camera_num, camera_name, name_label, main_instance, schedule_instance, time_table):
         super().__init__(base_viewer)
         # self.setGeometry(QRect(1, 1, base_viewer.width(), base_viewer.height()))
-        self.setGeometry(QRect(1, 1, 203, 131))
+        self.setGeometry(QRect(1, 1, 204, 135))
 
         self.checked = False
         self.camera_num = camera_num

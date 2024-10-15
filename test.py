@@ -30,47 +30,105 @@
 #     window = MainWindow()
 #     window.show()
 #     app.exec()
+# import ffmpeg
+# import cv2
+# import numpy as np
+# import time
+# import select
 
-from PySide6.QtWidgets import QApplication, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QTableWidgetSelectionRange
+# # FFmpeg를 사용하여 RTSP 스트림을 가져오는 명령어
+# process = (
+    # ffmpeg
+    # .input(
+    #     'rtsp://admin:1234@117.17.159.143/video1',  # 카메라 URL
+    #     rtsp_transport='tcp',  # 네트워크에 맞게 'udp' 또는 'tcp' 사용
+    #     fflags='nobuffer',
+    #     flags='low_delay',
+    #     max_delay='0',
+    #     probesize='32',
+    #     analyzeduration='0',
+    #     use_wallclock_as_timestamps='1'
+    # )
+    # .output(
+    #     '-', 
+    #     format='rawvideo', 
+    #     pix_fmt='bgr24',
+    #     vsync='vfr'  # 프레임 드롭을 허용하는 비동기 프레임 처리
+    # )
+#     .run_async(pipe_stdout=True)
+# )
 
-class TableWidgetExample(QWidget):
-    def __init__(self):
-        super().__init__()
+# # 프레임 크기 정의
+# width = 1920
+# height = 1080
 
-        self.setWindowTitle("QTableWidget Example")
-        self.resize(400, 300)
+# # 타임아웃 설정 (5초)
+# timeout = 2
+# start_time = time.time()
 
-        layout = QVBoxLayout(self)
+# # 데이터를 수신했는지 확인하는 플래그
+# data_received = False
 
-        # QTableWidget 생성
-        self.table_widget = QTableWidget(5, 5)  # 5x5 테이블 생성
-        layout.addWidget(self.table_widget)
+# # 초기 프레임 수신을 위한 타임아웃 처리
+# while process.poll() is None and time.time() - start_time < timeout:
+#     # select를 사용하여 비동기적으로 stdout에서 데이터를 읽음
+#     ready_to_read, _, _ = select.select([process.stdout], [], [], 1)
+    
+#     if ready_to_read:
+#         in_bytes = process.stdout.read(width * height * 3)
+#         if in_bytes:
+#             data_received = True  # 데이터를 성공적으로 받았을 경우
+#             break
 
-        # 테이블에 데이터를 추가
-        for row in range(5):
-            for column in range(5):
-                item = QTableWidgetItem(f"Cell {row+1},{column+1}")
-                self.table_widget.setItem(row, column, item)
+# if not data_received:
+#     print("카메라로부터 데이터를 받지 못했습니다. 프로그램을 종료합니다...")
+#     exit()
+# else:
+#     print("카메라 연결 성공.")
 
-        # 3행 2열과 3행 4열을 선택
-        self.select_multiple_cells()
+#     # 연결 후 스트림을 표시
+#     while process.poll() is None:
+#         ready_to_read, _, _ = select.select([process.stdout], [], [], 1)
+        
+#         if ready_to_read:
+#             in_bytes = process.stdout.read(width * height * 3)
+#             if not in_bytes:
+#                 break
 
-    def select_multiple_cells(self):
-        # 멀티 셀렉션을 활성화
-        self.table_widget.setSelectionMode(QTableWidget.MultiSelection)
+#             # 받은 데이터를 numpy 배열로 변환하고 이미지로 디코딩
+#             frame = np.frombuffer(in_bytes, np.uint8).reshape([height, width, 3])
 
-        # 3행 2열 선택 (행과 열은 0부터 시작하므로 2, 1)
-        item_1 = self.table_widget.item(2, 1)  # 3행 2열
-        item_1.setSelected(True)
+#             # 프레임을 OpenCV로 화면에 표시
+#             cv2.imshow('RTSP Stream', frame)
 
-        # 3행 4열 선택 (행과 열은 0부터 시작하므로 2, 3)
-        item_2 = self.table_widget.item(2, 3)  # 3행 4열
-        item_2.setSelected(True)
+#             # 'q' 키를 누르면 종료
+#             if cv2.waitKey(1) & 0xFF == ord('q'):
+#                 break
 
-if __name__ == "__main__":
-    app = QApplication([])
+#     # 종료 후 리소스 해제
+#     process.stdout.close()
+#     process.wait()
+#     cv2.destroyAllWindows()
 
-    window = TableWidgetExample()
-    window.show()
+import os
+import cv2
 
-    app.exec()
+os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = (
+    "rtsp_transport;tcp|fflags;nobuffer|flags;low_delay|"
+    "max_delay;0|probesize;32|analyzeduration;0|use_wallclock_as_timestamps;1"
+)
+
+cap = cv2.VideoCapture("rtsp://admin:1234@117.17.159.143/video1", cv2.CAP_FFMPEG)
+
+while True:
+    _, img = cap.read()
+
+    cv2.imshow("123", img)
+    key = cv2.waitKey(1)
+
+    if key == 27:
+        break
+
+
+cap.release()
+cv2.destroyAllWindows()

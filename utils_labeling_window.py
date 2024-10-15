@@ -29,6 +29,9 @@ class Labeling_Viewer(QLabel):
         self.non_active_point_list = []
         self.setPixmap(QPixmap(u":/newPrefix/ui/images/logo.png"))
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.setStyleSheet(f"border: 1px solid rgb(119, 118, 123);\n"
+                            "border-radius: 10px;\n"
+                            )
         self.parent = parent
         self.label_list = []
         self.selected_box = None
@@ -39,6 +42,7 @@ class Labeling_Viewer(QLabel):
         self.resize_corner = None
         self.mouse_pos = None
         self.box_resize_mode = False
+        self.labeling_flag = False
 
         self.cls_bnt_list = []
 
@@ -64,7 +68,7 @@ class Labeling_Viewer(QLabel):
         cls_bnt.setStyleSheet(f"background-color: rgb({color[0]}, {color[1]}, {color[2]});\n"
                                                 "color: rgb(255, 255, 255);\n"
                                                 "border-radius: 9px;\n"
-                                                "border: 1px solid rgba(255, 255, 255, 100);\n"
+                                                "border: 1px solid rgb(255, 255, 255);\n"
                                                 "")
         if cls == 0:
             cls_bnt.setText("사람")
@@ -139,7 +143,7 @@ class Labeling_Viewer(QLabel):
             painter.drawLine(self.mouse_pos.x(), 0, self.mouse_pos.x(), self.height())
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.LeftButton and self.labeling_flag:
             self.drag_start_pos = event.pos()
             self.drawing_new_box = True
             for index, label in enumerate(self.label_list):
@@ -353,14 +357,15 @@ class Labeling_Viewer(QLabel):
         new_w = abs(end_x - start_x) / self.width()
         new_h = abs(end_y - start_y) / self.height()
 
-        color = (tuple(np.random.randint(0, 255, size=3).tolist()))
+        if new_w * new_h * self.width() * self.height() > 100:
+            color = (tuple(np.random.randint(0, 255, size=3).tolist()))
 
-        self.parent.label_buffer[self.parent.cnt].append([0, new_xc, new_yc, new_w, new_h, color])
-        self.label_list.append([0, new_xc, new_yc, new_w, new_h, color])
+            self.parent.label_buffer[self.parent.cnt].append([0, new_xc, new_yc, new_w, new_h, color])
+            self.label_list.append([0, new_xc, new_yc, new_w, new_h, color])
 
-        self.cls_bnt_list.append(self.make_cls_bnt(len(self.cls_bnt_list), 0, color))
+            self.cls_bnt_list.append(self.make_cls_bnt(len(self.cls_bnt_list), 0, color))
 
-        self.update()
+            self.update()
 
 class LabelingDialog(QDialog):
     def __init__(self, parent=None):
@@ -388,7 +393,7 @@ class LabelingDialog(QDialog):
         self.label_ui.label_image_viewer = Labeling_Viewer(self)
         self.label_ui.label_image_viewer.setObjectName(u"camera_page_viewer")
         self.label_ui.label_image_viewer.setMinimumSize(QSize(343, 581))
-        self.label_ui.label_image_viewer.setStyleSheet(u"border: 1px solid rgb(255, 255, 255);\n"
+        self.label_ui.label_image_viewer.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
                                                          "background-color: rgba(255, 255, 255, 0);")
         self.label_ui.label_image_viewer.setScaledContents(False)
         self.label_ui.verticalLayout_3.addWidget(self.label_ui.label_image_viewer)
@@ -509,12 +514,15 @@ class LabelingDialog(QDialog):
             self.cnt += 1
             if self.cnt >= len(self.img_buffer):
                 self.cnt = 0  # 다시 처음 이미지로 돌아가도록
+
+            self.label_ui.img_cur_num.setText(str(self.cnt + 1))
             self.label_ui.label_image_viewer.display_label_image()
         elif event.key() == Qt.Key_A:
             self.cnt -= 1
             if self.cnt < 0:
                 self.cnt = len(self.img_buffer) - 1  # 마지막 이미지로 돌아가도록
             self.label_ui.label_image_viewer.display_label_image()
+            self.label_ui.img_cur_num.setText(str(self.cnt - 1))
 
         if event.key() == Qt.Key_W:
             self.label_ui.label_image_viewer.box_resize_mode = True
@@ -597,6 +605,9 @@ class LabelingDialog(QDialog):
 
             if len(self.img_buffer):
                 self.label_ui.label_image_viewer.display_label_image()
+                self.label_ui.label_image_viewer.labeling_flag = True
+                self.label_ui.img_cur_num.setText(str(1))
+                self.label_ui.img_total_num.setText(str(len(self.img_buffer)))
 
     def del_label_data(self):
         camera_name = self.label_ui.camera_name_box.currentText()

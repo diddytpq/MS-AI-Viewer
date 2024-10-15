@@ -57,14 +57,14 @@
          <widget class="QLabel" name="top_logo">
           <property name="minimumSize">
            <size>
-            <width>251</width>
-            <height>41</height>
+            <width>240</width>
+            <height>38</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>251</width>
-            <height>41</height>
+            <width>240</width>
+            <height>38</height>
            </size>
           </property>
           <property name="font">
@@ -258,7 +258,7 @@ lineedit-password-character: 9679; /* Unicode for '•' */</string>
            <string/>
           </property>
           <property name="echoMode">
-           <enum>QLineEdit::EchoMode::Password</enum>
+           <enum>QLineEdit::EchoMode::PasswordEchoOnEdit</enum>
           </property>
          </widget>
         </item>
@@ -376,7 +376,7 @@ background-color: rgba(255, 255, 255, 0);</string>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="sever_login_bnt">
+         <widget class="QPushButton" name="server_login_bnt">
           <property name="minimumSize">
            <size>
             <width>51</width>
@@ -428,7 +428,7 @@ border-radius: 10px;
         <item>
          <widget class="QWidget" name="widget_6" native="true">
           <property name="styleSheet">
-           <string notr="true">border-radius: 20px;
+           <string notr="true">border-radius: 19px;
 background-color: rgb(20, 22, 30);</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_64">
@@ -3693,7 +3693,7 @@ border-radius: 20px;
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">border: 1px solid rgb(255, 255, 255);
+                       <string notr="true">border: 1px solid rgb(119, 118, 123);
 background-color: rgba(255, 255, 255, 0);</string>
                       </property>
                       <property name="text">
@@ -3913,7 +3913,7 @@ background-color: rgb(13, 16, 23);</string>
                    <enum>QFrame::Shadow::Plain</enum>
                   </property>
                   <property name="currentIndex">
-                   <number>1</number>
+                   <number>0</number>
                   </property>
                   <widget class="QWidget" name="setting_notice_tab">
                    <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -5330,7 +5330,7 @@ background-color: rgba(255, 255, 255, 0);</string>
                                  <string notr="true">color: rgb(242, 18, 94);</string>
                                 </property>
                                 <property name="text">
-                                 <string>※STMP 서버를 이용한 기능입니다.</string>
+                                 <string>※이메일 전송 기능은 매뉴얼을 참고하세요.</string>
                                 </property>
                                </widget>
                               </item>
@@ -5344,61 +5344,7 @@ background-color: rgba(255, 255, 255, 0);</string>
                                 </property>
                                 <property name="sizeHint" stdset="0">
                                  <size>
-                                  <width>128</width>
-                                  <height>20</height>
-                                 </size>
-                                </property>
-                               </spacer>
-                              </item>
-                             </layout>
-                            </item>
-                            <item>
-                             <layout class="QHBoxLayout" name="horizontalLayout_31">
-                              <item>
-                               <widget class="QLabel" name="setting_page_email_info_label_2">
-                                <property name="sizePolicy">
-                                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                  <horstretch>0</horstretch>
-                                  <verstretch>0</verstretch>
-                                 </sizepolicy>
-                                </property>
-                                <property name="minimumSize">
-                                 <size>
-                                  <width>281</width>
-                                  <height>21</height>
-                                 </size>
-                                </property>
-                                <property name="maximumSize">
-                                 <size>
-                                  <width>9999</width>
-                                  <height>21</height>
-                                 </size>
-                                </property>
-                                <property name="font">
-                                 <font>
-                                  <family>Sans</family>
-                                  <pointsize>10</pointsize>
-                                 </font>
-                                </property>
-                                <property name="styleSheet">
-                                 <string notr="true">color: rgb(242, 18, 94);</string>
-                                </property>
-                                <property name="text">
-                                 <string>관련 서비스를 이용하기 위해 매뉴얼을 참고하세요.</string>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
-                               <spacer name="horizontalSpacer_20">
-                                <property name="orientation">
-                                 <enum>Qt::Orientation::Horizontal</enum>
-                                </property>
-                                <property name="sizeType">
-                                 <enum>QSizePolicy::Policy::Fixed</enum>
-                                </property>
-                                <property name="sizeHint" stdset="0">
-                                 <size>
-                                  <width>40</width>
+                                  <width>21</width>
                                   <height>20</height>
                                  </size>
                                 </property>
@@ -6608,7 +6554,7 @@ background-color: rgba(255, 255, 255, 0);</string>
                                      <string notr="true">color: rgb(242, 18, 94);</string>
                                     </property>
                                     <property name="text">
-                                     <string>※Object Detection Assistance 은 새로운 환경에서</string>
+                                     <string>※AI Labeling Assistance 은 새로운 환경에서</string>
                                     </property>
                                    </widget>
                                   </item>
@@ -6675,7 +6621,7 @@ background-color: rgba(255, 255, 255, 0);</string>
                                      <string notr="true">color: rgb(242, 18, 94);</string>
                                     </property>
                                     <property name="text">
-                                     <string> 초기  모델 학습 성능 개선을 도와 줍니다</string>
+                                     <string> 초기  모델 학습 성능 개선을 도와줍니다</string>
                                     </property>
                                    </widget>
                                   </item>
@@ -7961,8 +7907,69 @@ background-color: rgba(255, 255, 255, 0);</string>
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>live_bnt</tabstop>
+  <tabstop>camera_bnt</tabstop>
+  <tabstop>setting_bnt</tabstop>
+  <tabstop>admin_bnt</tabstop>
+  <tabstop>shutdown_bnt</tabstop>
+  <tabstop>camera_info_name_input</tabstop>
+  <tabstop>camera_info_ip_input</tabstop>
+  <tabstop>camera_info_id_input</tabstop>
+  <tabstop>camera_info_pw_input</tabstop>
+  <tabstop>camera_remove_bn</tabstop>
+  <tabstop>camera_add_bn</tabstop>
+  <tabstop>camera_save_bn</tabstop>
+  <tabstop>server_ip_input</tabstop>
+  <tabstop>server_id_input</tabstop>
+  <tabstop>server_pw_input</tabstop>
+  <tabstop>server_login_bnt</tabstop>
+  <tabstop>camera_refresh_bnt</tabstop>
+  <tabstop>labeling_bnt</tabstop>
+  <tabstop>camera_schedule_bnt</tabstop>
+  <tabstop>alarm_search_bnt</tabstop>
+  <tabstop>camera_page_name_box</tabstop>
+  <tabstop>camera_page_camera_event_box</tabstop>
+  <tabstop>camera_page_detect_add_bnt</tabstop>
+  <tabstop>camera_page_detect_area_table</tabstop>
+  <tabstop>camera_page_detect_area_del_bnt</tabstop>
+  <tabstop>camera_page_person_conf_slider</tabstop>
+  <tabstop>camera_page_person_conf_value</tabstop>
+  <tabstop>camera_page_ai_bnt</tabstop>
+  <tabstop>setting_alarm_bnt</tabstop>
+  <tabstop>setting_user_setting_bnt</tabstop>
+  <tabstop>setting_ai_bnt</tabstop>
+  <tabstop>setting_detect_bbox_active_bnt</tabstop>
+  <tabstop>setting_detect_label_active_bnt</tabstop>
+  <tabstop>setting_detect_roi_active_bnt</tabstop>
+  <tabstop>setting_video_save_alarm_active_bnt</tabstop>
+  <tabstop>setting_event_video_storage_period</tabstop>
+  <tabstop>setting_popup_alarm_active_bnt</tabstop>
+  <tabstop>setting_popup_alarm_cnt</tabstop>
+  <tabstop>setting_email_active_bnt</tabstop>
+  <tabstop>setting_email_id_input</tabstop>
+  <tabstop>setting_email_pw_input</tabstop>
+  <tabstop>setting_receive_email_id_input</tabstop>
+  <tabstop>setting_email_save_bnt</tabstop>
+  <tabstop>setting_user_id_input</tabstop>
+  <tabstop>setting_user_pw_input</tabstop>
+  <tabstop>setting_user_new_pw_input</tabstop>
+  <tabstop>setting_user_new_pw_input2</tabstop>
+  <tabstop>setting_user_save_bnt</tabstop>
+  <tabstop>setting_setting_ai_weight_box</tabstop>
+  <tabstop>setting_self_training_auto_labeling_bnt</tabstop>
+  <tabstop>setting_self_training_zeroshot_bnt</tabstop>
+  <tabstop>setting_ai_setting_save_bnt</tabstop>
+  <tabstop>admin_pw_input</tabstop>
+  <tabstop>admin_page_bnt</tabstop>
+  <tabstop>admin_license_bnt</tabstop>
+  <tabstop>admin_fn_permission_bnt</tabstop>
+  <tabstop>license_add_bnt</tabstop>
+  <tabstop>license_remove_bnt</tabstop>
+  <tabstop>license_save_bnt</tabstop>
+  <tabstop>admin_email_alarm_fn_active_bnt</tabstop>
+ </tabstops>
  <resources>
-  <include location="../ms_ai_img.qrc"/>
   <include location="../ms_ai_img.qrc"/>
  </resources>
  <connections/>
