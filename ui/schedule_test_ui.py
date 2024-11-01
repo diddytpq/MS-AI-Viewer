@@ -29,7 +29,7 @@ class Ui_schedule_window(object):
     def setupUi(self, schedule_window):
         if not schedule_window.objectName():
             schedule_window.setObjectName(u"schedule_window")
-        schedule_window.setWindowModality(Qt.WindowModality.WindowModal)
+        schedule_window.setWindowModality(Qt.WindowModality.ApplicationModal)
         schedule_window.resize(1252, 703)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -38,9 +38,7 @@ class Ui_schedule_window(object):
         schedule_window.setSizePolicy(sizePolicy)
         schedule_window.setMinimumSize(QSize(1252, 703))
         schedule_window.setMaximumSize(QSize(1252, 703))
-        schedule_window.setStyleSheet(u"background-color: rgb(20, 20, 20);\n"
-"\n"
-"")
+        schedule_window.setStyleSheet(u"background-color: rgb(3, 3, 13);")
         self.verticalLayout_23 = QVBoxLayout(schedule_window)
         self.verticalLayout_23.setObjectName(u"verticalLayout_23")
         self.horizontalLayout_10 = QHBoxLayout()

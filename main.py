@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLabel, QWidget, QDialog, QListWidgetItem
-from PySide6.QtGui import QImage, QPixmap, QPainter, QPen, QColor, QPolygon, QBrush, QFont, QStandardItem, QStandardItemModel, QIcon, QWheelEvent
+from PySide6.QtGui import QImage, QPixmap, QWheelEvent
 from PySide6.QtCore import QEvent, Qt, QThread, Signal, QRect, QPoint, QTimer, QDate, QUrl, QSize, QItemSelection
 from PySide6 import QtCore
 from ui.login_ui import Ui_Dialog
@@ -1107,7 +1107,8 @@ class MainWindow(QMainWindow):
                                                                                     f"camera_view_{num}"), 
                                                                                     camera_name = camera_name, 
                                                                                     camera_num = str(camera_info["Num"]), 
-                                                                                    stackedWidget = self.ui_main.stackedWidget)
+                                                                                    stackedWidget = self.ui_main.stackedWidget,
+                                                                                    camera_ip= camera_info["IP"])
                         
                         self.camera_view_list[camera_name].doubleClicked.connect(self.check_camera_viewer_click)
                         # camera_viewer.setPixmap(QPixmap(u"images/ico_video_off.svg"))
@@ -1414,7 +1415,7 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_page_viewer = Plot_Camera_Viewer(self.ui_main.camera_page)
         self.ui_main.camera_page_viewer.setObjectName(u"camera_page_viewer")
         self.ui_main.camera_page_viewer.setMinimumSize(QSize(472, 331))
-        self.ui_main.camera_page_viewer.setStyleSheet(u"border: 1px solid rgb(255, 255, 255);\n"
+        self.ui_main.camera_page_viewer.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
                                                 "background-color: rgba(255, 255, 255, 0);")
         self.ui_main.camera_page_viewer.setScaledContents(False)
         self.ui_main.verticalLayout_10.addWidget(self.ui_main.camera_page_viewer)

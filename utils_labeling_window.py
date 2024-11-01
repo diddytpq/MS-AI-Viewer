@@ -521,8 +521,9 @@ class LabelingDialog(QDialog):
             self.cnt -= 1
             if self.cnt < 0:
                 self.cnt = len(self.img_buffer) - 1  # 마지막 이미지로 돌아가도록
+ 
             self.label_ui.label_image_viewer.display_label_image()
-            self.label_ui.img_cur_num.setText(str(self.cnt - 1))
+            self.label_ui.img_cur_num.setText(str(self.cnt + 1))
 
         if event.key() == Qt.Key_W:
             self.label_ui.label_image_viewer.box_resize_mode = True

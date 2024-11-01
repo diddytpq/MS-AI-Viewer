@@ -25,11 +25,11 @@ class Ui_labeling_window(object):
     def setupUi(self, labeling_window):
         if not labeling_window.objectName():
             labeling_window.setObjectName(u"labeling_window")
+        labeling_window.setWindowModality(Qt.WindowModality.ApplicationModal)
         labeling_window.resize(1075, 719)
         labeling_window.setMaximumSize(QSize(1260, 16777215))
         labeling_window.setWindowTitle(u"Labeling")
-        labeling_window.setStyleSheet(u"background-color: rgb(20, 20, 20);\n"
-"")
+        labeling_window.setStyleSheet(u"background-color: rgb(3, 3, 13);")
         self.verticalLayout_6 = QVBoxLayout(labeling_window)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_4 = QVBoxLayout()

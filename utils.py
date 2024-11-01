@@ -8,13 +8,9 @@ gi.require_version('Gst', '1.0')
 from gi.repository import Gst
 Gst.init(None)
 
-from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplication, QComboBox,
-    QFrame, QHBoxLayout, QHeaderView, QLabel,
-    QLineEdit, QMainWindow, QPushButton, QSizePolicy,
-    QStackedWidget, QTableWidget, QTableWidgetItem, QVBoxLayout,
-    QWidget)
-from PySide6.QtGui import QImage, QPainter, QPen, QColor, QPolygon, QBrush, QMouseEvent, QPixmap
-from PySide6.QtCore import Qt, QThread, Signal, QPoint, QObject, QEvent, QTimer, QPropertyAnimation, QEasingCurve, QRect, QSize
+from PySide6.QtWidgets import (QLabel, QSizePolicy, QVBoxLayout, QWidget, QApplication, QMainWindow, QMenu)
+from PySide6.QtGui import QImage, QPainter, QPen, QColor, QPolygon, QBrush, QMouseEvent, QPixmap, QAction, QDesktopServices
+from PySide6.QtCore import Qt, QThread, Signal, QPoint, QObject, QEvent, QTimer, QPropertyAnimation, QEasingCurve, QRect, QSize, QUrl
 import cv2
 import numpy as np
 import requests
@@ -31,21 +27,12 @@ import base64
 
 import time
 
+import webbrowser
 from cryptography.fernet import Fernet
 import traceback
 import subprocess
 
-
-KEY = "FBRBdZIbc_ULGN_qOlZjdMLDLPPzdRJ2Nb63kX3wuDI="
-
 ROOT = Path(__file__).resolve().parents[1]
-
-    # def mousePressEvent(self, event):
-    #     # 오른쪽 마우스 클릭 감지
-    #     if event.button() == Qt.RightButton:
-    #         self.deleteLater()  # 버튼 삭제
-    #     else:
-    #         super().mousePressEvent(event)
 
 class Colors:
     # Ultralytics color palette https://ultralytics.com/
@@ -611,37 +598,63 @@ class FadeOutInWindow(QWidget):
 
 class Livepage_view(QLabel):
     doubleClicked = Signal(QLabel)
-    def __init__(self, base_viewer, camera_num, camera_name, stackedWidget):
+
+    def __init__(self, base_viewer, camera_num, camera_name, camera_ip, stackedWidget):
         super().__init__(base_viewer)
-        # self.setGeometry(QRect(0, 0, 292, 188))
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(stackedWidget.sizePolicy().hasHeightForWidth())
         self.setSizePolicy(sizePolicy)
 
-        self.setMinimumSize(QSize(200, 121))
+        self.setMinimumSize(200, 121)
         self.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
-        self.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
-                            "color: rgb(255, 255, 255);")
-        self.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.setStyleSheet("border: 1px solid rgb(119, 118, 123);\n"
+                           "color: rgb(255, 255, 255);")
+        self.setPixmap(QPixmap(":/newPrefix/images/ico_video_off.svg"))
         self.setScaledContents(False)
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.click_count = 0
         self.camera_num = camera_num
         self.camera_name = camera_name
-
         self.aspect_ratio = 1.5
         self.base_viewer = base_viewer
+        self.camera_ip = camera_ip
 
     def mouseDoubleClickEvent(self, event):
-        # 더블클릭 이벤트 발생 시, 시그널을 emit
+        # 더블 클릭 이벤트 발생 시 시그널 emit
         if event.button() == Qt.LeftButton:
             self.click_count += 1
             self.doubleClicked.emit(self)
-            print(self.camera_num)
-            print(self.camera_name)
+
+    def mousePressEvent(self, event):
+        # 오른쪽 클릭 시 컨텍스트 메뉴 생성
+        if event.button() == Qt.RightButton:
+            self.show_context_menu(event.pos())
+        else:
+            super().mousePressEvent(event)  # 기본 마우스 동작 처리
+
+    def show_context_menu(self, pos):
+        # QMenu 생성
+        context_menu = QMenu(self)
+        context_menu.setStyleSheet("""
+                                    QMenu {
+                                    font-size: 10pt;  /* 메뉴 전체 폰트 크기 */
+                                        }
+                                    """)
+
+        # 메뉴 항목 추가
+        open_camera_web_page_action = QAction("카메라 웹 페이지 열기", self)
+
+        # 메뉴에 항목 추가
+        context_menu.addAction(open_camera_web_page_action)
+
+        # 메뉴 항목에 기능 연결 (예시로 출력)
+        open_camera_web_page_action.triggered.connect(self.open_camera_web_page)
+
+        # 컨텍스트 메뉴를 마우스 클릭 위치에 표시
+        context_menu.exec(self.mapToGlobal(pos))
 
     # def resizeEvent(self, event):
     #     parent = self.base_viewer
@@ -653,6 +666,12 @@ class Livepage_view(QLabel):
     #             new_width = int(new_height * self.aspect_ratio)
     #         self.setFixedSize(new_width, new_height)
     #     super().resizeEvent(event)  # 부모 클래스의 resizeEvent 호출
+
+    def open_camera_web_page(self):
+        url = f"http://{self.camera_ip}"
+        print(f"Opening URL: {url}")
+        webbrowser.open(url)
+
 
 def plot_one_box(x, img, color=None, label=None, bbox=None, line_thickness=3):
     # Plots one bounding box on image img

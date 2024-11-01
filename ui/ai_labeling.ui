@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>labeling_window</class>
  <widget class="QWidget" name="labeling_window">
+  <property name="windowModality">
+   <enum>Qt::WindowModality::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -20,8 +23,7 @@
    <string notr="true">Labeling</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(20, 20, 20);
-</string>
+   <string notr="true">background-color: rgb(3, 3, 13);</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>

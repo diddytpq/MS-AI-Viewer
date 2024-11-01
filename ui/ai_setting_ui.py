@@ -32,8 +32,7 @@ class Ui_Ai_Setting_Window(object):
         icon = QIcon()
         icon.addFile(u":/newPrefix/images/icon2.png", QSize(), QIcon.Normal, QIcon.Off)
         Ai_Setting_Window.setWindowIcon(icon)
-        Ai_Setting_Window.setStyleSheet(u"\n"
-"background-color: rgb(3, 3, 13);")
+        Ai_Setting_Window.setStyleSheet(u"background-color: rgb(3, 3, 13);")
         self.ai_setting_info_label = QLabel(Ai_Setting_Window)
         self.ai_setting_info_label.setObjectName(u"ai_setting_info_label")
         self.ai_setting_info_label.setGeometry(QRect(11, 6, 211, 37))
@@ -653,16 +652,6 @@ class Ui_Ai_Setting_Window(object):
 "\n"
 "\n"
 "")
-        self.top_logo = QLabel(Ai_Setting_Window)
-        self.top_logo.setObjectName(u"top_logo")
-        self.top_logo.setGeometry(QRect(830, 10, 184, 27))
-        self.top_logo.setMinimumSize(QSize(1, 1))
-        self.top_logo.setMaximumSize(QSize(251, 41))
-        font5 = QFont()
-        font5.setFamilies([u"Sans"])
-        self.top_logo.setFont(font5)
-        self.top_logo.setPixmap(QPixmap(u":/newPrefix/images/logo.png"))
-        self.top_logo.setScaledContents(True)
         self.ai_setting_info_label.raise_()
         self.camera_view_15.raise_()
         self.camera_view_1.raise_()
@@ -715,7 +704,6 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_name_11.raise_()
         self.camera_view_name_16.raise_()
         self.all_select_bnt.raise_()
-        self.top_logo.raise_()
 
         self.retranslateUi(Ai_Setting_Window)
 
@@ -775,7 +763,6 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_name_16.setText(QCoreApplication.translate("Ai_Setting_Window", u"\uce74\uba54\ub77c16", None))
         self.camera_view_ai_check_16.setText("")
         self.all_select_bnt.setText(QCoreApplication.translate("Ai_Setting_Window", u"\ubaa8\ub450 \uc120\ud0dd", None))
-        self.top_logo.setText("")
         pass
     # retranslateUi
 

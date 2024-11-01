@@ -29,10 +29,10 @@ class Ui_Search_window(object):
     def setupUi(self, Search_window):
         if not Search_window.objectName():
             Search_window.setObjectName(u"Search_window")
+        Search_window.setWindowModality(Qt.WindowModality.ApplicationModal)
         Search_window.resize(1180, 614)
         Search_window.setWindowTitle(u"Search")
-        Search_window.setStyleSheet(u"background-color: rgb(20, 20, 20);\n"
-"")
+        Search_window.setStyleSheet(u"background-color: rgb(3, 3, 13);")
         self.verticalLayout_4 = QVBoxLayout(Search_window)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.horizontalLayout_14 = QHBoxLayout()
@@ -338,6 +338,7 @@ class Ui_Search_window(object):
 "background-color: rgb(13, 16, 23);\n"
 "selection-background-color: rgb(53, 132, 228);\n"
 "")
+        self.camera_name_box.setMaxVisibleItems(16)
         self.camera_name_box.setMinimumContentsLength(0)
 
         self.horizontalLayout_7.addWidget(self.camera_name_box)

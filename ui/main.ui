@@ -118,6 +118,7 @@
             <property name="font">
              <font>
               <family>Sans</family>
+              <pointsize>10</pointsize>
              </font>
             </property>
             <property name="styleSheet">
@@ -1706,7 +1707,7 @@ border: 1px solid rgba(0, 0, 0, 0);
 background-color: rgba(191, 64, 64, 0);</string>
                    </property>
                    <property name="text">
-                    <string>Camera</string>
+                    <string>AI Camera</string>
                    </property>
                   </widget>
                  </item>
@@ -2074,7 +2075,7 @@ color: rgb(255, 255, 255);
              </size>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="live_page">
              <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -2833,6 +2834,9 @@ selection-background-color: rgb(53, 132, 228);
                          <property name="currentText">
                           <string notr="true"/>
                          </property>
+                         <property name="maxVisibleItems">
+                          <number>16</number>
+                         </property>
                         </widget>
                        </item>
                        <item>
@@ -2913,6 +2917,9 @@ selection-background-color: rgb(53, 132, 228);
 background-color: rgb(13, 16, 23);
 selection-background-color: rgb(53, 132, 228);
 </string>
+                         </property>
+                         <property name="maxVisibleItems">
+                          <number>16</number>
                          </property>
                          <property name="minimumContentsLength">
                           <number>0</number>

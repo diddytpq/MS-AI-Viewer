@@ -74,7 +74,10 @@ class Ui_MainWindow(object):
         self.verson_label = QLabel(self.centralwidget)
         self.verson_label.setObjectName(u"verson_label")
         self.verson_label.setMaximumSize(QSize(16777215, 21))
-        self.verson_label.setFont(font)
+        font1 = QFont()
+        font1.setFamilies([u"Sans"])
+        font1.setPointSize(10)
+        self.verson_label.setFont(font1)
         self.verson_label.setStyleSheet(u"color: rgb(255, 255, 255)")
 
         self.verticalLayout.addWidget(self.verson_label)
@@ -94,11 +97,11 @@ class Ui_MainWindow(object):
         self.server_info_label = QLabel(self.centralwidget)
         self.server_info_label.setObjectName(u"server_info_label")
         self.server_info_label.setMaximumSize(QSize(91, 41))
-        font1 = QFont()
-        font1.setFamilies([u"Sans"])
-        font1.setPointSize(10)
-        font1.setBold(True)
-        self.server_info_label.setFont(font1)
+        font2 = QFont()
+        font2.setFamilies([u"Sans"])
+        font2.setPointSize(10)
+        font2.setBold(True)
+        self.server_info_label.setFont(font2)
         self.server_info_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
         self.server_info_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
@@ -112,7 +115,7 @@ class Ui_MainWindow(object):
         self.server_ip_label = QLabel(self.centralwidget)
         self.server_ip_label.setObjectName(u"server_ip_label")
         self.server_ip_label.setMaximumSize(QSize(38, 41))
-        self.server_ip_label.setFont(font1)
+        self.server_ip_label.setFont(font2)
         self.server_ip_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
         self.server_ip_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
@@ -123,10 +126,7 @@ class Ui_MainWindow(object):
         self.server_ip_input.setObjectName(u"server_ip_input")
         self.server_ip_input.setMinimumSize(QSize(0, 31))
         self.server_ip_input.setMaximumSize(QSize(121, 31))
-        font2 = QFont()
-        font2.setFamilies([u"Sans"])
-        font2.setPointSize(10)
-        self.server_ip_input.setFont(font2)
+        self.server_ip_input.setFont(font1)
         self.server_ip_input.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.server_ip_input.setStyleSheet(u"qproperty-frame: false;\n"
 "font-size:10pt;\n"
@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
         self.server_id_label = QLabel(self.centralwidget)
         self.server_id_label.setObjectName(u"server_id_label")
         self.server_id_label.setMaximumSize(QSize(61, 41))
-        self.server_id_label.setFont(font1)
+        self.server_id_label.setFont(font2)
         self.server_id_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
         self.server_id_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
@@ -150,7 +150,7 @@ class Ui_MainWindow(object):
         self.server_id_input = QLineEdit(self.centralwidget)
         self.server_id_input.setObjectName(u"server_id_input")
         self.server_id_input.setMaximumSize(QSize(121, 41))
-        self.server_id_input.setFont(font2)
+        self.server_id_input.setFont(font1)
         self.server_id_input.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.server_id_input.setStyleSheet(u"qproperty-frame: false;\n"
 "font-size:10pt;\n"
@@ -162,7 +162,7 @@ class Ui_MainWindow(object):
         self.server_pw_label = QLabel(self.centralwidget)
         self.server_pw_label.setObjectName(u"server_pw_label")
         self.server_pw_label.setMaximumSize(QSize(61, 41))
-        self.server_pw_label.setFont(font1)
+        self.server_pw_label.setFont(font2)
         self.server_pw_label.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
         self.server_pw_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
@@ -172,7 +172,7 @@ class Ui_MainWindow(object):
         self.server_pw_input = QLineEdit(self.centralwidget)
         self.server_pw_input.setObjectName(u"server_pw_input")
         self.server_pw_input.setMaximumSize(QSize(121, 41))
-        self.server_pw_input.setFont(font2)
+        self.server_pw_input.setFont(font1)
         self.server_pw_input.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.server_pw_input.setStyleSheet(u"qproperty-frame: false;\n"
 "font-size:10pt;\n"
@@ -216,7 +216,7 @@ class Ui_MainWindow(object):
         self.connected_user_icon_2 = QLabel(self.widget_6)
         self.connected_user_icon_2.setObjectName(u"connected_user_icon_2")
         self.connected_user_icon_2.setMaximumSize(QSize(19, 19))
-        self.connected_user_icon_2.setFont(font1)
+        self.connected_user_icon_2.setFont(font2)
         self.connected_user_icon_2.setStyleSheet(u"color: rgb(179,179,179);\n"
 "background-color: rgba(255, 255, 255, 0);")
         self.connected_user_icon_2.setPixmap(QPixmap(u":/newPrefix/ui/images/friends.png"))
@@ -661,7 +661,7 @@ class Ui_MainWindow(object):
         self.camera_remove_bn.setSizePolicy(sizePolicy2)
         self.camera_remove_bn.setMinimumSize(QSize(76, 39))
         self.camera_remove_bn.setMaximumSize(QSize(76, 39))
-        self.camera_remove_bn.setFont(font2)
+        self.camera_remove_bn.setFont(font1)
         self.camera_remove_bn.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_remove_bn.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
@@ -676,7 +676,7 @@ class Ui_MainWindow(object):
         self.camera_add_bn.setSizePolicy(sizePolicy2)
         self.camera_add_bn.setMinimumSize(QSize(76, 39))
         self.camera_add_bn.setMaximumSize(QSize(76, 39))
-        self.camera_add_bn.setFont(font2)
+        self.camera_add_bn.setFont(font1)
         self.camera_add_bn.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_add_bn.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
@@ -695,7 +695,7 @@ class Ui_MainWindow(object):
         self.camera_save_bn.setSizePolicy(sizePolicy)
         self.camera_save_bn.setMinimumSize(QSize(76, 39))
         self.camera_save_bn.setMaximumSize(QSize(76, 39))
-        self.camera_save_bn.setFont(font2)
+        self.camera_save_bn.setFont(font1)
         self.camera_save_bn.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_save_bn.setStyleSheet(u"\n"
 "background-color: rgb(30, 195, 55);\n"
@@ -866,7 +866,7 @@ class Ui_MainWindow(object):
         self.camera_refresh_bnt.setObjectName(u"camera_refresh_bnt")
         self.camera_refresh_bnt.setMinimumSize(QSize(37, 52))
         self.camera_refresh_bnt.setMaximumSize(QSize(37, 52))
-        self.camera_refresh_bnt.setFont(font2)
+        self.camera_refresh_bnt.setFont(font1)
         self.camera_refresh_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_refresh_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
@@ -883,7 +883,7 @@ class Ui_MainWindow(object):
         self.labeling_bnt = QPushButton(self.centralwidget)
         self.labeling_bnt.setObjectName(u"labeling_bnt")
         self.labeling_bnt.setMinimumSize(QSize(37, 52))
-        self.labeling_bnt.setFont(font2)
+        self.labeling_bnt.setFont(font1)
         self.labeling_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.labeling_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
@@ -900,7 +900,7 @@ class Ui_MainWindow(object):
         self.camera_schedule_bnt = QPushButton(self.centralwidget)
         self.camera_schedule_bnt.setObjectName(u"camera_schedule_bnt")
         self.camera_schedule_bnt.setMinimumSize(QSize(37, 52))
-        self.camera_schedule_bnt.setFont(font2)
+        self.camera_schedule_bnt.setFont(font1)
         self.camera_schedule_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_schedule_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
@@ -917,7 +917,7 @@ class Ui_MainWindow(object):
         self.alarm_search_bnt = QPushButton(self.centralwidget)
         self.alarm_search_bnt.setObjectName(u"alarm_search_bnt")
         self.alarm_search_bnt.setMinimumSize(QSize(37, 52))
-        self.alarm_search_bnt.setFont(font2)
+        self.alarm_search_bnt.setFont(font1)
         self.alarm_search_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.alarm_search_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
@@ -1248,6 +1248,7 @@ class Ui_MainWindow(object):
 "selection-background-color: rgb(53, 132, 228);\n"
 "")
         self.camera_page_name_box.setCurrentText(u"")
+        self.camera_page_name_box.setMaxVisibleItems(16)
 
         self.horizontalLayout_10.addWidget(self.camera_page_name_box)
 
@@ -1288,6 +1289,7 @@ class Ui_MainWindow(object):
 "background-color: rgb(13, 16, 23);\n"
 "selection-background-color: rgb(53, 132, 228);\n"
 "")
+        self.camera_page_camera_event_box.setMaxVisibleItems(16)
         self.camera_page_camera_event_box.setMinimumContentsLength(0)
 
         self.horizontalLayout_11.addWidget(self.camera_page_camera_event_box)
@@ -1297,7 +1299,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.camera_page_detect_add_bnt.sizePolicy().hasHeightForWidth())
         self.camera_page_detect_add_bnt.setSizePolicy(sizePolicy1)
         self.camera_page_detect_add_bnt.setMinimumSize(QSize(31, 31))
-        self.camera_page_detect_add_bnt.setFont(font2)
+        self.camera_page_detect_add_bnt.setFont(font1)
         self.camera_page_detect_add_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_page_detect_add_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
 "border: 1px solid rgb(3, 3, 13);\n"
@@ -1396,7 +1398,7 @@ class Ui_MainWindow(object):
         self.camera_page_detect_area_del_bnt.setSizePolicy(sizePolicy1)
         self.camera_page_detect_area_del_bnt.setMinimumSize(QSize(61, 31))
         self.camera_page_detect_area_del_bnt.setMaximumSize(QSize(61, 31))
-        self.camera_page_detect_area_del_bnt.setFont(font2)
+        self.camera_page_detect_area_del_bnt.setFont(font1)
         self.camera_page_detect_area_del_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_page_detect_area_del_bnt.setStyleSheet(u"background-color: rgb(255, 49, 38);\n"
 "color: rgb(255, 255, 255);\n"
@@ -1513,7 +1515,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.camera_page_ai_bnt.sizePolicy().hasHeightForWidth())
         self.camera_page_ai_bnt.setSizePolicy(sizePolicy1)
         self.camera_page_ai_bnt.setMinimumSize(QSize(141, 41))
-        self.camera_page_ai_bnt.setFont(font2)
+        self.camera_page_ai_bnt.setFont(font1)
         self.camera_page_ai_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_page_ai_bnt.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
@@ -2138,7 +2140,7 @@ class Ui_MainWindow(object):
         self.setting_email_id_input.setObjectName(u"setting_email_id_input")
         self.setting_email_id_input.setMinimumSize(QSize(321, 0))
         self.setting_email_id_input.setMaximumSize(QSize(321, 17))
-        self.setting_email_id_input.setFont(font2)
+        self.setting_email_id_input.setFont(font1)
         self.setting_email_id_input.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.setting_email_id_input.setStyleSheet(u"qproperty-frame: false;\n"
 "font-size:10pt;\n"
@@ -2187,7 +2189,7 @@ class Ui_MainWindow(object):
         self.setting_email_pw_input.setObjectName(u"setting_email_pw_input")
         self.setting_email_pw_input.setMinimumSize(QSize(321, 0))
         self.setting_email_pw_input.setMaximumSize(QSize(321, 17))
-        self.setting_email_pw_input.setFont(font2)
+        self.setting_email_pw_input.setFont(font1)
         self.setting_email_pw_input.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.setting_email_pw_input.setStyleSheet(u"qproperty-frame: false;\n"
 "font-size:10pt;\n"
@@ -2237,7 +2239,7 @@ class Ui_MainWindow(object):
         self.setting_receive_email_id_input.setObjectName(u"setting_receive_email_id_input")
         self.setting_receive_email_id_input.setMinimumSize(QSize(321, 0))
         self.setting_receive_email_id_input.setMaximumSize(QSize(321, 17))
-        self.setting_receive_email_id_input.setFont(font2)
+        self.setting_receive_email_id_input.setFont(font1)
         self.setting_receive_email_id_input.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.setting_receive_email_id_input.setStyleSheet(u"qproperty-frame: false;\n"
 "font-size:10pt;\n"
@@ -2285,7 +2287,7 @@ class Ui_MainWindow(object):
         self.setting_page_email_info_label.setSizePolicy(sizePolicy1)
         self.setting_page_email_info_label.setMinimumSize(QSize(191, 21))
         self.setting_page_email_info_label.setMaximumSize(QSize(9999, 21))
-        self.setting_page_email_info_label.setFont(font2)
+        self.setting_page_email_info_label.setFont(font1)
         self.setting_page_email_info_label.setStyleSheet(u"color: rgb(242, 18, 94);")
 
         self.horizontalLayout_21.addWidget(self.setting_page_email_info_label)
@@ -2304,7 +2306,7 @@ class Ui_MainWindow(object):
         self.setting_email_save_bnt.setObjectName(u"setting_email_save_bnt")
         self.setting_email_save_bnt.setMinimumSize(QSize(91, 41))
         self.setting_email_save_bnt.setMaximumSize(QSize(91, 41))
-        self.setting_email_save_bnt.setFont(font2)
+        self.setting_email_save_bnt.setFont(font1)
         self.setting_email_save_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.setting_email_save_bnt.setStyleSheet(u"\n"
 "background-color: rgb(30, 195, 55);\n"
@@ -2577,7 +2579,7 @@ class Ui_MainWindow(object):
         self.setting_user_save_bnt.setObjectName(u"setting_user_save_bnt")
         self.setting_user_save_bnt.setMinimumSize(QSize(71, 41))
         self.setting_user_save_bnt.setMaximumSize(QSize(71, 41))
-        self.setting_user_save_bnt.setFont(font2)
+        self.setting_user_save_bnt.setFont(font1)
         self.setting_user_save_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.setting_user_save_bnt.setStyleSheet(u"background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
@@ -2771,7 +2773,7 @@ class Ui_MainWindow(object):
         self.setting_page_email_info_label_5.setSizePolicy(sizePolicy1)
         self.setting_page_email_info_label_5.setMinimumSize(QSize(12, 21))
         self.setting_page_email_info_label_5.setMaximumSize(QSize(9999, 21))
-        self.setting_page_email_info_label_5.setFont(font2)
+        self.setting_page_email_info_label_5.setFont(font1)
         self.setting_page_email_info_label_5.setStyleSheet(u"color: rgb(242, 18, 94);")
 
         self.horizontalLayout_59.addWidget(self.setting_page_email_info_label_5)
@@ -2795,7 +2797,7 @@ class Ui_MainWindow(object):
         self.setting_page_email_info_label_6.setSizePolicy(sizePolicy1)
         self.setting_page_email_info_label_6.setMinimumSize(QSize(1, 21))
         self.setting_page_email_info_label_6.setMaximumSize(QSize(9999, 21))
-        self.setting_page_email_info_label_6.setFont(font2)
+        self.setting_page_email_info_label_6.setFont(font1)
         self.setting_page_email_info_label_6.setStyleSheet(u"color: rgb(242, 18, 94);")
 
         self.horizontalLayout_60.addWidget(self.setting_page_email_info_label_6)
@@ -2828,7 +2830,7 @@ class Ui_MainWindow(object):
         self.setting_ai_setting_save_bnt.setSizePolicy(sizePolicy1)
         self.setting_ai_setting_save_bnt.setMinimumSize(QSize(76, 39))
         self.setting_ai_setting_save_bnt.setMaximumSize(QSize(76, 39))
-        self.setting_ai_setting_save_bnt.setFont(font2)
+        self.setting_ai_setting_save_bnt.setFont(font1)
         self.setting_ai_setting_save_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.setting_ai_setting_save_bnt.setStyleSheet(u"\n"
 "\n"
@@ -2909,7 +2911,7 @@ class Ui_MainWindow(object):
         self.admin_pw_input.setObjectName(u"admin_pw_input")
         self.admin_pw_input.setMinimumSize(QSize(221, 21))
         self.admin_pw_input.setMaximumSize(QSize(221, 21))
-        self.admin_pw_input.setFont(font2)
+        self.admin_pw_input.setFont(font1)
         self.admin_pw_input.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.admin_pw_input.setStyleSheet(u"qproperty-frame: false;\n"
 "font-size:10pt;\n"
@@ -2939,7 +2941,7 @@ class Ui_MainWindow(object):
         self.admin_page_bnt.setObjectName(u"admin_page_bnt")
         self.admin_page_bnt.setMinimumSize(QSize(71, 41))
         self.admin_page_bnt.setMaximumSize(QSize(71, 41))
-        self.admin_page_bnt.setFont(font2)
+        self.admin_page_bnt.setFont(font1)
         self.admin_page_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.admin_page_bnt.setStyleSheet(u"\n"
 "background-color: rgb(30, 195, 55);\n"
@@ -3453,7 +3455,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(1)
         self.setting_stack_widget.setCurrentIndex(0)
         self.setting_popup_alarm_cnt.setCurrentIndex(2)
         self.setting_setting_ai_weight_box.setCurrentIndex(0)
@@ -3499,7 +3501,7 @@ class Ui_MainWindow(object):
         self.camera_save_bn.setText(QCoreApplication.translate("MainWindow", u"\uc800\uc7a5", None))
         self.live_bnt.setText(QCoreApplication.translate("MainWindow", u"Live", None))
         self.tab_partion_10.setText(QCoreApplication.translate("MainWindow", u"|", None))
-        self.camera_bnt.setText(QCoreApplication.translate("MainWindow", u"Camera", None))
+        self.camera_bnt.setText(QCoreApplication.translate("MainWindow", u"AI Camera", None))
         self.tab_partion_11.setText(QCoreApplication.translate("MainWindow", u"|", None))
         self.setting_bnt.setText(QCoreApplication.translate("MainWindow", u"Setting", None))
         self.tab_partion_3.setText(QCoreApplication.translate("MainWindow", u"|", None))

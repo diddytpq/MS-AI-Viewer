@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>Search_window</class>
  <widget class="QWidget" name="Search_window">
+  <property name="windowModality">
+   <enum>Qt::WindowModality::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,8 +17,7 @@
    <string notr="true">Search</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(20, 20, 20);
-</string>
+   <string notr="true">background-color: rgb(3, 3, 13);</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
@@ -726,6 +728,9 @@ background-color: rgba(191, 64, 64, 0);</string>
 background-color: rgb(13, 16, 23);
 selection-background-color: rgb(53, 132, 228);
 </string>
+                </property>
+                <property name="maxVisibleItems">
+                 <number>16</number>
                 </property>
                 <property name="minimumContentsLength">
                  <number>0</number>
