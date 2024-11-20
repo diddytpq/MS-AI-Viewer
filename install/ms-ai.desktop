@@ -5,4 +5,4 @@ Type=Application
 Path=/home/ms-yang/workspace/MS-AI-Viewer/install
 Icon=/home/ms-yang/workspace/MS-AI-Viewer/ui/images/icon2.png
 Exec=/home/ms-yang/workspace/MS-AI-Viewer/install/main.sh
-Terminal=true
+Terminal=false

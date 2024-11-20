@@ -32,7 +32,7 @@
    <string>login</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../ms_ai_img.qrc">
+   <iconset>
     <normaloff>:/newPrefix/ui/images/icon2.png</normaloff>:/newPrefix/ui/images/icon2.png</iconset>
   </property>
   <widget class="QLabel" name="background">
@@ -51,7 +51,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="../ms_ai_img.qrc">:/newPrefix/ui/images/main_bg2.jpg</pixmap>
+    <pixmap resource="../resourece.qrc">:/ui/ui/images/main_bg2.jpg</pixmap>
    </property>
    <property name="alignment">
     <set>Qt::AlignmentFlag::AlignJustify|Qt::AlignmentFlag::AlignVCenter</set>
@@ -308,7 +308,7 @@ color: rgb(252, 252, 252);</string>
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../ms_ai_img.qrc">:/newPrefix/ui/images/logo.png</pixmap>
+      <pixmap resource="../resourece.qrc">:/ui/ui/images/logo.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -535,7 +535,7 @@ color: rgb(255, 255, 255);</string>
   <tabstop>login_bn</tabstop>
  </tabstops>
  <resources>
-  <include location="../ms_ai_img.qrc"/>
+  <include location="../resourece.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -2,7 +2,7 @@ import sys
 import os
 from pathlib import Path
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLabel, QWidget, QDialog, QListWidgetItem
+from PySide6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QLabel, QWidget, QDialog, QListWidgetItem, QPushButton, QHBoxLayout, QVBoxLayout
 from PySide6.QtGui import QImage, QPixmap, QWheelEvent
 from PySide6.QtCore import QEvent, Qt, QThread, Signal, QRect, QPoint, QTimer, QDate, QUrl, QSize, QItemSelection
 from PySide6 import QtCore
@@ -10,12 +10,13 @@ from ui.login_ui import Ui_Dialog
 from ui.main_ui import Ui_MainWindow
 
 
-from utils_ai_setting_window import open_ai_setting_window
-from utils_search_window import open_search_window
+from ui.utils_ai_setting_window import open_ai_setting_window
+from ui.utils_search_window import open_search_window
 # from utils_schedule_window import open_schedule_window
-from utils_schedule_window_test import open_schedule_window
+from ui.utils_schedule_window_test import open_schedule_window
+from ui.utils_object_setting_window import open_object_setting_window
 
-from utils_labeling_window import open_labeling_window
+from ui.utils_labeling_window import open_labeling_window
 import numpy as np
 
 import socket
@@ -164,6 +165,7 @@ class MainWindow(QMainWindow):
         self.setup_slot_connect()
         self.setup_event_filters()
 
+
         self.before_active_window = None
         self.active_window_timer = QTimer(self)
         self.active_window_timer.timeout.connect(self.check_window_active)
@@ -184,9 +186,6 @@ class MainWindow(QMainWindow):
     def connect_live_page_camera(self, reset=False):
         try:
             print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : connect live page camera")
-            if self.isActiveWindow(): fps = 30
-            else: fps = 1
-
             ret, self.camera_info_dict_temp = self.load_camera_info(reset=reset)
 
             self.live_page_worker_dict = {}
@@ -232,7 +231,7 @@ class MainWindow(QMainWindow):
                                               plot_bbox = self.setting_info_temp["DETECT"]["Bbox"],
                                               plot_label = self.setting_info_temp["DETECT"]["Label"],
                                               plot_roi = self.setting_info_temp["DETECT"]["Roi"],
-                                              fps = fps
+                                              fps = 30
                                             )
                 worker.ImageUpdated.connect(self.ShowCamera_Group)
                 worker.start()
@@ -354,23 +353,23 @@ class MainWindow(QMainWindow):
                     worker.caps[camera_name].change_framerate(fps)
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : chg {fps}fps")
 
-    def set_person_conf_value(self):
-        try:
-            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : set_person_conf_value text box")
-            self.ui_main.camera_page_person_conf_value.setValue(self.ui_main.camera_page_person_conf_slider.value())
-            self.camera_info_dict_temp[self.ui_main.camera_page_name_box.currentText()]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
+    # def set_person_conf_value(self):
+    #     try:
+    #         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : set_person_conf_value text box")
+    #         self.ui_main.camera_page_person_conf_value.setValue(self.ui_main.camera_page_person_conf_slider.value())
+    #         self.camera_info_dict_temp[self.ui_main.camera_page_name_box.currentText()]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
 
-        except Exception as e:
-            print_error(e)
+    #     except Exception as e:
+    #         print_error(e)
 
-    def set_person_conf_slider(self):
-        try:
-            print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : set_person_conf_value slide")
-            self.ui_main.camera_page_person_conf_slider.setValue(self.ui_main.camera_page_person_conf_value.value())
-            self.camera_info_dict_temp[self.ui_main.camera_page_name_box.currentText()]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
+    # def set_person_conf_slider(self):
+    #     try:
+    #         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : set_person_conf_value slide")
+    #         self.ui_main.camera_page_person_conf_slider.setValue(self.ui_main.camera_page_person_conf_value.value())
+    #         self.camera_info_dict_temp[self.ui_main.camera_page_name_box.currentText()]["Conf"] = self.ui_main.camera_page_person_conf_value.value()
 
-        except Exception as e:
-            print_error(e)
+    #     except Exception as e:
+    #         print_error(e)
 
     def save_admin_info(self):
         try:
@@ -722,8 +721,8 @@ class MainWindow(QMainWindow):
 
                 self.ui_main.camera_page_viewer.set_gray_point(gray_point_list)
 
-                self.ui_main.camera_page_person_conf_value.setValue(camera_info["Conf"])
-                self.ui_main.camera_page_person_conf_slider.setValue(camera_info["Conf"])
+                # self.ui_main.camera_page_person_conf_value.setValue(camera_info["Conf"])
+                # self.ui_main.camera_page_person_conf_slider.setValue(camera_info["Conf"])
 
         except Exception as e:
             print_error(e)
@@ -738,8 +737,8 @@ class MainWindow(QMainWindow):
 
     def check_camera_connect_status(self):
         try:
-            on_camera_pix = QPixmap(u":/newPrefix/ui/images/ico_video_on.svg").scaled(24, 24, Qt.KeepAspectRatio)
-            off_camera_pix = QPixmap(u":/newPrefix/ui/images/ico_video_off.svg").scaled(24, 24, Qt.KeepAspectRatio)
+            on_camera_pix = QPixmap(u":/ui/ui/images/ico_video_on.svg").scaled(24, 24, Qt.KeepAspectRatio)
+            off_camera_pix = QPixmap(u":/ui/ui/images/ico_video_off.svg").scaled(24, 24, Qt.KeepAspectRatio)
 
             for worker in self.live_page_worker_dict.values():
                 for camera_name, flag in worker.camera_connect_flag.items():
@@ -844,14 +843,14 @@ class MainWindow(QMainWindow):
             if self.camera_edit_permission:
                 self.ui_main.camera_page_readmod_label.hide()
                 self.ui_main.camera_page_readmod_icon.hide()
-                self.ui_main.camera_page_person_conf_value.setEnabled(True)
-                self.ui_main.camera_page_person_conf_slider.setEnabled(True)
+                # self.ui_main.camera_page_person_conf_value.setEnabled(True)
+                # self.ui_main.camera_page_person_conf_slider.setEnabled(True)
 
             else:
                 self.ui_main.camera_page_readmod_label.show()
                 self.ui_main.camera_page_readmod_icon.show()
-                self.ui_main.camera_page_person_conf_value.setEnabled(False)
-                self.ui_main.camera_page_person_conf_slider.setEnabled(False)
+                # self.ui_main.camera_page_person_conf_value.setEnabled(False)
+                # self.ui_main.camera_page_person_conf_slider.setEnabled(False)
 
             ret, self.camera_info_dict_temp = self.load_camera_info()
             self.admin_info_temp = load_info(host=self.HOST,port=self.PORT,file_name="admin_info")
@@ -863,7 +862,7 @@ class MainWindow(QMainWindow):
 
             self.connect_camera_page_camera(camera_name=self.ui_main.camera_page_name_box.currentText())
             self.set_camera_page_viewer(camera_name=self.ui_main.camera_page_name_box.currentText())
-            
+
             for detect_type in self.admin_info_temp["LICENSE"]:
                 if self.admin_info_temp["LICENSE"][detect_type] == 1:
                     self.ui_main.camera_page_camera_event_box.addItems([Eng2kor(detect_type)])
@@ -1068,7 +1067,7 @@ class MainWindow(QMainWindow):
                     # 새 행에 데이터 채우기
                     label = QLabel()
                     # pixmap = QPixmap("./images/ico_video_off.svg").scaled(24, 24, Qt.KeepAspectRatio)
-                    pixmap = QPixmap(u":/newPrefix/ui/images/ico_video_off.svg").scaled(24, 24, Qt.KeepAspectRatio)
+                    pixmap = QPixmap(u":/ui/ui/images/ico_video_off.svg").scaled(24, 24, Qt.KeepAspectRatio)
 
                     label.setPixmap(pixmap)
                     label.setAlignment(Qt.AlignCenter)
@@ -1331,6 +1330,54 @@ class MainWindow(QMainWindow):
             self.create_fade_out_msg(msg=receive_data["message"])
             return False
 
+    def show_confirmation_dialog(self):
+        # 확인 창 생성
+        self.confirm_dialog = QDialog(self)
+        self.confirm_dialog.setWindowTitle("NVR login")
+        self.confirm_dialog.setFixedSize(300, 150)
+        # self.confirm_dialog.setWindowFlags(Qt.FramelessWindowHint)
+        self.confirm_dialog.setWindowModality(Qt.ApplicationModal)
+
+        mainWindowGeometry = self.frameGeometry()
+        centerPoint = mainWindowGeometry.center() - self.rect().center()
+        self.confirm_dialog.move(centerPoint.x(), centerPoint.y())
+
+        # 확인 라벨
+        label = QLabel("새로운 NVR 연결 시 \n 기존 설정 값이 초기화 됩니다.", self.confirm_dialog)
+        label.setAlignment(Qt.AlignCenter)
+        label.setStyleSheet("color: rgb(255, 255, 255);") 
+
+        # 확인 및 취소 버튼
+        ok_button = QPushButton("확인", self.confirm_dialog)
+        ok_button.setStyleSheet("color: rgb(255, 255, 255); \n"
+                            "background-color: rgb(30, 195, 55); \n"
+                            "border-radius: 5px;") 
+        cancel_button = QPushButton("취소", self.confirm_dialog)
+        cancel_button.setStyleSheet("color: rgb(255, 255, 255);") 
+        cancel_button.setStyleSheet("color: rgb(255, 255, 255); \n"
+                                "background-color: rgb(36, 39, 44); \n"
+                                "border-radius: 5px;") 
+
+        # 버튼 클릭 이벤트 연결
+        ok_button.clicked.connect(self.on_confirm)
+        cancel_button.clicked.connect(self.confirm_dialog.close)
+
+        # 레이아웃 설정
+        button_layout = QHBoxLayout()
+        button_layout.addWidget(ok_button)
+        button_layout.addWidget(cancel_button)
+
+        main_layout = QVBoxLayout(self.confirm_dialog)
+        main_layout.addWidget(label)
+        main_layout.addLayout(button_layout)
+
+        self.confirm_dialog.show()  # 모달 창으로 실행
+
+    def on_confirm(self):
+        self.confirm_dialog.close()  # 확인 창 닫기
+        self.login_NVR()  # login_NVR 함수 실행
+
+
     def setup_init_GUI(self, reset=False):
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : setup main GUI")
 
@@ -1403,14 +1450,16 @@ class MainWindow(QMainWindow):
             self.start_notification_status_timer()
             self.start_camera_refresh_timer()
             self.setup_camera_viewer()
-            
+
         ##좌측 카메라 리스트 변경시 속성 보여주기
         self.ui_main.camera_list_table.itemSelectionChanged.connect(self.camera_page_display_selected_row)
+
 
         time.sleep(1)
 
     def setup_camera_viewer(self):
         ##카메라 페이지 영상 뷰어 생성
+        print("setup camera viewer")
         self.ui_main.camera_page_viewer.hide()
         self.ui_main.camera_page_viewer = Plot_Camera_Viewer(self.ui_main.camera_page)
         self.ui_main.camera_page_viewer.setObjectName(u"camera_page_viewer")
@@ -1419,11 +1468,14 @@ class MainWindow(QMainWindow):
                                                 "background-color: rgba(255, 255, 255, 0);")
         self.ui_main.camera_page_viewer.setScaledContents(False)
         self.ui_main.verticalLayout_10.addWidget(self.ui_main.camera_page_viewer)
+        self.ui_main.camera_page_viewer.clicked.connect(self.camera_page_add_detect_area_point)
+
 
     def setup_slot_connect(self):
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : setup_QT_slot_connect")
 
-        self.ui_main.server_login_bnt.clicked.connect(self.login_NVR)
+        # self.ui_main.server_login_bnt.clicked.connect(self.login_NVR)
+        self.ui_main.server_login_bnt.clicked.connect(self.show_confirmation_dialog)
         self.ui_main.shutdown_bnt.clicked.connect(self.shutdown) #종료 버튼 활성화
 
         #우측 상단 버튼 활성화
@@ -1442,13 +1494,14 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_page_name_box.currentTextChanged.connect(lambda: (self.connect_camera_page_camera(), self.set_camera_page_viewer()))
         self.ui_main.camera_page_detect_add_bnt.clicked.connect(self.camera_page_add_detect_type)
         self.ui_main.camera_page_detect_area_del_bnt.clicked.connect(self.camera_page_del_detect_area)
+        self.ui_main.camera_page_object_setting_bnt.clicked.connect(lambda click, instance = self : open_object_setting_window(click, instance))
+
+
 
         self.ui_main.camera_page_detect_area_table.itemClicked.connect(self.camera_page_update_camera_page_viewer_roi)
-        if self.connect_nvr_flag:
-            self.ui_main.camera_page_viewer.clicked.connect(self.camera_page_add_detect_area_point)
 
-        self.ui_main.camera_page_person_conf_slider.valueChanged.connect(self.set_person_conf_value)
-        self.ui_main.camera_page_person_conf_value.valueChanged.connect(self.set_person_conf_slider)
+        # self.ui_main.camera_page_person_conf_slider.valueChanged.connect(self.set_person_conf_value)
+        # self.ui_main.camera_page_person_conf_value.valueChanged.connect(self.set_person_conf_slider)
 
         # 지능형 활성화 버튼 
         self.ui_main.camera_page_ai_bnt.clicked.connect(lambda click, instance = self : open_ai_setting_window(click, instance))

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'login.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QLabel,
     QLineEdit, QPushButton, QSizePolicy, QWidget)
-import ms_ai_img_rc
+import resourece_rc
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -32,13 +32,13 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QSize(1270, 650))
         Dialog.setMaximumSize(QSize(1270, 650))
         icon = QIcon()
-        icon.addFile(u":/newPrefix/ui/images/icon2.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/newPrefix/ui/images/icon2.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         Dialog.setWindowIcon(icon)
         self.background = QLabel(Dialog)
         self.background.setObjectName(u"background")
         self.background.setEnabled(True)
         self.background.setGeometry(QRect(0, 0, 1920, 1080))
-        self.background.setPixmap(QPixmap(u":/newPrefix/ui/images/main_bg2.jpg"))
+        self.background.setPixmap(QPixmap(u":/ui/ui/images/main_bg2.jpg"))
         self.background.setAlignment(Qt.AlignmentFlag.AlignJustify|Qt.AlignmentFlag.AlignVCenter)
         self.background.setWordWrap(False)
         self.frame = QFrame(Dialog)
@@ -130,7 +130,7 @@ class Ui_Dialog(object):
         self.logo.setGeometry(QRect(160, 24, 251, 41))
         sizePolicy.setHeightForWidth(self.logo.sizePolicy().hasHeightForWidth())
         self.logo.setSizePolicy(sizePolicy)
-        self.logo.setPixmap(QPixmap(u":/newPrefix/ui/images/logo.png"))
+        self.logo.setPixmap(QPixmap(u":/ui/ui/images/logo.png"))
         self.logo.setScaledContents(True)
         self.label = QLabel(self.login_frame)
         self.label.setObjectName(u"label")

@@ -18,7 +18,7 @@ Type=Application
 Path=/home/$USER/workspace/MS-AI-Viewer/install
 Icon=/home/$USER/workspace/MS-AI-Viewer/ui/images/icon2.png
 Exec=/home/$USER/workspace/MS-AI-Viewer/install/main.sh
-Terminal=true" > ms-ai.desktop
+Terminal=false" > ms-ai.desktop
 
 # 생성한 .desktop 파일을 /usr/share/applications 경로로 복사합니다.
 sudo cp ms-ai.desktop /usr/share/applications/

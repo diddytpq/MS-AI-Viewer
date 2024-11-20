@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'search.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -20,10 +20,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractSpinBox, QApplication
     QHeaderView, QLabel, QPushButton, QSizePolicy,
     QSpacerItem, QTableWidget, QTableWidgetItem, QVBoxLayout,
     QWidget)
-import ms_ai_img_rc
-import ms_ai_img_rc
-import ms_ai_img_rc
-import ms_ai_img_rc
+import resourece_rc
 
 class Ui_Search_window(object):
     def setupUi(self, Search_window):
@@ -58,7 +55,7 @@ class Ui_Search_window(object):
         font = QFont()
         font.setFamilies([u"Sans"])
         self.top_logo.setFont(font)
-        self.top_logo.setPixmap(QPixmap(u":/newPrefix/ui/images/logo.png"))
+        self.top_logo.setPixmap(QPixmap(u":/ui/ui/images/logo.png"))
         self.top_logo.setScaledContents(True)
 
         self.horizontalLayout.addWidget(self.top_logo)
@@ -79,7 +76,7 @@ class Ui_Search_window(object):
         self.search_viewer.setFont(font)
         self.search_viewer.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "border-radius: 10px ;")
-        self.search_viewer.setPixmap(QPixmap(u":/newPrefix/ui/images/logo.png"))
+        self.search_viewer.setPixmap(QPixmap(u":/ui/ui/images/logo.png"))
         self.search_viewer.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_2.addWidget(self.search_viewer)
@@ -156,7 +153,7 @@ class Ui_Search_window(object):
         self.time_day_start_input.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
         self.time_day_start_input.setCorrectionMode(QAbstractSpinBox.CorrectionMode.CorrectToNearestValue)
         self.time_day_start_input.setKeyboardTracking(True)
-        self.time_day_start_input.setProperty("showGroupSeparator", False)
+        self.time_day_start_input.setProperty(u"showGroupSeparator", False)
         self.time_day_start_input.setCurrentSection(QDateTimeEdit.Section.YearSection)
         self.time_day_start_input.setCalendarPopup(True)
 
@@ -465,7 +462,7 @@ class Ui_Search_window(object):
         self.time_search_bnt.setMinimumSize(QSize(61, 31))
         self.time_search_bnt.setMaximumSize(QSize(61, 31))
         self.time_search_bnt.setFont(font2)
-        self.time_search_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.time_search_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.time_search_bnt.setStyleSheet(u"background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
@@ -478,7 +475,7 @@ class Ui_Search_window(object):
         self.search_close_bnt.setMinimumSize(QSize(61, 31))
         self.search_close_bnt.setMaximumSize(QSize(61, 31))
         self.search_close_bnt.setFont(font2)
-        self.search_close_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.search_close_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.search_close_bnt.setStyleSheet(u"background-color: rgb(255, 49, 38);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"

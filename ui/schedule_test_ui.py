@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'schedule_test.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -19,11 +19,7 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QHBox
     QHeaderView, QLabel, QPushButton, QSizePolicy,
     QSpacerItem, QStackedWidget, QTableWidget, QTableWidgetItem,
     QVBoxLayout, QWidget)
-import ms_ai_img_rc
-import ms_ai_img_rc
-import ms_ai_img_rc
-import ms_ai_img_rc
-import ms_ai_img_rc
+import resourece_rc
 
 class Ui_schedule_window(object):
     def setupUi(self, schedule_window):
@@ -55,7 +51,7 @@ class Ui_schedule_window(object):
         font = QFont()
         font.setFamilies([u"Sans"])
         self.top_logo_2.setFont(font)
-        self.top_logo_2.setPixmap(QPixmap(u":/newPrefix/ui/images/logo.png"))
+        self.top_logo_2.setPixmap(QPixmap(u":/ui/ui/images/logo.png"))
         self.top_logo_2.setScaledContents(True)
 
         self.horizontalLayout.addWidget(self.top_logo_2)
@@ -77,7 +73,7 @@ class Ui_schedule_window(object):
         font1.setFamilies([u"Sans"])
         font1.setPointSize(10)
         self.schedule_move_oneshot_bnt.setFont(font1)
-        self.schedule_move_oneshot_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.schedule_move_oneshot_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.schedule_move_oneshot_bnt.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
@@ -757,7 +753,7 @@ class Ui_schedule_window(object):
         self.schedule_all_remove_bnt.setMinimumSize(QSize(61, 31))
         self.schedule_all_remove_bnt.setMaximumSize(QSize(61, 31))
         self.schedule_all_remove_bnt.setFont(font1)
-        self.schedule_all_remove_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.schedule_all_remove_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.schedule_all_remove_bnt.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
@@ -771,7 +767,7 @@ class Ui_schedule_window(object):
         self.schedule_apply_bnt.setMinimumSize(QSize(61, 31))
         self.schedule_apply_bnt.setMaximumSize(QSize(61, 31))
         self.schedule_apply_bnt.setFont(font1)
-        self.schedule_apply_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.schedule_apply_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.schedule_apply_bnt.setStyleSheet(u"background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
@@ -785,7 +781,7 @@ class Ui_schedule_window(object):
         self.schedule_close_bnt.setMinimumSize(QSize(61, 31))
         self.schedule_close_bnt.setMaximumSize(QSize(61, 31))
         self.schedule_close_bnt.setFont(font1)
-        self.schedule_close_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.schedule_close_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.schedule_close_bnt.setStyleSheet(u"background-color: rgb(237, 51, 59);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 10px;\n"
@@ -930,7 +926,7 @@ class Ui_schedule_window(object):
 "    QTableWidget::item:hover {\n"
 "        background-color: rgba(209, 209, 209, 30);; /* \ub4dc\ub798\uadf8\ud560 \ub54c \ub9c8\uc6b0\uc2a4\uac00 \uc704\uce58\ud55c \uc140\uc758 \ubc30\uacbd\uc0c9 */\n"
 "    }")
-        self.schedule_time_table.setProperty("showDropIndicator", True)
+        self.schedule_time_table.setProperty(u"showDropIndicator", True)
         self.schedule_time_table.setDragEnabled(False)
         self.schedule_time_table.setDragDropOverwriteMode(True)
         self.schedule_time_table.setDragDropMode(QAbstractItemView.DragDropMode.NoDragDrop)
@@ -942,13 +938,13 @@ class Ui_schedule_window(object):
         self.schedule_time_table.horizontalHeader().setCascadingSectionResizes(False)
         self.schedule_time_table.horizontalHeader().setMinimumSectionSize(3)
         self.schedule_time_table.horizontalHeader().setDefaultSectionSize(46)
-        self.schedule_time_table.horizontalHeader().setProperty("showSortIndicator", False)
+        self.schedule_time_table.horizontalHeader().setProperty(u"showSortIndicator", False)
         self.schedule_time_table.horizontalHeader().setStretchLastSection(False)
         self.schedule_time_table.verticalHeader().setVisible(True)
         self.schedule_time_table.verticalHeader().setCascadingSectionResizes(False)
         self.schedule_time_table.verticalHeader().setMinimumSectionSize(18)
         self.schedule_time_table.verticalHeader().setDefaultSectionSize(24)
-        self.schedule_time_table.verticalHeader().setProperty("showSortIndicator", False)
+        self.schedule_time_table.verticalHeader().setProperty(u"showSortIndicator", False)
         self.schedule_time_table.verticalHeader().setStretchLastSection(False)
 
         self.horizontalLayout_9.addWidget(self.schedule_time_table)

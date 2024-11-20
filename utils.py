@@ -33,7 +33,15 @@ import traceback
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
-
+COLOR = {
+    0: (60, 20, 220),   # Crimson - person
+    1: (113, 179, 60),  # Medium Sea Green - bicycle
+    2: (180, 130, 70),  # Steel Blue - car
+    3: (0, 140, 255),   # Dark Orange - motorcycle
+    4: (219, 112, 147), # Medium Purple - bus
+    5: (204, 209, 72),  # Medium Turquoise - truck
+    6: (147, 20, 255)   # Deep Pink - fire
+}
 class Colors:
     # Ultralytics color palette https://ultralytics.com/
     def __init__(self):
@@ -215,8 +223,6 @@ class Connect_Camera(QThread):
         self.host = host
         self.port = port
 
-        self.color = Colors()
-
         self.back_url = f"http://{self.host}:{self.port}/get-camera-info"
 
         self.roi_thickness = roi_thickness
@@ -245,7 +251,7 @@ class Connect_Camera(QThread):
                             receive_data = session.get(self.back_url, json={"msg" : self.camera_name}).json()
 
                             if receive_data[self.camera_name]:
-                                self.frame = plot_detect_info(img = self.frame, detect_info = receive_data[self.camera_name], roi_thickness = self.roi_thickness, plot_bbox = self.plot_bbox, plot_label = self.plot_label)
+                                self.frame = plot_detect_info(img = self.frame, detect_info = receive_data[self.camera_name], roi_thickness = self.roi_thickness, plot_bbox = self.plot_bbox, plot_label = self.plot_label, plot_roi = self.plot_roi)
                         except:
                             pass                
                     self.disconnect_cnt = 0
@@ -417,6 +423,10 @@ class Plot_Camera_Viewer(QLabel):
         super().__init__(parent)
         self.point_list = []
         self.non_active_point_list = []
+        self.zoom_factor = 1.0  # 초기 확대 배율
+        self.offset = QPoint(0, 0)  # 확대/축소의 오프셋을 저장
+        self.setScaledContents(True)  # QLabel이 이미지 크기에 맞게 조정됨
+
         # self.setMinimumSize(1, 1)
 
     def mousePressEvent(self, event):
@@ -611,7 +621,7 @@ class Livepage_view(QLabel):
         self.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.setStyleSheet("border: 1px solid rgb(119, 118, 123);\n"
                            "color: rgb(255, 255, 255);")
-        self.setPixmap(QPixmap(":/newPrefix/images/ico_video_off.svg"))
+        self.setPixmap(QPixmap(":/ui/images/ico_video_off.svg"))
         self.setScaledContents(False)
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -765,11 +775,12 @@ def TF_bbox(bbox, ori_imsz=(640, 360), target_imsz=(1920, 1080)):
     return TF_boxes
 
 def plot_detect_info(img, detect_info, line_thickness = 1 , roi_thickness = 1, plot_bbox = True, plot_label = True, plot_roi = True):
-    color = Colors()
     ROI_color_dict = {"Loitering": [53, 225, 225], "Intrusion": [35, 28, 255], "Fire": [33, 145, 237],
                                 "Fight": [255, 0, 127], "Falldown": [230, 255, 121]}
 
-    names = { 0 : "person", 1 : "fire"}
+    # names = { 0 : "person", 1 : "fire"}
+    names = { 0 : "person", 1 : "bicycle", 2 : "car", 3 : "motorcycle", 4 : "bus", 5 : "truck", 6 : "fire"}
+
 
     person_bbox = TF_bbox(detect_info["person_bbox"], ori_imsz=(640, 480), target_imsz=(img.shape[1], img.shape[0]))
     non_person_bbox = TF_bbox(detect_info["non_person_bbox"], ori_imsz=(640, 480), target_imsz=(img.shape[1], img.shape[0]))
@@ -796,7 +807,8 @@ def plot_detect_info(img, detect_info, line_thickness = 1 , roi_thickness = 1, p
                 bbox_color = (0,150,95)
 
             else:
-                bbox_color = color(int(cls))
+                bbox_color = COLOR[int(cls)]
+                # bbox_color = COLOR(int(cls))
 
             plot_one_box(xyxy, img, label=label, bbox = plot_bbox, color=bbox_color, line_thickness=line_thickness) # 박스 그리기
 
@@ -812,7 +824,8 @@ def plot_detect_info(img, detect_info, line_thickness = 1 , roi_thickness = 1, p
             else:
                 label = False
 
-            bbox_color = color(int(cls))
+            # bbox_color = COLOR(int(cls))
+            bbox_color = COLOR[int(cls)]
 
             plot_one_box(xyxy, img, label=label, bbox = plot_bbox, color=bbox_color, line_thickness=line_thickness) # 박스 그리기
 
@@ -821,7 +834,8 @@ def plot_detect_info(img, detect_info, line_thickness = 1 , roi_thickness = 1, p
         conf = conf
         cls = int(cls)
 
-        bbox_color = (4,19,190)
+        # bbox_color = (4,19,190)
+        bbox_color = COLOR[int(cls)]
         if plot_label:
             label = f'{names[cls]} {conf:.2f}'
         else:

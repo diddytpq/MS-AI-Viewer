@@ -64,7 +64,7 @@
                <string/>
               </property>
               <property name="pixmap">
-               <pixmap resource="../ms_ai_img.qrc">:/newPrefix/ui/images/logo.png</pixmap>
+               <pixmap resource="../resourece.qrc">:/ui/ui/images/logo.png</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -110,7 +110,7 @@ border-radius: 10px ;</string>
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../ms_ai_img.qrc">:/newPrefix/ui/images/logo.png</pixmap>
+          <pixmap resource="../resourece.qrc">:/ui/ui/images/logo.png</pixmap>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -1238,10 +1238,7 @@ width: 8px;
   </layout>
  </widget>
  <resources>
-  <include location="../ms_ai_img.qrc"/>
-  <include location="../ms_ai_img.qrc"/>
-  <include location="../ms_ai_img.qrc"/>
-  <include location="../ms_ai_img.qrc"/>
+  <include location="../resourece.qrc"/>
  </resources>
  <connections/>
 </ui>

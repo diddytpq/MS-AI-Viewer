@@ -59,7 +59,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="../ms_ai_img.qrc">:/newPrefix/ui/images/logo.png</pixmap>
+          <pixmap resource="../resourece.qrc">:/ui/ui/images/logo.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -406,8 +406,8 @@ border: 1px solid rgb(20, 20, 20);</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="../ms_ai_img.qrc">
-                  <normaloff>:/newPrefix/ui/images/ico_refresh.svg</normaloff>:/newPrefix/ui/images/ico_refresh.svg</iconset>
+                 <iconset resource="../resourece.qrc">
+                  <normaloff>:/ui/ui/images/ico_refresh.svg</normaloff>:/ui/ui/images/ico_refresh.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -865,7 +865,7 @@ border-radius: 10px ;</string>
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap resource="../ms_ai_img.qrc">:/newPrefix/ui/images/logo.png</pixmap>
+            <pixmap resource="../resourece.qrc">:/ui/ui/images/logo.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -986,7 +986,7 @@ border-radius: 19px;
   </layout>
  </widget>
  <resources>
-  <include location="../ms_ai_img.qrc"/>
+  <include location="../resourece.qrc"/>
  </resources>
  <connections/>
 </ui>

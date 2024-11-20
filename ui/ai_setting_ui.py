@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'ai_setting.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.0
+## Created by: Qt User Interface Compiler version 6.8.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -17,9 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QPushButton, QSizePolicy,
     QWidget)
-import ms_ai_img_rc
-import ms_ai_img_rc
-import ms_ai_img_rc
+import resourece_rc
 
 class Ui_Ai_Setting_Window(object):
     def setupUi(self, Ai_Setting_Window):
@@ -30,7 +28,7 @@ class Ui_Ai_Setting_Window(object):
         Ai_Setting_Window.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
         Ai_Setting_Window.setWindowTitle(u"\uc9c0\ub2a5\ud615 \ubd84\uc11d \uc124\uc815")
         icon = QIcon()
-        icon.addFile(u":/newPrefix/images/icon2.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/newPrefix/images/icon2.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         Ai_Setting_Window.setWindowIcon(icon)
         Ai_Setting_Window.setStyleSheet(u"background-color: rgb(3, 3, 13);")
         self.ai_setting_info_label = QLabel(Ai_Setting_Window)
@@ -65,7 +63,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_15.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_15.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_15.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_15.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_15.setScaledContents(False)
         self.camera_view_15.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_1 = QLabel(Ai_Setting_Window)
@@ -77,7 +75,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_1.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_1.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_1.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_1.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_1.setScaledContents(False)
         self.camera_view_1.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_6 = QLabel(Ai_Setting_Window)
@@ -89,7 +87,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_6.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_6.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_6.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_6.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_6.setScaledContents(False)
         self.camera_view_6.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_14 = QLabel(Ai_Setting_Window)
@@ -101,7 +99,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_14.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_14.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_14.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_14.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_14.setScaledContents(False)
         self.camera_view_14.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_13 = QLabel(Ai_Setting_Window)
@@ -113,7 +111,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_13.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_13.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_13.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_13.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_13.setScaledContents(False)
         self.camera_view_13.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_8 = QLabel(Ai_Setting_Window)
@@ -125,7 +123,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_8.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_8.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_8.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_8.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_8.setScaledContents(False)
         self.camera_view_8.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_16 = QLabel(Ai_Setting_Window)
@@ -137,7 +135,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_16.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_16.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_16.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_16.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_16.setScaledContents(False)
         self.camera_view_16.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_11 = QLabel(Ai_Setting_Window)
@@ -149,7 +147,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_11.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_11.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_11.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_11.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_11.setScaledContents(False)
         self.camera_view_11.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_4 = QLabel(Ai_Setting_Window)
@@ -161,7 +159,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_4.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_4.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_4.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_4.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_4.setScaledContents(False)
         self.camera_view_4.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_3 = QLabel(Ai_Setting_Window)
@@ -173,7 +171,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_3.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_3.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_3.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_3.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_3.setScaledContents(False)
         self.camera_view_3.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_5 = QLabel(Ai_Setting_Window)
@@ -185,7 +183,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_5.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_5.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_5.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_5.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_5.setScaledContents(False)
         self.camera_view_5.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_2 = QLabel(Ai_Setting_Window)
@@ -197,7 +195,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_2.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_2.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_2.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_2.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_2.setScaledContents(False)
         self.camera_view_2.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_9 = QLabel(Ai_Setting_Window)
@@ -209,7 +207,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_9.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_9.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_9.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_9.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_9.setScaledContents(False)
         self.camera_view_9.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_7 = QLabel(Ai_Setting_Window)
@@ -221,7 +219,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_7.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_7.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_7.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_7.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_7.setScaledContents(False)
         self.camera_view_7.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_10 = QLabel(Ai_Setting_Window)
@@ -233,7 +231,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_10.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_10.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_10.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_10.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_10.setScaledContents(False)
         self.camera_view_10.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.camera_view_12 = QLabel(Ai_Setting_Window)
@@ -245,7 +243,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_view_12.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.camera_view_12.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
 "color: rgb(255, 255, 255);")
-        self.camera_view_12.setPixmap(QPixmap(u":/newPrefix/images/ico_video_off.svg"))
+        self.camera_view_12.setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
         self.camera_view_12.setScaledContents(False)
         self.camera_view_12.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.close_bnt = QPushButton(Ai_Setting_Window)
@@ -256,7 +254,7 @@ class Ui_Ai_Setting_Window(object):
         font2.setFamilies([u"NanumBarunGothic"])
         font2.setPointSize(10)
         self.close_bnt.setFont(font2)
-        self.close_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.close_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.close_bnt.setStyleSheet(u"background-color: rgb(255, 49, 38);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 20px;\n"
@@ -274,7 +272,7 @@ class Ui_Ai_Setting_Window(object):
         self.camera_save_bnt.setMinimumSize(QSize(71, 41))
         self.camera_save_bnt.setMaximumSize(QSize(16777210, 41))
         self.camera_save_bnt.setFont(font2)
-        self.camera_save_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.camera_save_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.camera_save_bnt.setStyleSheet(u"background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 20px;\n"
@@ -645,7 +643,7 @@ class Ui_Ai_Setting_Window(object):
         self.all_select_bnt.setGeometry(QRect(230, 7, 71, 33))
         self.all_select_bnt.setMinimumSize(QSize(17, 25))
         self.all_select_bnt.setFont(font2)
-        self.all_select_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.all_select_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.all_select_bnt.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 13px;\n"
