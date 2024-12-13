@@ -244,14 +244,15 @@ class Connect_Camera(QThread):
                     self.camera_connect_flag = True
                     self.frame_ori = self.cap.get_frame()
                     # If frame is read correctly.
-                    self.frame = cv2.resize(self.frame_ori, dsize=(self.viewer.width(), self.viewer.height()))
+                    # self.frame = cv2.resize(self.frame_ori, dsize=(self.viewer.width(), self.viewer.height()))
+                    self.frame = np.array(self.frame_ori)
 
                     if self.ai_active and  (self.plot_bbox or self.plot_label or self.plot_roi):
                         try:
                             receive_data = session.get(self.back_url, json={"msg" : self.camera_name}).json()
 
                             if receive_data[self.camera_name]:
-                                self.frame = plot_detect_info(img = self.frame, detect_info = receive_data[self.camera_name], roi_thickness = self.roi_thickness, plot_bbox = self.plot_bbox, plot_label = self.plot_label, plot_roi = self.plot_roi)
+                                self.frame = plot_detect_info(img = self.frame, detect_info = receive_data[self.camera_name], line_thickness = 3, roi_thickness = self.roi_thickness, plot_bbox = self.plot_bbox, plot_label = self.plot_label, plot_roi = self.plot_roi)
                         except:
                             pass                
                     self.disconnect_cnt = 0
@@ -313,17 +314,19 @@ class Connect_Camera_Group(QThread):
 
                     frame_ori = self.caps[camera_name].get_frame()
                     # frame = cv2.resize(frame_ori, dsize=(self.viewers[camera_name].width(), self.viewers[camera_name].height()))
-                    frame = cv2.resize(frame_ori, dsize=(self.viewers_widget.width()//4 - 5, self.viewers_widget.height()//4 - 5))
+                    # frame = cv2.resize(frame_ori, dsize=(self.viewers_widget.width()//4 - 5, self.viewers_widget.height()//4 - 5))
+                    frame = frame_ori
 
                     if camera_info["ai_active"] and (self.plot_bbox or self.plot_label or self.plot_roi):
                         try:
                             receive_data = sessions[camera_name].get(camera_info['back_url'], json={"msg": camera_name}).json()
                             if receive_data[camera_name]:
-                                frame = plot_detect_info(img=frame, detect_info=receive_data[camera_name],
+                                frame = plot_detect_info(img=np.array(frame), detect_info=receive_data[camera_name],
                                                         roi_thickness = camera_info["roi_thickness"],
                                                         plot_bbox = self.plot_bbox,
                                                         plot_label = self.plot_label,
-                                                        plot_roi = self.plot_roi)
+                                                        plot_roi = self.plot_roi,
+                                                        line_thickness = 2)
                         except requests.RequestException as e:
                             print(f"Network error occurred while fetching data for {camera_name}: {e}")
                             
@@ -532,7 +535,7 @@ class FadeOutWindow(QWidget):
         self.info_label.setObjectName(u"info_label")
         # self.info_label.setGeometry(QRect(0, 0, 381, 61))
 
-        self.info_label.setStyleSheet("background-color: rgb(53, 132, 228); border-radius: 10px; color: white; font-size: 14px;")
+        self.info_label.setStyleSheet("background-color: rgb(30, 195, 55); border-radius: 10px; color: white; font-size: 14px;")
         self.info_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.info_label)
         self.setLayout(layout)
@@ -993,6 +996,12 @@ def get_datetime_from_path(path):
     full_datetime_str = f"{date_str} {date_time_str}"
     # datetime 객체로 변환
     return datetime.strptime(full_datetime_str, "%y.%m.%d %H.%M.%S")
+
+def get_datetime_from_list(list):
+    img_base64, camera_name, date, video_time, label_info = list
+
+    return datetime.strptime(date + " " + video_time, "%y-%m-%d %H:%M:%S")
+
 
 def print_error(e):
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QPushButton,
-    QSizePolicy, QSlider, QSpacerItem, QSpinBox,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel,
+    QPushButton, QSizePolicy, QSlider, QSpacerItem,
+    QSpinBox, QVBoxLayout, QWidget)
 import resourece_rc
 
 class Ui_object_setting(object):
@@ -25,7 +25,7 @@ class Ui_object_setting(object):
         if not object_setting.objectName():
             object_setting.setObjectName(u"object_setting")
         object_setting.setWindowModality(Qt.WindowModality.ApplicationModal)
-        object_setting.resize(508, 198)
+        object_setting.resize(508, 237)
         object_setting.setMaximumSize(QSize(1260, 16777215))
         object_setting.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
         object_setting.setWindowTitle(u"object_setting")
@@ -370,6 +370,145 @@ class Ui_object_setting(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.par_label = QLabel(self.widget)
+        self.par_label.setObjectName(u"par_label")
+        self.par_label.setMinimumSize(QSize(203, 28))
+        self.par_label.setMaximumSize(QSize(203, 28))
+        self.par_label.setFont(font2)
+        self.par_label.setStyleSheet(u"color: rgb(179,179,179);\n"
+"background-color: rgba(255, 255, 255, 0);")
+        self.par_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_8.addWidget(self.par_label)
+
+        self.par_active_bnt = QPushButton(self.widget)
+        self.par_active_bnt.setObjectName(u"par_active_bnt")
+        self.par_active_bnt.setMinimumSize(QSize(61, 25))
+        self.par_active_bnt.setMaximumSize(QSize(61, 25))
+        self.par_active_bnt.setIcon(icon)
+        self.par_active_bnt.setIconSize(QSize(55, 103))
+        self.par_active_bnt.setCheckable(True)
+
+        self.horizontalLayout_8.addWidget(self.par_active_bnt)
+
+        self.par_time_label = QLabel(self.widget)
+        self.par_time_label.setObjectName(u"par_time_label")
+        self.par_time_label.setMinimumSize(QSize(23, 28))
+        self.par_time_label.setMaximumSize(QSize(100, 28))
+        self.par_time_label.setFont(font2)
+        self.par_time_label.setStyleSheet(u"color: rgb(179,179,179);\n"
+"background-color: rgba(255, 255, 255, 0);")
+        self.par_time_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_8.addWidget(self.par_time_label)
+
+        self.par_start_time = QComboBox(self.widget)
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.addItem("")
+        self.par_start_time.setObjectName(u"par_start_time")
+        sizePolicy.setHeightForWidth(self.par_start_time.sizePolicy().hasHeightForWidth())
+        self.par_start_time.setSizePolicy(sizePolicy)
+        self.par_start_time.setMinimumSize(QSize(50, 31))
+        self.par_start_time.setMaximumSize(QSize(50, 31))
+        font5 = QFont()
+        font5.setFamilies([u"Sans"])
+        font5.setPointSize(10)
+        font5.setBold(False)
+        self.par_start_time.setFont(font5)
+        self.par_start_time.setFocusPolicy(Qt.FocusPolicy.WheelFocus)
+        self.par_start_time.setStyleSheet(u"color: rgb(255, 255, 255);\n"
+"background-color: rgb(13, 16, 23);\n"
+"selection-background-color: rgb(53, 132, 228);\n"
+"")
+        self.par_start_time.setCurrentText(u"0")
+        self.par_start_time.setMaxVisibleItems(10)
+        self.par_start_time.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContentsOnFirstShow)
+
+        self.horizontalLayout_8.addWidget(self.par_start_time)
+
+        self.time_text_label = QLabel(self.widget)
+        self.time_text_label.setObjectName(u"time_text_label")
+        sizePolicy.setHeightForWidth(self.time_text_label.sizePolicy().hasHeightForWidth())
+        self.time_text_label.setSizePolicy(sizePolicy)
+        self.time_text_label.setMinimumSize(QSize(9, 28))
+        self.time_text_label.setMaximumSize(QSize(21, 28))
+        self.time_text_label.setFont(font2)
+        self.time_text_label.setStyleSheet(u"color: rgb(179,179,179);\n"
+"background-color: rgba(255, 255, 255, 0);")
+        self.time_text_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_8.addWidget(self.time_text_label)
+
+        self.par_end_time = QComboBox(self.widget)
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.addItem("")
+        self.par_end_time.setObjectName(u"par_end_time")
+        sizePolicy.setHeightForWidth(self.par_end_time.sizePolicy().hasHeightForWidth())
+        self.par_end_time.setSizePolicy(sizePolicy)
+        self.par_end_time.setMinimumSize(QSize(50, 31))
+        self.par_end_time.setMaximumSize(QSize(50, 31))
+        self.par_end_time.setFont(font5)
+        self.par_end_time.setFocusPolicy(Qt.FocusPolicy.WheelFocus)
+        self.par_end_time.setStyleSheet(u"color: rgb(255, 255, 255);\n"
+"background-color: rgb(13, 16, 23);\n"
+"selection-background-color: rgb(53, 132, 228);\n"
+"")
+        self.par_end_time.setCurrentText(u"0")
+        self.par_end_time.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToContentsOnFirstShow)
+
+        self.horizontalLayout_8.addWidget(self.par_end_time)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_8)
+
 
         self.horizontalLayout_4.addLayout(self.verticalLayout)
 
@@ -386,6 +525,10 @@ class Ui_object_setting(object):
 
         self.retranslateUi(object_setting)
 
+        self.par_start_time.setCurrentIndex(0)
+        self.par_end_time.setCurrentIndex(0)
+
+
         QMetaObject.connectSlotsByName(object_setting)
     # setupUi
 
@@ -398,6 +541,64 @@ class Ui_object_setting(object):
         self.car_active_bnt.setText("")
         self.fire_label.setText(QCoreApplication.translate("object_setting", u"\ubd88", None))
         self.fire_active_bnt.setText("")
+        self.par_label.setText(QCoreApplication.translate("object_setting", u"\ubcf4\ud589\uc790 \uc18d\uc131 \ucd94\ucd9c", None))
+        self.par_active_bnt.setText("")
+        self.par_time_label.setText(QCoreApplication.translate("object_setting", u"\uc2dc\uac04   :", None))
+        self.par_start_time.setItemText(0, QCoreApplication.translate("object_setting", u"0", None))
+        self.par_start_time.setItemText(1, QCoreApplication.translate("object_setting", u"1", None))
+        self.par_start_time.setItemText(2, QCoreApplication.translate("object_setting", u"2", None))
+        self.par_start_time.setItemText(3, QCoreApplication.translate("object_setting", u"3", None))
+        self.par_start_time.setItemText(4, QCoreApplication.translate("object_setting", u"4", None))
+        self.par_start_time.setItemText(5, QCoreApplication.translate("object_setting", u"5", None))
+        self.par_start_time.setItemText(6, QCoreApplication.translate("object_setting", u"6", None))
+        self.par_start_time.setItemText(7, QCoreApplication.translate("object_setting", u"7", None))
+        self.par_start_time.setItemText(8, QCoreApplication.translate("object_setting", u"8", None))
+        self.par_start_time.setItemText(9, QCoreApplication.translate("object_setting", u"9", None))
+        self.par_start_time.setItemText(10, QCoreApplication.translate("object_setting", u"10", None))
+        self.par_start_time.setItemText(11, QCoreApplication.translate("object_setting", u"11", None))
+        self.par_start_time.setItemText(12, QCoreApplication.translate("object_setting", u"12", None))
+        self.par_start_time.setItemText(13, QCoreApplication.translate("object_setting", u"13", None))
+        self.par_start_time.setItemText(14, QCoreApplication.translate("object_setting", u"14", None))
+        self.par_start_time.setItemText(15, QCoreApplication.translate("object_setting", u"15", None))
+        self.par_start_time.setItemText(16, QCoreApplication.translate("object_setting", u"16", None))
+        self.par_start_time.setItemText(17, QCoreApplication.translate("object_setting", u"17", None))
+        self.par_start_time.setItemText(18, QCoreApplication.translate("object_setting", u"18", None))
+        self.par_start_time.setItemText(19, QCoreApplication.translate("object_setting", u"19", None))
+        self.par_start_time.setItemText(20, QCoreApplication.translate("object_setting", u"20", None))
+        self.par_start_time.setItemText(21, QCoreApplication.translate("object_setting", u"21", None))
+        self.par_start_time.setItemText(22, QCoreApplication.translate("object_setting", u"22", None))
+        self.par_start_time.setItemText(23, QCoreApplication.translate("object_setting", u"21", None))
+        self.par_start_time.setItemText(24, QCoreApplication.translate("object_setting", u"23", None))
+
+        self.par_start_time.setPlaceholderText("")
+        self.time_text_label.setText(QCoreApplication.translate("object_setting", u"~", None))
+        self.par_end_time.setItemText(0, QCoreApplication.translate("object_setting", u"0", None))
+        self.par_end_time.setItemText(1, QCoreApplication.translate("object_setting", u"1", None))
+        self.par_end_time.setItemText(2, QCoreApplication.translate("object_setting", u"2", None))
+        self.par_end_time.setItemText(3, QCoreApplication.translate("object_setting", u"3", None))
+        self.par_end_time.setItemText(4, QCoreApplication.translate("object_setting", u"4", None))
+        self.par_end_time.setItemText(5, QCoreApplication.translate("object_setting", u"5", None))
+        self.par_end_time.setItemText(6, QCoreApplication.translate("object_setting", u"6", None))
+        self.par_end_time.setItemText(7, QCoreApplication.translate("object_setting", u"7", None))
+        self.par_end_time.setItemText(8, QCoreApplication.translate("object_setting", u"8", None))
+        self.par_end_time.setItemText(9, QCoreApplication.translate("object_setting", u"9", None))
+        self.par_end_time.setItemText(10, QCoreApplication.translate("object_setting", u"10", None))
+        self.par_end_time.setItemText(11, QCoreApplication.translate("object_setting", u"11", None))
+        self.par_end_time.setItemText(12, QCoreApplication.translate("object_setting", u"12", None))
+        self.par_end_time.setItemText(13, QCoreApplication.translate("object_setting", u"13", None))
+        self.par_end_time.setItemText(14, QCoreApplication.translate("object_setting", u"14", None))
+        self.par_end_time.setItemText(15, QCoreApplication.translate("object_setting", u"15", None))
+        self.par_end_time.setItemText(16, QCoreApplication.translate("object_setting", u"16", None))
+        self.par_end_time.setItemText(17, QCoreApplication.translate("object_setting", u"17", None))
+        self.par_end_time.setItemText(18, QCoreApplication.translate("object_setting", u"18", None))
+        self.par_end_time.setItemText(19, QCoreApplication.translate("object_setting", u"19", None))
+        self.par_end_time.setItemText(20, QCoreApplication.translate("object_setting", u"20", None))
+        self.par_end_time.setItemText(21, QCoreApplication.translate("object_setting", u"21", None))
+        self.par_end_time.setItemText(22, QCoreApplication.translate("object_setting", u"22", None))
+        self.par_end_time.setItemText(23, QCoreApplication.translate("object_setting", u"21", None))
+        self.par_end_time.setItemText(24, QCoreApplication.translate("object_setting", u"23", None))
+
+        self.par_end_time.setPlaceholderText("")
         pass
     # retranslateUi
 

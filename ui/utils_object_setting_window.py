@@ -31,10 +31,16 @@ class Object_settint_Dialog(QDialog):
 
         cls_list = self.parent.camera_info_dict_temp[self.parent.ui_main.camera_page_name_box.currentText()]["Cls"]
         conf_list = self.parent.camera_info_dict_temp[self.parent.ui_main.camera_page_name_box.currentText()]["Conf"]
+        par_time_list = self.parent.camera_info_dict_temp[self.parent.ui_main.camera_page_name_box.currentText()]["ParTime"]
 
         self.object_setting_ui.person_active_bnt.setChecked(cls_list[0])
         self.object_setting_ui.car_active_bnt.setChecked(cls_list[1])
         self.object_setting_ui.fire_active_bnt.setChecked(cls_list[2])
+        self.object_setting_ui.par_active_bnt.setChecked(cls_list[3])
+
+        self.object_setting_ui.par_start_time.setCurrentIndex(int(par_time_list[0]))
+        self.object_setting_ui.par_end_time.setCurrentIndex(int(par_time_list[1]))
+
 
         self.object_setting_ui.person_conf_slider.valueChanged.connect(
             lambda value, 
@@ -96,6 +102,10 @@ class Object_settint_Dialog(QDialog):
         self.parent.camera_info_dict_temp[self.parent.ui_main.camera_page_name_box.currentText()]["Cls"][0] = self.object_setting_ui.person_active_bnt.isChecked()
         self.parent.camera_info_dict_temp[self.parent.ui_main.camera_page_name_box.currentText()]["Cls"][1] = self.object_setting_ui.car_active_bnt.isChecked()
         self.parent.camera_info_dict_temp[self.parent.ui_main.camera_page_name_box.currentText()]["Cls"][2] = self.object_setting_ui.fire_active_bnt.isChecked()
+        self.parent.camera_info_dict_temp[self.parent.ui_main.camera_page_name_box.currentText()]["Cls"][3] = self.object_setting_ui.par_active_bnt.isChecked()
+
+        self.parent.camera_info_dict_temp[self.parent.ui_main.camera_page_name_box.currentText()]["ParTime"][0] = self.object_setting_ui.par_start_time.currentText()
+        self.parent.camera_info_dict_temp[self.parent.ui_main.camera_page_name_box.currentText()]["ParTime"][1] = self.object_setting_ui.par_end_time.currentText()
         self.close()
 
 

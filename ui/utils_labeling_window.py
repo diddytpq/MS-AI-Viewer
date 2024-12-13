@@ -38,7 +38,7 @@ class Labeling_Viewer(QLabel):
         
         self.point_list = []
         self.non_active_point_list = []
-        self.setPixmap(QPixmap(u":/newPrefix/ui/images/logo.png"))
+        self.setPixmap(QPixmap(u":/ui/ui/images/logo.png"))
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setStyleSheet(f"border: 1px solid rgb(119, 118, 123);\n"
                             "border-radius: 10px;\n"
@@ -75,7 +75,11 @@ class Labeling_Viewer(QLabel):
         bnt_name = f"{self.class_name_dict[cls]}"
         cls_bnt.setObjectName(bnt_name)
         cls_bnt.setMinimumSize(QSize(55, 25))
-        cls_bnt.setMaximumSize(QSize(350, 25))
+
+        if cls == 3:
+            cls_bnt.setMinimumSize(QSize(75, 25))
+
+        # cls_bnt.setMaximumSize(QSize(550, 25))
 
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy2.setHorizontalStretch(0)
@@ -458,6 +462,8 @@ class LabelingDialog(QDialog):
         self.label_ui.train_bnt.clicked.connect(self.start_train)
         self.label_ui.label_refresh_bnt.clicked.connect(self.label_data_refresh)
         self.label_ui.label_data_del_bnt.clicked.connect(self.del_label_data)
+
+        self.label_ui.camera_name_box.setCurrentIndex(0)
 
         self.setFocusPolicy(Qt.StrongFocus)
         self.installEventFilter(self)

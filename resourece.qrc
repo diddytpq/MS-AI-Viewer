@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="ui">
+    <file>ui/images/logo_viewer.png</file>
     <file>ui/images/icon2.ico</file>
     <file>ui/images/logo자산 3.png</file>
     <file>ui/images/search_ico.png</file>
@@ -39,7 +40,9 @@
     <file>ui/images/ico_add_circle.svg</file>
     <file>ui/images/ico_add.svg</file>
     <file>ui/images/ico_accout.svg</file>
+    <file>ui/images/right_arrow.png</file>
     <file>ui/images/icon2.png</file>
+    <file>ui/images/left_arrow.png</file>
     <file>ui/images/icon-switch-on.png</file>
     <file>ui/images/icon-switch-off.png</file>
     <file>ui/images/down_arrow.png</file>

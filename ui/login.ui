@@ -32,8 +32,8 @@
    <string>login</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/newPrefix/ui/images/icon2.png</normaloff>:/newPrefix/ui/images/icon2.png</iconset>
+   <iconset resource="../resourece.qrc">
+    <normaloff>:/ui/ui/images/icon2.png</normaloff>:/ui/ui/images/icon2.png</iconset>
   </property>
   <widget class="QLabel" name="background">
    <property name="enabled">
@@ -207,7 +207,7 @@ color: rgb(255, 255, 255);</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(0, 122, 255);
+      <string notr="true">background-color: rgb(30, 195, 55);
 border-radius: 10px;
 color: rgb(252, 252, 252);</string>
      </property>

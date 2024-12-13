@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'ai_labeling.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.7.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -68,7 +68,7 @@ class Ui_labeling_window(object):
         font1.setPointSize(9)
         font1.setBold(False)
         self.self_labeling_bnt.setFont(font1)
-        self.self_labeling_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.self_labeling_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.self_labeling_bnt.setStyleSheet(u"\n"
 "background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
@@ -83,7 +83,7 @@ class Ui_labeling_window(object):
         self.train_bnt.setMinimumSize(QSize(80, 31))
         self.train_bnt.setMaximumSize(QSize(80, 31))
         self.train_bnt.setFont(font1)
-        self.train_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.train_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.train_bnt.setStyleSheet(u"\n"
 "background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
@@ -102,7 +102,7 @@ class Ui_labeling_window(object):
         font2.setPointSize(10)
         font2.setBold(False)
         self.shutdown_bnt.setFont(font2)
-        self.shutdown_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.shutdown_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.shutdown_bnt.setStyleSheet(u"background-color: rgb(237, 51, 59);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 15px;\n"
@@ -212,12 +212,12 @@ class Ui_labeling_window(object):
         font6.setFamilies([u"Sans"])
         font6.setPointSize(10)
         self.label_refresh_bnt.setFont(font6)
-        self.label_refresh_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.label_refresh_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.label_refresh_bnt.setStyleSheet(u"background-color: rgb(20, 20, 20);\n"
 "color: rgb(255, 255, 255);\n"
 "border: 1px solid rgb(20, 20, 20);")
         icon = QIcon()
-        icon.addFile(u":/ui/ui/images/ico_refresh.svg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/ui/ui/images/ico_refresh.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.label_refresh_bnt.setIcon(icon)
         self.label_refresh_bnt.setIconSize(QSize(31, 50))
 
@@ -308,12 +308,12 @@ class Ui_labeling_window(object):
         self.label_list_table.horizontalHeader().setMinimumSectionSize(5)
         self.label_list_table.horizontalHeader().setDefaultSectionSize(18)
         self.label_list_table.horizontalHeader().setHighlightSections(False)
-        self.label_list_table.horizontalHeader().setProperty(u"showSortIndicator", False)
+        self.label_list_table.horizontalHeader().setProperty("showSortIndicator", False)
         self.label_list_table.horizontalHeader().setStretchLastSection(True)
         self.label_list_table.verticalHeader().setVisible(False)
         self.label_list_table.verticalHeader().setCascadingSectionResizes(False)
         self.label_list_table.verticalHeader().setHighlightSections(False)
-        self.label_list_table.verticalHeader().setProperty(u"showSortIndicator", False)
+        self.label_list_table.verticalHeader().setProperty("showSortIndicator", False)
         self.label_list_table.verticalHeader().setStretchLastSection(False)
 
         self.verticalLayout.addWidget(self.label_list_table)
@@ -349,7 +349,7 @@ class Ui_labeling_window(object):
         self.cls_1.setMinimumSize(QSize(55, 25))
         self.cls_1.setMaximumSize(QSize(55, 25))
         self.cls_1.setFont(font6)
-        self.cls_1.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.cls_1.setCursor(QCursor(Qt.PointingHandCursor))
         self.cls_1.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 9px;\n"
@@ -369,7 +369,7 @@ class Ui_labeling_window(object):
         self.label_del_bnt.setMinimumSize(QSize(102, 25))
         self.label_del_bnt.setMaximumSize(QSize(9999, 25))
         self.label_del_bnt.setFont(font6)
-        self.label_del_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.label_del_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.label_del_bnt.setStyleSheet(u"border-radius: 9px;\n"
 "background-color: rgb(255, 49, 38);\n"
 "color: rgb(255, 255, 255);")
@@ -462,7 +462,7 @@ class Ui_labeling_window(object):
         self.label_save_bnt.setMinimumSize(QSize(76, 39))
         self.label_save_bnt.setMaximumSize(QSize(76, 39))
         self.label_save_bnt.setFont(font6)
-        self.label_save_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.label_save_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.label_save_bnt.setStyleSheet(u"background-color: rgb(30, 195, 55);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 19px;\n"
@@ -478,7 +478,7 @@ class Ui_labeling_window(object):
         self.label_data_del_bnt.setMinimumSize(QSize(76, 39))
         self.label_data_del_bnt.setMaximumSize(QSize(76, 39))
         self.label_data_del_bnt.setFont(font6)
-        self.label_data_del_bnt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.label_data_del_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.label_data_del_bnt.setStyleSheet(u"background-color: rgb(255, 49, 38);\n"
 "color: rgb(255, 255, 255);\n"
 "border-radius: 19px;\n"

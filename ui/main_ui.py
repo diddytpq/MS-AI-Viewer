@@ -38,7 +38,7 @@ class Ui_MainWindow(object):
         MainWindow.setMaximumSize(QSize(3840, 2160))
         MainWindow.setContextMenuPolicy(Qt.ContextMenuPolicy.PreventContextMenu)
         icon = QIcon()
-        icon.addFile(u":/newPrefix/ui/images/icon2.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(u":/ui/ui/images/icon2.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"background-color: rgb(3, 3, 13);")
         self.centralwidget = QWidget(MainWindow)
@@ -272,7 +272,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_32.setObjectName(u"horizontalLayout_32")
         self.camera_info_side_widget = QWidget(self.centralwidget)
         self.camera_info_side_widget.setObjectName(u"camera_info_side_widget")
-        self.camera_info_side_widget.setMaximumSize(QSize(401, 16777215))
+        self.camera_info_side_widget.setMaximumSize(QSize(335, 16777215))
         self.verticalLayout_3 = QVBoxLayout(self.camera_info_side_widget)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_4 = QVBoxLayout()
@@ -302,8 +302,8 @@ class Ui_MainWindow(object):
         __qtablewidgetitem3.setFont(font6);
         self.camera_list_table.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         self.camera_list_table.setObjectName(u"camera_list_table")
-        self.camera_list_table.setMinimumSize(QSize(368, 100))
-        self.camera_list_table.setMaximumSize(QSize(401, 16777215))
+        self.camera_list_table.setMinimumSize(QSize(319, 100))
+        self.camera_list_table.setMaximumSize(QSize(319, 16777215))
         font8 = QFont()
         font8.setFamilies([u"Sans"])
         font8.setPointSize(10)
@@ -357,12 +357,14 @@ class Ui_MainWindow(object):
         self.camera_list_table.horizontalHeader().setVisible(True)
         self.camera_list_table.horizontalHeader().setCascadingSectionResizes(False)
         self.camera_list_table.horizontalHeader().setMinimumSectionSize(5)
-        self.camera_list_table.horizontalHeader().setDefaultSectionSize(80)
+        self.camera_list_table.horizontalHeader().setDefaultSectionSize(69)
         self.camera_list_table.horizontalHeader().setHighlightSections(False)
         self.camera_list_table.horizontalHeader().setProperty("showSortIndicator", False)
         self.camera_list_table.horizontalHeader().setStretchLastSection(True)
         self.camera_list_table.verticalHeader().setVisible(False)
         self.camera_list_table.verticalHeader().setCascadingSectionResizes(False)
+        self.camera_list_table.verticalHeader().setMinimumSectionSize(21)
+        self.camera_list_table.verticalHeader().setDefaultSectionSize(30)
         self.camera_list_table.verticalHeader().setHighlightSections(False)
         self.camera_list_table.verticalHeader().setProperty("showSortIndicator", False)
         self.camera_list_table.verticalHeader().setStretchLastSection(False)
@@ -376,8 +378,8 @@ class Ui_MainWindow(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.camera_info_widget.sizePolicy().hasHeightForWidth())
         self.camera_info_widget.setSizePolicy(sizePolicy1)
-        self.camera_info_widget.setMinimumSize(QSize(373, 312))
-        self.camera_info_widget.setMaximumSize(QSize(401, 312))
+        self.camera_info_widget.setMinimumSize(QSize(319, 312))
+        self.camera_info_widget.setMaximumSize(QSize(319, 312))
         self.camera_info_widget.setStyleSheet(u"background-color: rgb(13, 16, 23);\n"
 "border-radius: 20px;\n"
 "color: rgb(255, 255, 255);")
@@ -411,7 +413,7 @@ class Ui_MainWindow(object):
 
         self.camera_info_title_line = QFrame(self.camera_info_widget)
         self.camera_info_title_line.setObjectName(u"camera_info_title_line")
-        self.camera_info_title_line.setMinimumSize(QSize(370, 3))
+        self.camera_info_title_line.setMinimumSize(QSize(0, 3))
         self.camera_info_title_line.setMaximumSize(QSize(327, 3))
         font10 = QFont()
         font10.setFamilies([u"Sans"])
@@ -454,8 +456,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.camera_info_name_input = QLineEdit(self.camera_info_widget)
         self.camera_info_name_input.setObjectName(u"camera_info_name_input")
-        self.camera_info_name_input.setMinimumSize(QSize(275, 17))
-        self.camera_info_name_input.setMaximumSize(QSize(275, 17))
+        self.camera_info_name_input.setMinimumSize(QSize(252, 17))
+        self.camera_info_name_input.setMaximumSize(QSize(252, 17))
         self.camera_info_name_input.setFont(font8)
         self.camera_info_name_input.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.camera_info_name_input.setStyleSheet(u"qproperty-frame: false;\n"
@@ -467,7 +469,7 @@ class Ui_MainWindow(object):
 
         self.camera_info_name_line = QFrame(self.camera_info_widget)
         self.camera_info_name_line.setObjectName(u"camera_info_name_line")
-        self.camera_info_name_line.setMinimumSize(QSize(275, 3))
+        self.camera_info_name_line.setMinimumSize(QSize(0, 3))
         self.camera_info_name_line.setMaximumSize(QSize(275, 3))
         self.camera_info_name_line.setFont(font10)
         self.camera_info_name_line.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
@@ -508,8 +510,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.camera_info_ip_input = QLineEdit(self.camera_info_widget)
         self.camera_info_ip_input.setObjectName(u"camera_info_ip_input")
-        self.camera_info_ip_input.setMinimumSize(QSize(275, 17))
-        self.camera_info_ip_input.setMaximumSize(QSize(275, 17))
+        self.camera_info_ip_input.setMinimumSize(QSize(235, 17))
+        self.camera_info_ip_input.setMaximumSize(QSize(268, 17))
         self.camera_info_ip_input.setFont(font8)
         self.camera_info_ip_input.setStyleSheet(u"qproperty-frame: false;\n"
 "font-size:10pt;\n"
@@ -520,7 +522,7 @@ class Ui_MainWindow(object):
 
         self.camera_info_ip_line = QFrame(self.camera_info_widget)
         self.camera_info_ip_line.setObjectName(u"camera_info_ip_line")
-        self.camera_info_ip_line.setMinimumSize(QSize(275, 3))
+        self.camera_info_ip_line.setMinimumSize(QSize(0, 3))
         self.camera_info_ip_line.setMaximumSize(QSize(275, 3))
         self.camera_info_ip_line.setFont(font10)
         self.camera_info_ip_line.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
@@ -561,7 +563,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_23.setObjectName(u"verticalLayout_23")
         self.camera_info_id_input = QLineEdit(self.camera_info_widget)
         self.camera_info_id_input.setObjectName(u"camera_info_id_input")
-        self.camera_info_id_input.setMinimumSize(QSize(275, 17))
+        self.camera_info_id_input.setMinimumSize(QSize(216, 17))
         self.camera_info_id_input.setMaximumSize(QSize(275, 17))
         self.camera_info_id_input.setFont(font8)
         self.camera_info_id_input.setStyleSheet(u"qproperty-frame: false;\n"
@@ -573,7 +575,7 @@ class Ui_MainWindow(object):
 
         self.camera_info_id_line = QFrame(self.camera_info_widget)
         self.camera_info_id_line.setObjectName(u"camera_info_id_line")
-        self.camera_info_id_line.setMinimumSize(QSize(275, 3))
+        self.camera_info_id_line.setMinimumSize(QSize(0, 3))
         self.camera_info_id_line.setMaximumSize(QSize(275, 3))
         self.camera_info_id_line.setFont(font10)
         self.camera_info_id_line.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
@@ -616,7 +618,7 @@ class Ui_MainWindow(object):
         self.camera_info_pw_input.setObjectName(u"camera_info_pw_input")
         sizePolicy1.setHeightForWidth(self.camera_info_pw_input.sizePolicy().hasHeightForWidth())
         self.camera_info_pw_input.setSizePolicy(sizePolicy1)
-        self.camera_info_pw_input.setMinimumSize(QSize(275, 17))
+        self.camera_info_pw_input.setMinimumSize(QSize(206, 17))
         self.camera_info_pw_input.setMaximumSize(QSize(275, 17))
         self.camera_info_pw_input.setFont(font8)
         self.camera_info_pw_input.setStyleSheet(u"qproperty-frame: false;\n"
@@ -628,7 +630,7 @@ class Ui_MainWindow(object):
 
         self.camera_info_pw_line = QFrame(self.camera_info_widget)
         self.camera_info_pw_line.setObjectName(u"camera_info_pw_line")
-        self.camera_info_pw_line.setMinimumSize(QSize(275, 3))
+        self.camera_info_pw_line.setMinimumSize(QSize(0, 3))
         self.camera_info_pw_line.setMaximumSize(QSize(275, 3))
         self.camera_info_pw_line.setFont(font10)
         self.camera_info_pw_line.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
@@ -729,7 +731,7 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.tab_backgournd.sizePolicy().hasHeightForWidth())
         self.tab_backgournd.setSizePolicy(sizePolicy1)
         self.tab_backgournd.setMinimumSize(QSize(522, 50))
-        self.tab_backgournd.setMaximumSize(QSize(682, 50))
+        self.tab_backgournd.setMaximumSize(QSize(12345, 50))
         self.tab_backgournd.setStyleSheet(u"background-color: rgb(16, 20, 25);\n"
 "\n"
 "border-right: 1px solid rgb(119, 118, 123);\n"
@@ -737,12 +739,10 @@ class Ui_MainWindow(object):
 "\n"
 "border-bottom:1px solid rgb(119, 118, 123);\n"
 "")
-        self.horizontalLayout_35 = QHBoxLayout(self.tab_backgournd)
-        self.horizontalLayout_35.setObjectName(u"horizontalLayout_35")
-        self.horizontalLayout_34 = QHBoxLayout()
-        self.horizontalLayout_34.setSpacing(0)
-        self.horizontalLayout_34.setObjectName(u"horizontalLayout_34")
-        self.horizontalLayout_34.setContentsMargins(-1, -1, -1, 0)
+        self.horizontalLayout_14 = QHBoxLayout(self.tab_backgournd)
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.horizontalLayout_31 = QHBoxLayout()
+        self.horizontalLayout_31.setObjectName(u"horizontalLayout_31")
         self.live_bnt = QPushButton(self.tab_backgournd)
         self.live_bnt.setObjectName(u"live_bnt")
         self.live_bnt.setMinimumSize(QSize(163, 28))
@@ -756,7 +756,7 @@ class Ui_MainWindow(object):
         self.live_bnt.setChecked(False)
         self.live_bnt.setAutoExclusive(True)
 
-        self.horizontalLayout_34.addWidget(self.live_bnt)
+        self.horizontalLayout_31.addWidget(self.live_bnt)
 
         self.tab_partion_10 = QLabel(self.tab_backgournd)
         self.tab_partion_10.setObjectName(u"tab_partion_10")
@@ -774,7 +774,7 @@ class Ui_MainWindow(object):
         self.tab_partion_10.setTextFormat(Qt.TextFormat.PlainText)
         self.tab_partion_10.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_34.addWidget(self.tab_partion_10)
+        self.horizontalLayout_31.addWidget(self.tab_partion_10)
 
         self.camera_bnt = QPushButton(self.tab_backgournd)
         self.camera_bnt.setObjectName(u"camera_bnt")
@@ -786,7 +786,7 @@ class Ui_MainWindow(object):
 "border: 1px solid rgba(0, 0, 0, 0);\n"
 "background-color: rgba(191, 64, 64, 0);")
 
-        self.horizontalLayout_34.addWidget(self.camera_bnt)
+        self.horizontalLayout_31.addWidget(self.camera_bnt)
 
         self.tab_partion_11 = QLabel(self.tab_backgournd)
         self.tab_partion_11.setObjectName(u"tab_partion_11")
@@ -801,19 +801,19 @@ class Ui_MainWindow(object):
         self.tab_partion_11.setTextFormat(Qt.TextFormat.PlainText)
         self.tab_partion_11.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_34.addWidget(self.tab_partion_11)
+        self.horizontalLayout_31.addWidget(self.tab_partion_11)
 
-        self.setting_bnt = QPushButton(self.tab_backgournd)
-        self.setting_bnt.setObjectName(u"setting_bnt")
-        self.setting_bnt.setMinimumSize(QSize(163, 28))
-        self.setting_bnt.setMaximumSize(QSize(163, 28))
-        self.setting_bnt.setFont(font9)
-        self.setting_bnt.setCursor(QCursor(Qt.PointingHandCursor))
-        self.setting_bnt.setStyleSheet(u"color: rgb(255, 255, 255);\n"
-"background-color: rgba(191, 64, 64, 0);\n"
-"border: 1px solid rgba(0, 0, 0, 0);")
+        self.search_bnt = QPushButton(self.tab_backgournd)
+        self.search_bnt.setObjectName(u"search_bnt")
+        self.search_bnt.setMinimumSize(QSize(163, 28))
+        self.search_bnt.setMaximumSize(QSize(163, 28))
+        self.search_bnt.setFont(font9)
+        self.search_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.search_bnt.setStyleSheet(u"color: rgb(255, 255, 255);\n"
+"border: 1px solid rgba(0, 0, 0, 0);\n"
+"background-color: rgba(191, 64, 64, 0);")
 
-        self.horizontalLayout_34.addWidget(self.setting_bnt)
+        self.horizontalLayout_31.addWidget(self.search_bnt)
 
         self.tab_partion_3 = QLabel(self.tab_backgournd)
         self.tab_partion_3.setObjectName(u"tab_partion_3")
@@ -828,7 +828,34 @@ class Ui_MainWindow(object):
         self.tab_partion_3.setTextFormat(Qt.TextFormat.PlainText)
         self.tab_partion_3.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_34.addWidget(self.tab_partion_3)
+        self.horizontalLayout_31.addWidget(self.tab_partion_3)
+
+        self.setting_bnt = QPushButton(self.tab_backgournd)
+        self.setting_bnt.setObjectName(u"setting_bnt")
+        self.setting_bnt.setMinimumSize(QSize(163, 28))
+        self.setting_bnt.setMaximumSize(QSize(163, 28))
+        self.setting_bnt.setFont(font9)
+        self.setting_bnt.setCursor(QCursor(Qt.PointingHandCursor))
+        self.setting_bnt.setStyleSheet(u"color: rgb(255, 255, 255);\n"
+"background-color: rgba(191, 64, 64, 0);\n"
+"border: 1px solid rgba(0, 0, 0, 0);")
+
+        self.horizontalLayout_31.addWidget(self.setting_bnt)
+
+        self.tab_partion_4 = QLabel(self.tab_backgournd)
+        self.tab_partion_4.setObjectName(u"tab_partion_4")
+        sizePolicy1.setHeightForWidth(self.tab_partion_4.sizePolicy().hasHeightForWidth())
+        self.tab_partion_4.setSizePolicy(sizePolicy1)
+        self.tab_partion_4.setMinimumSize(QSize(3, 0))
+        self.tab_partion_4.setFont(font11)
+        self.tab_partion_4.setStyleSheet(u"color: rgb(119, 118, 123);\n"
+"background-color: rgba(191, 64, 64, 0);\n"
+"border: 1px solid rgba(0, 0, 0, 0);\n"
+"background-color: rgba(0, 0 0, 0);")
+        self.tab_partion_4.setTextFormat(Qt.TextFormat.PlainText)
+        self.tab_partion_4.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_31.addWidget(self.tab_partion_4)
 
         self.admin_bnt = QPushButton(self.tab_backgournd)
         self.admin_bnt.setObjectName(u"admin_bnt")
@@ -840,10 +867,10 @@ class Ui_MainWindow(object):
 "border: 1px solid rgba(0, 0, 0, 0);\n"
 "background-color: rgba(191, 64, 64, 0);")
 
-        self.horizontalLayout_34.addWidget(self.admin_bnt)
+        self.horizontalLayout_31.addWidget(self.admin_bnt)
 
 
-        self.horizontalLayout_35.addLayout(self.horizontalLayout_34)
+        self.horizontalLayout_14.addLayout(self.horizontalLayout_31)
 
 
         self.tab_layout.addWidget(self.tab_backgournd)
@@ -912,23 +939,6 @@ class Ui_MainWindow(object):
         self.camera_schedule_bnt.setIconSize(QSize(31, 50))
 
         self.horizontalLayout_36.addWidget(self.camera_schedule_bnt)
-
-        self.alarm_search_bnt = QPushButton(self.centralwidget)
-        self.alarm_search_bnt.setObjectName(u"alarm_search_bnt")
-        self.alarm_search_bnt.setMinimumSize(QSize(37, 52))
-        self.alarm_search_bnt.setFont(font1)
-        self.alarm_search_bnt.setCursor(QCursor(Qt.PointingHandCursor))
-        self.alarm_search_bnt.setStyleSheet(u"background-color: rgb(3, 3, 13);\n"
-"border: 1px solid rgb(3, 3, 13);\n"
-"color: rgb(255, 255, 255);\n"
-"\n"
-"")
-        icon4 = QIcon()
-        icon4.addFile(u":/ui/ui/images/search_ico.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.alarm_search_bnt.setIcon(icon4)
-        self.alarm_search_bnt.setIconSize(QSize(31, 50))
-
-        self.horizontalLayout_36.addWidget(self.alarm_search_bnt)
 
 
         self.verticalLayout_55.addLayout(self.horizontalLayout_36)
@@ -1305,9 +1315,9 @@ class Ui_MainWindow(object):
 "color: rgb(255, 255, 255);\n"
 "\n"
 "")
-        icon5 = QIcon()
-        icon5.addFile(u":/ui/ui/images/ico_add_circle.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.camera_page_detect_add_bnt.setIcon(icon5)
+        icon4 = QIcon()
+        icon4.addFile(u":/ui/ui/images/ico_add_circle.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.camera_page_detect_add_bnt.setIcon(icon4)
         self.camera_page_detect_add_bnt.setIconSize(QSize(31, 50))
 
         self.horizontalLayout_11.addWidget(self.camera_page_detect_add_bnt)
@@ -1395,8 +1405,8 @@ class Ui_MainWindow(object):
         self.camera_page_object_setting_bnt.setObjectName(u"camera_page_object_setting_bnt")
         sizePolicy1.setHeightForWidth(self.camera_page_object_setting_bnt.sizePolicy().hasHeightForWidth())
         self.camera_page_object_setting_bnt.setSizePolicy(sizePolicy1)
-        self.camera_page_object_setting_bnt.setMinimumSize(QSize(61, 30))
-        self.camera_page_object_setting_bnt.setMaximumSize(QSize(61, 30))
+        self.camera_page_object_setting_bnt.setMinimumSize(QSize(100, 30))
+        self.camera_page_object_setting_bnt.setMaximumSize(QSize(100, 30))
         self.camera_page_object_setting_bnt.setFont(font1)
         self.camera_page_object_setting_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.camera_page_object_setting_bnt.setStyleSheet(u"background-color: rgb(36, 39, 44);\n"
@@ -1472,9 +1482,11 @@ class Ui_MainWindow(object):
         self.widget_5 = QWidget(self.camera_page)
         self.widget_5.setObjectName(u"widget_5")
         self.widget_5.setMinimumSize(QSize(0, 0))
-        self.widget_5.setMaximumSize(QSize(16777215, 50))
+        self.widget_5.setMaximumSize(QSize(16777215, 25))
         self.verticalLayout_30 = QVBoxLayout(self.widget_5)
+        self.verticalLayout_30.setSpacing(6)
         self.verticalLayout_30.setObjectName(u"verticalLayout_30")
+        self.verticalLayout_30.setContentsMargins(-1, 0, -1, 0)
         self.horizontalLayout_54 = QHBoxLayout()
         self.horizontalLayout_54.setObjectName(u"horizontalLayout_54")
         self.horizontalLayout_63 = QHBoxLayout()
@@ -1543,6 +1555,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_15.addWidget(self.widget_5)
 
         self.verticalLayout_10 = QVBoxLayout()
+        self.verticalLayout_10.setSpacing(0)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.verticalSpacer_26 = QSpacerItem(20, 3, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
 
@@ -1560,10 +1573,6 @@ class Ui_MainWindow(object):
         self.camera_page_viewer.setScaledContents(False)
 
         self.verticalLayout_10.addWidget(self.camera_page_viewer)
-
-        self.verticalSpacer_27 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-
-        self.verticalLayout_10.addItem(self.verticalSpacer_27)
 
 
         self.verticalLayout_15.addLayout(self.verticalLayout_10)
@@ -1629,7 +1638,6 @@ class Ui_MainWindow(object):
         self.setting_ai_bnt.setFont(font14)
         self.setting_ai_bnt.setCursor(QCursor(Qt.PointingHandCursor))
         self.setting_ai_bnt.setStyleSheet(u"border-radius: 15px;\n"
-"\n"
 "color: rgb(255, 255, 255);\n"
 "background-color: rgb(36, 39, 44);\n"
 "")
@@ -1722,10 +1730,10 @@ class Ui_MainWindow(object):
         self.setting_detect_bbox_active_bnt.setObjectName(u"setting_detect_bbox_active_bnt")
         self.setting_detect_bbox_active_bnt.setMinimumSize(QSize(61, 25))
         self.setting_detect_bbox_active_bnt.setMaximumSize(QSize(61, 25))
-        icon6 = QIcon()
-        icon6.addFile(u":/ui/ui/images/icon-switch-off.png", QSize(), QIcon.Normal, QIcon.Off)
-        icon6.addFile(u":/ui/ui/images/icon-switch-on.png", QSize(), QIcon.Normal, QIcon.On)
-        self.setting_detect_bbox_active_bnt.setIcon(icon6)
+        icon5 = QIcon()
+        icon5.addFile(u":/ui/ui/images/icon-switch-off.png", QSize(), QIcon.Normal, QIcon.Off)
+        icon5.addFile(u":/ui/ui/images/icon-switch-on.png", QSize(), QIcon.Normal, QIcon.On)
+        self.setting_detect_bbox_active_bnt.setIcon(icon5)
         self.setting_detect_bbox_active_bnt.setIconSize(QSize(55, 103))
         self.setting_detect_bbox_active_bnt.setCheckable(True)
 
@@ -1759,7 +1767,7 @@ class Ui_MainWindow(object):
         self.setting_detect_label_active_bnt.setObjectName(u"setting_detect_label_active_bnt")
         self.setting_detect_label_active_bnt.setMinimumSize(QSize(61, 25))
         self.setting_detect_label_active_bnt.setMaximumSize(QSize(61, 25))
-        self.setting_detect_label_active_bnt.setIcon(icon6)
+        self.setting_detect_label_active_bnt.setIcon(icon5)
         self.setting_detect_label_active_bnt.setIconSize(QSize(55, 103))
         self.setting_detect_label_active_bnt.setCheckable(True)
 
@@ -1793,7 +1801,7 @@ class Ui_MainWindow(object):
         self.setting_detect_roi_active_bnt.setObjectName(u"setting_detect_roi_active_bnt")
         self.setting_detect_roi_active_bnt.setMinimumSize(QSize(61, 25))
         self.setting_detect_roi_active_bnt.setMaximumSize(QSize(61, 25))
-        self.setting_detect_roi_active_bnt.setIcon(icon6)
+        self.setting_detect_roi_active_bnt.setIcon(icon5)
         self.setting_detect_roi_active_bnt.setIconSize(QSize(55, 103))
         self.setting_detect_roi_active_bnt.setCheckable(True)
 
@@ -1857,7 +1865,7 @@ class Ui_MainWindow(object):
         self.setting_video_save_alarm_active_bnt.setObjectName(u"setting_video_save_alarm_active_bnt")
         self.setting_video_save_alarm_active_bnt.setMinimumSize(QSize(61, 25))
         self.setting_video_save_alarm_active_bnt.setMaximumSize(QSize(61, 25))
-        self.setting_video_save_alarm_active_bnt.setIcon(icon6)
+        self.setting_video_save_alarm_active_bnt.setIcon(icon5)
         self.setting_video_save_alarm_active_bnt.setIconSize(QSize(55, 103))
         self.setting_video_save_alarm_active_bnt.setCheckable(True)
 
@@ -1939,7 +1947,7 @@ class Ui_MainWindow(object):
         self.setting_popup_alarm_active_bnt.setObjectName(u"setting_popup_alarm_active_bnt")
         self.setting_popup_alarm_active_bnt.setMinimumSize(QSize(61, 25))
         self.setting_popup_alarm_active_bnt.setMaximumSize(QSize(61, 25))
-        self.setting_popup_alarm_active_bnt.setIcon(icon6)
+        self.setting_popup_alarm_active_bnt.setIcon(icon5)
         self.setting_popup_alarm_active_bnt.setIconSize(QSize(55, 103))
         self.setting_popup_alarm_active_bnt.setCheckable(True)
 
@@ -2021,7 +2029,7 @@ class Ui_MainWindow(object):
         self.setting_email_active_bnt.setObjectName(u"setting_email_active_bnt")
         self.setting_email_active_bnt.setMinimumSize(QSize(61, 25))
         self.setting_email_active_bnt.setMaximumSize(QSize(61, 25))
-        self.setting_email_active_bnt.setIcon(icon6)
+        self.setting_email_active_bnt.setIcon(icon5)
         self.setting_email_active_bnt.setIconSize(QSize(55, 103))
         self.setting_email_active_bnt.setCheckable(True)
 
@@ -2621,7 +2629,7 @@ class Ui_MainWindow(object):
         self.setting_self_training_auto_labeling_bnt.setSizePolicy(sizePolicy1)
         self.setting_self_training_auto_labeling_bnt.setMinimumSize(QSize(61, 25))
         self.setting_self_training_auto_labeling_bnt.setMaximumSize(QSize(187, 25))
-        self.setting_self_training_auto_labeling_bnt.setIcon(icon6)
+        self.setting_self_training_auto_labeling_bnt.setIcon(icon5)
         self.setting_self_training_auto_labeling_bnt.setIconSize(QSize(55, 103))
         self.setting_self_training_auto_labeling_bnt.setCheckable(True)
 
@@ -2656,7 +2664,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_57.addWidget(self.setting_self_training_zeroshot_label)
 
-        self.horizontalSpacer_58 = QSpacerItem(69, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_58 = QSpacerItem(68, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_57.addItem(self.horizontalSpacer_58)
 
@@ -2666,7 +2674,7 @@ class Ui_MainWindow(object):
         self.setting_self_training_zeroshot_bnt.setSizePolicy(sizePolicy1)
         self.setting_self_training_zeroshot_bnt.setMinimumSize(QSize(61, 25))
         self.setting_self_training_zeroshot_bnt.setMaximumSize(QSize(151, 25))
-        self.setting_self_training_zeroshot_bnt.setIcon(icon6)
+        self.setting_self_training_zeroshot_bnt.setIcon(icon5)
         self.setting_self_training_zeroshot_bnt.setIconSize(QSize(55, 103))
         self.setting_self_training_zeroshot_bnt.setCheckable(True)
 
@@ -2741,7 +2749,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_61 = QHBoxLayout()
         self.horizontalLayout_61.setObjectName(u"horizontalLayout_61")
-        self.horizontalSpacer_67 = QSpacerItem(280, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_67 = QSpacerItem(338, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_61.addItem(self.horizontalSpacer_67)
 
@@ -2763,7 +2771,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_61.addWidget(self.setting_ai_setting_save_bnt)
 
-        self.horizontalSpacer_69 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_69 = QSpacerItem(40, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_61.addItem(self.horizontalSpacer_69)
 
@@ -3085,9 +3093,9 @@ class Ui_MainWindow(object):
 "color: rgb(255, 255, 255);\n"
 "\n"
 "")
-        icon7 = QIcon()
-        icon7.addFile(u":/ui/ui/images/ico_arrow_right.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.license_add_bnt.setIcon(icon7)
+        icon6 = QIcon()
+        icon6.addFile(u":/ui/ui/images/ico_arrow_right.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.license_add_bnt.setIcon(icon6)
         self.license_add_bnt.setIconSize(QSize(31, 50))
 
         self.verticalLayout_41.addWidget(self.license_add_bnt)
@@ -3104,9 +3112,9 @@ class Ui_MainWindow(object):
 "color: rgb(255, 255, 255);\n"
 "\n"
 "Rotation: ( origin.x: 25; origin.y: 25; angle: 45);")
-        icon8 = QIcon()
-        icon8.addFile(u":/ui/ui/images/ico_arrow_left.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.license_remove_bnt.setIcon(icon8)
+        icon7 = QIcon()
+        icon7.addFile(u":/ui/ui/images/ico_arrow_left.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.license_remove_bnt.setIcon(icon7)
         self.license_remove_bnt.setIconSize(QSize(31, 50))
 
         self.verticalLayout_41.addWidget(self.license_remove_bnt)
@@ -3275,10 +3283,7 @@ class Ui_MainWindow(object):
         self.admin_email_alarm_fn_active_bnt.setObjectName(u"admin_email_alarm_fn_active_bnt")
         self.admin_email_alarm_fn_active_bnt.setMinimumSize(QSize(61, 25))
         self.admin_email_alarm_fn_active_bnt.setMaximumSize(QSize(61, 25))
-        icon9 = QIcon()
-        icon9.addFile(u":/newPrefix/ui/images/icon-switch-off.png", QSize(), QIcon.Normal, QIcon.Off)
-        icon9.addFile(u":/newPrefix/ui/images/icon-switch-on.png", QSize(), QIcon.Normal, QIcon.On)
-        self.admin_email_alarm_fn_active_bnt.setIcon(icon9)
+        self.admin_email_alarm_fn_active_bnt.setIcon(icon5)
         self.admin_email_alarm_fn_active_bnt.setIconSize(QSize(55, 103))
         self.admin_email_alarm_fn_active_bnt.setCheckable(True)
 
@@ -3319,10 +3324,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout_58.addLayout(self.verticalLayout_11)
 
         MainWindow.setCentralWidget(self.centralwidget)
-        QWidget.setTabOrder(self.live_bnt, self.camera_bnt)
-        QWidget.setTabOrder(self.camera_bnt, self.setting_bnt)
-        QWidget.setTabOrder(self.setting_bnt, self.admin_bnt)
-        QWidget.setTabOrder(self.admin_bnt, self.shutdown_bnt)
         QWidget.setTabOrder(self.shutdown_bnt, self.camera_info_name_input)
         QWidget.setTabOrder(self.camera_info_name_input, self.camera_info_ip_input)
         QWidget.setTabOrder(self.camera_info_ip_input, self.camera_info_id_input)
@@ -3337,8 +3338,7 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.server_login_bnt, self.camera_refresh_bnt)
         QWidget.setTabOrder(self.camera_refresh_bnt, self.labeling_bnt)
         QWidget.setTabOrder(self.labeling_bnt, self.camera_schedule_bnt)
-        QWidget.setTabOrder(self.camera_schedule_bnt, self.alarm_search_bnt)
-        QWidget.setTabOrder(self.alarm_search_bnt, self.camera_page_name_box)
+        QWidget.setTabOrder(self.camera_schedule_bnt, self.camera_page_name_box)
         QWidget.setTabOrder(self.camera_page_name_box, self.camera_page_camera_event_box)
         QWidget.setTabOrder(self.camera_page_camera_event_box, self.camera_page_detect_add_bnt)
         QWidget.setTabOrder(self.camera_page_detect_add_bnt, self.camera_page_detect_area_table)
@@ -3380,7 +3380,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(2)
-        self.setting_stack_widget.setCurrentIndex(2)
+        self.setting_stack_widget.setCurrentIndex(0)
         self.setting_popup_alarm_cnt.setCurrentIndex(2)
         self.setting_setting_ai_weight_box.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
@@ -3427,13 +3427,14 @@ class Ui_MainWindow(object):
         self.tab_partion_10.setText(QCoreApplication.translate("MainWindow", u"|", None))
         self.camera_bnt.setText(QCoreApplication.translate("MainWindow", u"AI Camera", None))
         self.tab_partion_11.setText(QCoreApplication.translate("MainWindow", u"|", None))
-        self.setting_bnt.setText(QCoreApplication.translate("MainWindow", u"Setting", None))
+        self.search_bnt.setText(QCoreApplication.translate("MainWindow", u"Search", None))
         self.tab_partion_3.setText(QCoreApplication.translate("MainWindow", u"|", None))
+        self.setting_bnt.setText(QCoreApplication.translate("MainWindow", u"Setting", None))
+        self.tab_partion_4.setText(QCoreApplication.translate("MainWindow", u"|", None))
         self.admin_bnt.setText(QCoreApplication.translate("MainWindow", u"Admin", None))
         self.camera_refresh_bnt.setText("")
         self.labeling_bnt.setText("")
         self.camera_schedule_bnt.setText("")
-        self.alarm_search_bnt.setText("")
         self.camera_view_9.setText("")
         self.camera_view_1.setText("")
         self.camera_view_11.setText("")
@@ -3460,9 +3461,9 @@ class Ui_MainWindow(object):
         self.camera_page_detect_add_bnt.setText("")
         ___qtablewidgetitem3 = self.camera_page_detect_area_table.horizontalHeaderItem(0)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\uac10\uc9c0 \uc601\uc5ed \ub9ac\uc2a4\ud2b8", None));
-        self.camera_page_object_setting_bnt.setText(QCoreApplication.translate("MainWindow", u"\uac1d\uccb4 \uc124\uc815", None))
+        self.camera_page_object_setting_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc9c0\ub2a5\ud615 \ubd84\uc11d \uc124\uc815", None))
         self.camera_page_detect_area_del_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc0ad\uc81c", None))
-        self.camera_page_ai_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc9c0\ub2a5\ud615 \ubd84\uc11d \uc124\uc815", None))
+        self.camera_page_ai_bnt.setText(QCoreApplication.translate("MainWindow", u"\uc9c0\ub2a5\ud615 \ubd84\uc11d \uc2dc\uc791", None))
         self.camera_page_readmod_icon.setText(QCoreApplication.translate("MainWindow", u"\u203b", None))
         self.camera_page_readmod_label.setText(QCoreApplication.translate("MainWindow", u"\uc77d\uae30 \uc804\uc6a9", None))
         self.camera_page_ai_active_icon.setText("")

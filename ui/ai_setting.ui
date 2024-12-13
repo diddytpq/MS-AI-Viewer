@@ -58,7 +58,7 @@
     <string notr="true">color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>지능형 분석 카메라 설정</string>
+    <string>지능형 분석 카메라 선택</string>
    </property>
    <property name="indent">
     <number>0</number>
@@ -759,7 +759,7 @@ border-radius: 20px;
 </string>
    </property>
    <property name="text">
-    <string>취소</string>
+    <string>닫기</string>
    </property>
   </widget>
   <widget class="QPushButton" name="camera_save_bnt">
@@ -805,7 +805,7 @@ border-radius: 20px;
 </string>
    </property>
    <property name="text">
-    <string>적용</string>
+    <string>시작</string>
    </property>
   </widget>
   <widget class="QLabel" name="camera_view_ai_check_1">

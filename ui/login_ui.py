@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'login.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.7.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -32,7 +32,7 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QSize(1270, 650))
         Dialog.setMaximumSize(QSize(1270, 650))
         icon = QIcon()
-        icon.addFile(u":/newPrefix/ui/images/icon2.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/ui/ui/images/icon2.png", QSize(), QIcon.Normal, QIcon.Off)
         Dialog.setWindowIcon(icon)
         self.background = QLabel(Dialog)
         self.background.setObjectName(u"background")
@@ -93,7 +93,7 @@ class Ui_Dialog(object):
         font.setPointSize(15)
         font.setBold(False)
         self.login_bn.setFont(font)
-        self.login_bn.setStyleSheet(u"background-color: rgb(0, 122, 255);\n"
+        self.login_bn.setStyleSheet(u"background-color: rgb(30, 195, 55);\n"
 "border-radius: 10px;\n"
 "color: rgb(252, 252, 252);")
         self.id_line = QFrame(self.login_frame)

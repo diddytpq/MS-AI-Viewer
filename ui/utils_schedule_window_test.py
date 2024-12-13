@@ -14,7 +14,7 @@ import requests
 import resourece_rc
 
 
-class schedule_page_view(QLabel):
+class SchedulePageView(QLabel):
     Checked = Signal(QLabel)
     def __init__(self, base_viewer, camera_num, camera_name, name_label, main_instance, schedule_instance, time_table):
         super().__init__(base_viewer)
@@ -80,6 +80,7 @@ class schedule_page_view(QLabel):
                     self.name_label.setStyleSheet("""
                             QLabel {
                                         color: rgb(56, 188, 56);
+                                        border: 1px solid rgb(56, 188, 56);
                                     }
                                 """)
             else:
@@ -94,6 +95,7 @@ class schedule_page_view(QLabel):
                     self.name_label.setStyleSheet("""
                             QLabel {
                                         color: rgb(255, 255, 255);
+                                        border: 1px solid rgb(119, 118, 123);
                                     }
                                 """)
 
@@ -158,7 +160,7 @@ class ScheduleDialog(QDialog):
 
         for camera_name, camera_info in self.parent.camera_info_dict_temp.items():
             num = str(camera_info["Num"])
-            self.schedule_page_camera_view_list[camera_name] = schedule_page_view(getattr(self.schedule_ui, f"camera_view_{num}"), 
+            self.schedule_page_camera_view_list[camera_name] = SchedulePageView(getattr(self.schedule_ui, f"camera_view_{num}"), 
                                                                                 camera_name = camera_name, 
                                                                                 camera_num = str(num), 
                                                                                 name_label = getattr(self.schedule_ui, f"camera_view_name_{num}"),

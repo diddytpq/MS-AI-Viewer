@@ -217,7 +217,9 @@ class MainWindow(QMainWindow):
                         'ai_active': camera_info["AI"],
                         'back_url': f"http://{self.HOST}:{self.PORT}/get-camera-info"
                     }
+                    viewer.setScaledContents(True)
                     camera_viewers[thread_index][camera_name] = viewer
+
 
                     if len(cameras_grouped[thread_index]) >= 1:
                         thread_index += 1
@@ -233,6 +235,7 @@ class MainWindow(QMainWindow):
                                               plot_roi = self.setting_info_temp["DETECT"]["Roi"],
                                               fps = 30
                                             )
+                
                 worker.ImageUpdated.connect(self.ShowCamera_Group)
                 worker.start()
                 self.live_page_worker_dict[f"worker_{idx}"] = worker
@@ -490,6 +493,7 @@ class MainWindow(QMainWindow):
     def setting_change_user_info(self):
         try:
             print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : setting_change_user_info")
+
             data = {"username" : self.ui_main.setting_user_id_input.text(), 
                     "password" : self.ui_main.setting_user_pw_input.text(),
                     "new_password" : self.ui_main.setting_user_new_pw_input.text(),
@@ -779,7 +783,9 @@ class MainWindow(QMainWindow):
             'live': self.ui_main.live_bnt,
             'camera': self.ui_main.camera_bnt,
             'setting': self.ui_main.setting_bnt,
-            'admin': self.ui_main.admin_bnt
+            'admin': self.ui_main.admin_bnt,
+            'search': self.ui_main.search_bnt
+
         }
         
         for key, button in buttons.items():
@@ -923,6 +929,21 @@ class MainWindow(QMainWindow):
 
     def switch_setting_display_to_user_setting(self):
         try:
+            self.ui_main.setting_user_setting_bnt.setStyleSheet("""border-radius: 15px;
+                                                        color: rgb(255, 255, 255);
+                                                        background-color: rgb(30, 195, 55);
+                                                        """)
+            
+            self.ui_main.setting_ai_bnt.setStyleSheet("""border-radius: 15px;
+                                                        color: rgb(255, 255, 255);
+                                                        background-color: rgb(36, 39, 44);
+                                                        """)
+            
+            self.ui_main.setting_alarm_bnt.setStyleSheet("""border-radius: 15px;
+                                                        color: rgb(255, 255, 255);
+                                                        background-color: rgb(36, 39, 44);
+                                                        """)
+
             self.setting_info_temp = load_info(host=self.HOST, port=self.PORT, file_name="setting_info")
 
             self.ui_main.setting_stack_widget.setCurrentIndex(1)
@@ -943,15 +964,51 @@ class MainWindow(QMainWindow):
         self.setting_info_temp["AI"]["Weight"] = weight_name
 
         save_info(host=self.HOST, port=self.PORT, file_name="setting_info", info=self.setting_info_temp)
+        self.create_fade_out_msg(msg="저장되었습니다")
+
 
     def change_zeroshot_info(self):
         self.setting_info_temp["AI"]["ZeroShot"] = 1 if self.setting_info_temp["AI"]["ZeroShot"] == 0 else 0
     def change_auto_label_info(self):
         self.setting_info_temp["AI"]["AutoLabel"] = 1 if self.setting_info_temp["AI"]["AutoLabel"] == 0 else 0
 
+    def switch_setting_display_to_alarm_setting(self):
+        self.ui_main.setting_alarm_bnt.setStyleSheet("""border-radius: 15px;
+                                                        color: rgb(255, 255, 255);
+                                                        background-color: rgb(30, 195, 55);
+                                                        """)
+            
+        self.ui_main.setting_user_setting_bnt.setStyleSheet("""border-radius: 15px;
+                                                    color: rgb(255, 255, 255);
+                                                    background-color: rgb(36, 39, 44);
+                                                    """)
+        
+        self.ui_main.setting_ai_bnt.setStyleSheet("""border-radius: 15px;
+                                                    color: rgb(255, 255, 255);
+                                                    background-color: rgb(36, 39, 44);
+                                                    """)
+        
+        self.ui_main.setting_stack_widget.setCurrentIndex(0)
+
+
     def switch_setting_display_to_ai_stting(self):
         try:
             self.ui_main.setting_setting_ai_weight_box.clear()
+
+            self.ui_main.setting_ai_bnt.setStyleSheet("""border-radius: 15px;
+                                                        color: rgb(255, 255, 255);
+                                                        background-color: rgb(30, 195, 55);
+                                                        """)
+            
+            self.ui_main.setting_user_setting_bnt.setStyleSheet("""border-radius: 15px;
+                                                        color: rgb(255, 255, 255);
+                                                        background-color: rgb(36, 39, 44);
+                                                        """)
+            
+            self.ui_main.setting_alarm_bnt.setStyleSheet("""border-radius: 15px;
+                                                        color: rgb(255, 255, 255);
+                                                        background-color: rgb(36, 39, 44);
+                                                        """)
 
             url = f'http://{self.HOST}:{self.PORT}/get_ai_weight_list'
             receive_data = requests.post(url, json={"msg" : {}}).json()
@@ -1111,7 +1168,7 @@ class MainWindow(QMainWindow):
                         
                         self.camera_view_list[camera_name].doubleClicked.connect(self.check_camera_viewer_click)
                         # camera_viewer.setPixmap(QPixmap(u"images/ico_video_off.svg"))
-                        self.camera_view_list[camera_name].setPixmap(QPixmap(u":/newPrefix/ui/images/ico_video_off.svg"))
+                        self.camera_view_list[camera_name].setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
                         self.camera_view_list[camera_name].setAlignment(Qt.AlignCenter)
 
                     getattr(self.ui_main, f"camera_view_{num}").hide()
@@ -1208,7 +1265,7 @@ class MainWindow(QMainWindow):
             pass
         save_info(host=self.HOST, port=self.PORT, file_name="login_info", info=login_info)
         for camera_name, viewer in self.camera_view_list.items():
-            pixmap = QPixmap(u":/newPrefix/ui/images/ico_video_off.svg")
+            pixmap = QPixmap(u":/ui/ui/images//ico_video_off.svg")
             self.camera_view_list[camera_name].setAlignment(Qt.AlignCenter)
             viewer.setPixmap(pixmap)
 
@@ -1396,9 +1453,9 @@ class MainWindow(QMainWindow):
         self.live_page_worker_dict = None
 
         # 카메라 리스트 테이블 설정
-        self.ui_main.camera_list_table.setColumnWidth(0, 30)
-        self.ui_main.camera_list_table.setColumnWidth(1, 40)
-        self.ui_main.camera_list_table.setColumnWidth(2, 175)
+        self.ui_main.camera_list_table.setColumnWidth(0, 20)
+        self.ui_main.camera_list_table.setColumnWidth(1, 35)
+        self.ui_main.camera_list_table.setColumnWidth(2, 100)
         
         # 어두운 레이어 위젯 생성
         self.dark_layer = QWidget(self)
@@ -1466,7 +1523,7 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_page_viewer.setMinimumSize(QSize(472, 331))
         self.ui_main.camera_page_viewer.setStyleSheet(u"border: 1px solid rgb(119, 118, 123);\n"
                                                 "background-color: rgba(255, 255, 255, 0);")
-        self.ui_main.camera_page_viewer.setScaledContents(False)
+        self.ui_main.camera_page_viewer.setScaledContents(True)
         self.ui_main.verticalLayout_10.addWidget(self.ui_main.camera_page_viewer)
         self.ui_main.camera_page_viewer.clicked.connect(self.camera_page_add_detect_area_point)
 
@@ -1479,7 +1536,7 @@ class MainWindow(QMainWindow):
         self.ui_main.shutdown_bnt.clicked.connect(self.shutdown) #종료 버튼 활성화
 
         #우측 상단 버튼 활성화
-        self.ui_main.alarm_search_bnt.clicked.connect(lambda click, instance = self : open_search_window(click, instance))
+        # self.ui_main.alarm_search_bnt.clicked.connect(lambda click, instance = self : open_search_window(click, instance))
         self.ui_main.camera_schedule_bnt.clicked.connect(lambda click, instance = self : open_schedule_window(click, instance))
         self.ui_main.labeling_bnt.clicked.connect(lambda click, instance = self : open_labeling_window(click, instance))
         self.ui_main.camera_refresh_bnt.clicked.connect(self.live_refresh_live_viewer)
@@ -1489,6 +1546,8 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_bnt.clicked.connect(self.switch_main_display_to_camera)
         self.ui_main.setting_bnt.clicked.connect(self.switch_main_display_to_setting)
         self.ui_main.admin_bnt.clicked.connect(self.switch_main_display_to_admin)
+        self.ui_main.search_bnt.clicked.connect(lambda click, instance = self : open_search_window(click, instance))
+
 
         ##카메라 페이지 설정
         self.ui_main.camera_page_name_box.currentTextChanged.connect(lambda: (self.connect_camera_page_camera(), self.set_camera_page_viewer()))
@@ -1509,7 +1568,7 @@ class MainWindow(QMainWindow):
         # 설정 메뉴 버튼
         self.ui_main.setting_user_setting_bnt.clicked.connect(self.switch_setting_display_to_user_setting)
         self.ui_main.setting_user_save_bnt.clicked.connect(self.setting_change_user_info)
-        self.ui_main.setting_alarm_bnt.clicked.connect(lambda : (self.ui_main.setting_stack_widget.setCurrentIndex(0)))
+        self.ui_main.setting_alarm_bnt.clicked.connect(self.switch_setting_display_to_alarm_setting)
         self.ui_main.setting_ai_bnt.clicked.connect(self.switch_setting_display_to_ai_stting)
         self.ui_main.setting_email_save_bnt.clicked.connect(self.change_email_info)
         self.ui_main.setting_email_active_bnt.clicked.connect(self.change_setting_info)

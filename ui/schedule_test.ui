@@ -1752,7 +1752,7 @@ QHeaderView::section {
 }
 
 QTableWidget::item:selected {
-        background-color:  rgba(109, 109, 109, 150); /* 드래그 시 선택된 셀의 배경색 */
+        background-color:  rgba(30, 195, 55, 40); /* 드래그 시 선택된 셀의 배경색 */
 		border: 1px solid rgba(209, 209, 209, 30);
         color: white; /* 선택된 셀의 글자 색 */
     }
