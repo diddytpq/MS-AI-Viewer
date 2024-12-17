@@ -343,102 +343,223 @@
 
 
 
+# import sys
+# from PySide6.QtWidgets import (
+#     QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout,
+#     QScrollArea, QMainWindow
+# )
+# from PySide6.QtGui import QPixmap
+# from PySide6.QtCore import Qt
+
+# class ListItem(QWidget):
+#     def __init__(self, image_path, text, parent=None):
+#         super().__init__(parent)
+
+#         # Create layout for the list item
+#         layout = QHBoxLayout()
+#         layout.setContentsMargins(10, 10, 10, 10)
+#         layout.setSpacing(15)
+
+#         # Image label
+#         self.image_label = QLabel()
+#         pixmap = QPixmap(image_path)
+#         if pixmap.isNull():
+#             # If image fails to load, use a placeholder
+#             pixmap = QPixmap(50, 50)
+#             pixmap.fill(Qt.gray)
+#         else:
+#             # Scale the pixmap to a desired size while keeping aspect ratio
+#             pixmap = pixmap.scaled(50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+#         self.image_label.setPixmap(pixmap)
+#         self.image_label.setFixedSize(50, 50)
+
+#         # Text label
+#         self.text_label = QLabel(text)
+#         self.text_label.setAlignment(Qt.AlignVCenter | Qt.AlignLeft)
+#         self.text_label.setStyleSheet("font-size: 14px;")
+
+#         # Add widgets to the layout
+#         layout.addWidget(self.image_label)
+#         layout.addWidget(self.text_label)
+
+#         self.setLayout(layout)
+
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+
+#         self.setWindowTitle("Scroll Area with Image and Text List")
+#         self.resize(400, 600)
+
+#         # Create the scroll area
+#         scroll = QScrollArea()
+#         scroll.setWidgetResizable(True)
+
+#         # Create a widget to hold the list items
+#         list_widget = QWidget()
+#         list_layout = QVBoxLayout()
+#         list_layout.setContentsMargins(0, 0, 0, 0)
+#         list_layout.setSpacing(0)
+
+#         # Example list of images and names
+#         items = [
+#             {"image": "path/to/image1.png", "name": "Photo 1"},
+#             {"image": "path/to/image2.png", "name": "Photo 2"},
+#             {"image": "path/to/image3.png", "name": "Photo 3"},
+#             {"image": "path/to/image3.png", "name": "Photo 3"},
+
+#             {"image": "path/to/image3.png", "name": "Photo 3"},
+
+#             {"image": "path/to/image3.png", "name": "Photo 3"},
+
+#             {"image": "path/to/image3.png", "name": "Photo 3"},
+
+#             {"image": "path/to/image3.png", "name": "Photo 3"},
+
+#             {"image": "path/to/image3.png", "name": "Photo 3"},
+
+#             # Add more items as needed
+#         ]
+
+#         # Add list items to the layout
+#         for item in items:
+#             list_item = ListItem(item["image"], item["name"])
+#             list_layout.addWidget(list_item)
+
+#         # Add stretch to push items to the top
+#         list_layout.addStretch()
+
+#         list_widget.setLayout(list_layout)
+
+#         scroll.setWidget(list_widget)
+
+#         self.setCentralWidget(scroll)
+
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+
+#     window = MainWindow()
+#     window.show()
+
+#     sys.exit(app.exec())
+
+
 import sys
-from PySide6.QtWidgets import (
-    QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout,
-    QScrollArea, QMainWindow
-)
-from PySide6.QtGui import QPixmap
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtGui import QPainter, QBrush, QColor, QPen, QCursor
+from PySide6.QtCore import Qt, QRectF, QPointF
 
-class ListItem(QWidget):
-    def __init__(self, image_path, text, parent=None):
-        super().__init__(parent)
-
-        # Create layout for the list item
-        layout = QHBoxLayout()
-        layout.setContentsMargins(10, 10, 10, 10)
-        layout.setSpacing(15)
-
-        # Image label
-        self.image_label = QLabel()
-        pixmap = QPixmap(image_path)
-        if pixmap.isNull():
-            # If image fails to load, use a placeholder
-            pixmap = QPixmap(50, 50)
-            pixmap.fill(Qt.gray)
-        else:
-            # Scale the pixmap to a desired size while keeping aspect ratio
-            pixmap = pixmap.scaled(50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-        self.image_label.setPixmap(pixmap)
-        self.image_label.setFixedSize(50, 50)
-
-        # Text label
-        self.text_label = QLabel(text)
-        self.text_label.setAlignment(Qt.AlignVCenter | Qt.AlignLeft)
-        self.text_label.setStyleSheet("font-size: 14px;")
-
-        # Add widgets to the layout
-        layout.addWidget(self.image_label)
-        layout.addWidget(self.text_label)
-
-        self.setLayout(layout)
-
-class MainWindow(QMainWindow):
+class ResizableRectangle(QWidget):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("Resizable Rectangle with Corners")
+        self.setGeometry(100, 100, 400, 300)
+        self.rect = QRectF(100, 100, 200, 150)  # 초기 네모의 위치와 크기
 
-        self.setWindowTitle("Scroll Area with Image and Text List")
-        self.resize(400, 600)
+        # 동그라미의 반지름
+        self.circle_radius = 5
 
-        # Create the scroll area
-        scroll = QScrollArea()
-        scroll.setWidgetResizable(True)
+        # 드래그 상태 변수
+        self.dragging = False
+        self.drag_corner = None
 
-        # Create a widget to hold the list items
-        list_widget = QWidget()
-        list_layout = QVBoxLayout()
-        list_layout.setContentsMargins(0, 0, 0, 0)
-        list_layout.setSpacing(0)
+        # 마우스 트래킹 설정
+        self.setMouseTracking(True)
 
-        # Example list of images and names
-        items = [
-            {"image": "path/to/image1.png", "name": "Photo 1"},
-            {"image": "path/to/image2.png", "name": "Photo 2"},
-            {"image": "path/to/image3.png", "name": "Photo 3"},
-            {"image": "path/to/image3.png", "name": "Photo 3"},
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
 
-            {"image": "path/to/image3.png", "name": "Photo 3"},
+        # 네모 그리기
+        pen = QPen(QColor(0, 0, 0), 2)
+        painter.setPen(pen)
+        painter.drawRect(self.rect)
 
-            {"image": "path/to/image3.png", "name": "Photo 3"},
+        # 각 모서리에 동그라미 그리기
+        brush = QBrush(QColor(255, 0, 0))
+        painter.setBrush(brush)
+        corners = self.get_corners()
+        for point in corners.values():
+            painter.drawEllipse(point, self.circle_radius, self.circle_radius)
 
-            {"image": "path/to/image3.png", "name": "Photo 3"},
+    def get_corners(self):
+        """네모의 각 모서리 위치를 반환"""
+        return {
+            'top_left': self.rect.topLeft(),
+            'top_right': self.rect.topRight(),
+            'bottom_left': self.rect.bottomLeft(),
+            'bottom_right': self.rect.bottomRight(),
+        }
 
-            {"image": "path/to/image3.png", "name": "Photo 3"},
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            clicked_corner = self.get_clicked_corner(event.position())
+            if clicked_corner:
+                self.dragging = True
+                self.drag_corner = clicked_corner
+                self.drag_start_pos = event.position()
+                self.rect_start = QRectF(self.rect)  # 드래그 시작 시 네모의 상태 저장
 
-            {"image": "path/to/image3.png", "name": "Photo 3"},
+    def mouseMoveEvent(self, event):
+        if self.dragging and self.drag_corner:
+            delta = event.position() - self.drag_start_pos
+            new_rect = QRectF(self.rect_start)
 
-            # Add more items as needed
-        ]
+            if self.drag_corner == 'top_left':
+                new_rect.setTopLeft(new_rect.topLeft() + delta)
+            elif self.drag_corner == 'top_right':
+                new_rect.setTopRight(new_rect.topRight() + delta)
+            elif self.drag_corner == 'bottom_left':
+                new_rect.setBottomLeft(new_rect.bottomLeft() + delta)
+            elif self.drag_corner == 'bottom_right':
+                new_rect.setBottomRight(new_rect.bottomRight() + delta)
 
-        # Add list items to the layout
-        for item in items:
-            list_item = ListItem(item["image"], item["name"])
-            list_layout.addWidget(list_item)
+            # 최소 크기 설정 (예: 너비와 높이가 50 이상)
+            min_width = 50
+            min_height = 50
+            if new_rect.width() < min_width:
+                new_rect.setWidth(min_width)
+                if self.drag_corner in ['top_left', 'bottom_left']:
+                    new_rect.setLeft(self.rect_start.right() - min_width)
+            if new_rect.height() < min_height:
+                new_rect.setHeight(min_height)
+                if self.drag_corner in ['top_left', 'top_right']:
+                    new_rect.setTop(self.rect_start.bottom() - min_height)
 
-        # Add stretch to push items to the top
-        list_layout.addStretch()
+            self.rect = new_rect
+            self.update()
 
-        list_widget.setLayout(list_layout)
+        else:
+            # 커서 모양 변경
+            hovered_corner = self.get_clicked_corner(event.position())
+            if hovered_corner:
+                if hovered_corner in ['top_left', 'bottom_right']:
+                    self.setCursor(QCursor(Qt.SizeFDiagCursor))
+                elif hovered_corner in ['top_right', 'bottom_left']:
+                    self.setCursor(QCursor(Qt.SizeBDiagCursor))
+            else:
+                self.setCursor(QCursor(Qt.ArrowCursor))
 
-        scroll.setWidget(list_widget)
+    def mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.dragging = False
+            self.drag_corner = None
 
-        self.setCentralWidget(scroll)
+    def get_clicked_corner(self, pos: QPointF):
+        """마우스 클릭 위치가 동그라미와 일치하는지 확인"""
+        corners = self.get_corners()
+        for name, point in corners.items():
+            distance = (pos - point).manhattanLength()
+            if distance <= self.circle_radius + 2:  # 약간의 여유를 두어 클릭 인식
+                return name
+        return None
+
+    def sizeHint(self):
+        return self.size()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-
-    window = MainWindow()
+    window = ResizableRectangle()
     window.show()
-
     sys.exit(app.exec())
+

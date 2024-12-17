@@ -53,6 +53,7 @@
     <file>ui/images/checkm.jpg</file>
     <file>ui/images/check.png</file>
     <file>ui/images/ai_on.png</file>
+    <file>ui/images/camera_off.png</file>
     <file>ui/images/friends.png</file>
   </qresource>
 </RCC>

@@ -47,13 +47,12 @@ class Labeling_Viewer(QLabel):
         self.label_list = []
         self.selected_box = None
         self.dragging = False
-        self.resizing = False
         self.drawing_new_box = False
         self.drag_start_pos = None
         self.resize_corner = None
+        self.resizing = False
         self.mouse_pos = None
         self.box_resize_mode = False
-        self.labeling_flag = False
 
         self.cls_bnt_list = []
         self.class_name_dict = { 0 : "person", 1 : "bicycle", 2 : "car", 3 : "motorcycle", 4 : "bus", 5 : "truck", 6 : "fire"}
@@ -121,19 +120,9 @@ class Labeling_Viewer(QLabel):
         if 0 <= self.parent.cnt < len(self.parent.img_buffer):
             img = self.parent.img_buffer[self.parent.cnt]
 
-            # for bnt in self.cls_bnt_list:
-            #     try:
-            #         bnt.deleteLater()
-                    
-            #     except:
-            #         pass
-            
-            # self.cls_bnt_list = []
-
             if len(self.parent.label_buffer[self.parent.cnt]):
                 for cls, xc, yc, w, h in self.parent.label_buffer[self.parent.cnt]:
                     self.label_list.append([int(cls), float(xc), float(yc), float(w), float(h), COLOR[cls]])
-                    # self.cls_bnt_list.append(self.make_cls_bnt(len(self.cls_bnt_list), cls, color))
                     
             else: self.label_list = []
             
@@ -164,15 +153,35 @@ class Labeling_Viewer(QLabel):
             painter.setBrush(brush)
 
             painter.drawRect(rect)
-
+            # Draw corners as circles
+            corner_radius = 4
+            painter.setBrush(QBrush(QColor(color[0], color[1], color[2])))
+            corners = [(x1, y1), (x2, y1), (x1, y2), (x2, y2)]
+            for corner in corners:
+                painter.drawEllipse(QPoint(corner[0], corner[1]), corner_radius, corner_radius)
+        
+        #새로운 박스 생성시 점선 네모표시
         if self.drawing_new_box and self.drag_start_pos and self.mouse_pos:
-            pen = QPen(QColor(0, 255, 0), 2, Qt.DashLine)
+            cls_num = None
+            for index, button in enumerate(self.cls_bnt_list):
+                if button.isChecked():
+                    cls_num = index
+                    break
+
+            if cls_num is None:
+                print("아무 버튼도 체크되지 않았습니다. 클래스 번호를 지정하려면 하나의 버튼을 체크하세요.")
+                return
+            
+            color = COLOR[cls_num]
+
+            pen = QPen(QColor(color[0], color[1], color[2]), 2, Qt.DashLine)
             painter.setPen(pen)
             brush = QBrush(QColor(0, 0, 0, 0))
             painter.setBrush(brush)
 
             painter.drawRect(QRect(self.drag_start_pos, self.mouse_pos))
 
+        #마우스 위치에 초록 십자선 표시
         if self.mouse_pos:
             pen = QPen(QColor(81, 174, 50), 2)
             painter.setPen(pen)
@@ -180,7 +189,8 @@ class Labeling_Viewer(QLabel):
             painter.drawLine(self.mouse_pos.x(), 0, self.mouse_pos.x(), self.height())
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton and self.labeling_flag:
+        if event.button() == Qt.LeftButton:
+            print(self.drag_start_pos)
             self.drag_start_pos = event.pos()
             self.drawing_new_box = True
             for index, label in enumerate(self.label_list):
@@ -189,17 +199,19 @@ class Labeling_Viewer(QLabel):
                 y1 = int((yc - h / 2) * self.height())
                 x2 = int((xc + w / 2) * self.width())
                 y2 = int((yc + h / 2) * self.height())
-                rect = QRect(x1, y1, x2 - x1, y2 - y1)
+                rect = QRect(x1 - 4, y1 - 4, x2 - x1 + 4, y2 - y1 + 4)
 
                 if rect.contains(event.pos()):
                     self.drawing_new_box = False
                     self.selected_box = index
-                    corner = self.get_resize_corner(event.pos(), rect)
-                    if corner and self.box_resize_mode:
+                    corner = self.get_resize_corner(event.pos())
+
+                    if corner:
                         self.resizing = True
                         self.resize_corner = corner
                     else:
                         self.dragging = True
+
                     break
 
         if event.button() == Qt.RightButton:
@@ -231,10 +243,12 @@ class Labeling_Viewer(QLabel):
         self.mouse_pos = event.pos()
         if self.drawing_new_box:
             self.update()
+
         elif self.dragging and self.selected_box is not None:
             dx = event.pos().x() - self.drag_start_pos.x()
             dy = event.pos().y() - self.drag_start_pos.y()
             cls, xc, yc, w, h, color = self.label_list[self.selected_box]
+
 
             new_xc = (int(xc * self.width()) + dx) / self.width()
             new_yc = (int(yc * self.height()) + dy) / self.height()
@@ -251,9 +265,61 @@ class Labeling_Viewer(QLabel):
             self.parent.label_buffer[self.parent.cnt][self.selected_box] = [cls, xc, yc, w, h]
             self.drag_start_pos = event.pos()
             self.update()
+
         elif self.resizing and self.selected_box is not None:
-            self.resize_box(event.pos())
+            dx = event.pos().x() - self.drag_start_pos.x()
+            dy = event.pos().y() - self.drag_start_pos.y()
+
+            cls, xc, yc, w, h, color = self.label_list[self.selected_box]
+
+            dx /= self.width()
+            dy /= self.height()
+
+            x1 = (xc - w / 2)
+            y1 = (yc - h / 2)
+            x2 = (xc + w / 2)
+            y2 = (yc + h / 2)
+
+            # Resize based on the corner being dragged
+            if self.resize_corner == 'top_left':
+                x1 += dx
+                y1 += dy
+            elif self.resize_corner == 'top_right':
+                x2 += dx
+                y1 += dy
+            elif self.resize_corner == 'bottom_left':
+                x1 += dx
+                y2 += dy
+            elif self.resize_corner == 'bottom_right':
+                x2 += dx
+                y2 += dy
+
+            new_xc = (x2 + x1) / 2
+            new_yc = (y2 + y1) / 2
+            new_w = (x2 - x1) 
+            new_h = (y2 - y1) 
+
+            # 경계 조건 체크 수정: new_w와 new_h 사용
+            if (new_xc - new_w / 2) < 0 or (new_xc + new_w / 2) > 1:
+                new_xc = xc
+                new_w = w
+
+            if (new_yc - new_h / 2) < 0 or (new_yc + new_h / 2) > 1:
+                new_yc = yc
+                new_h = h
+
+            # Update the bounding box size and position
+            self.label_list[self.selected_box][1] = new_xc
+            self.label_list[self.selected_box][2] = new_yc
+            self.label_list[self.selected_box][3] = new_w
+            self.label_list[self.selected_box][4] = new_h
+
+            self.parent.label_buffer[self.parent.cnt][self.selected_box] = [cls, new_xc, new_yc, new_w, new_h]
+            self.drag_start_pos = event.pos()
+
+            print(self.label_list[self.selected_box])
             self.update()
+
         else:
             self.update()
 
@@ -262,6 +328,7 @@ class Labeling_Viewer(QLabel):
             self.create_new_box(event.pos())
         self.dragging = False
         self.resizing = False
+        self.resize_corner = None
         self.drawing_new_box = False
 
     def enterEvent(self, event):
@@ -278,110 +345,6 @@ class Labeling_Viewer(QLabel):
         super().resizeEvent(event)
         self.display_label_image()
 
-    def get_resize_corner(self, pos, rect):
-        margin = 50
-        corners = {
-            "top_left": rect.topLeft(),
-            "top_right": rect.topRight(),
-            "bottom_left": rect.bottomLeft(),
-            "bottom_right": rect.bottomRight()
-        }
-        edges = {
-            "top": (rect.left(), rect.top(), rect.right(), rect.top()),
-            "bottom": (rect.left(), rect.bottom(), rect.right(), rect.bottom()),
-            "left": (rect.left(), rect.top(), rect.left(), rect.bottom()),
-            "right": (rect.right(), rect.top(), rect.right(), rect.bottom())
-        }
-        for corner, corner_pos in corners.items():
-            if (corner_pos - pos).manhattanLength() < margin:
-                return corner
-        for edge, (x1, y1, x2, y2) in edges.items():
-            if x1 == x2:  # Vertical edge
-                if abs(pos.x() - x1) < margin and y1 <= pos.y() <= y2:
-                    return edge
-            elif y1 == y2:  # Horizontal edge
-                if abs(pos.y() - y1) < margin and x1 <= pos.x() <= x2:
-                    return edge
-        return None
-
-    def resize_box(self, pos):
-        cls, xc, yc, w, h, color = self.label_list[self.selected_box]
-        x1 = (xc - w / 2) * self.width()
-        y1 = (yc - h / 2) * self.height()
-        x2 = (xc + w / 2) * self.width()
-        y2 = (yc + h / 2) * self.height()
-
-        if self.resize_corner == "top_left":
-            x1 = pos.x()
-            y1 = pos.y()
-            if x1 >= x2:
-                self.resize_corner = "top_right"
-                x1, x2 = x2, x1
-            elif y1 > y2:
-                self.resize_corner = "bottom_left"
-                y1, y2 = y2, y1
-
-        elif self.resize_corner == "top_right":
-            x2 = pos.x()
-            y1 = pos.y()
-            if x2 < x1:
-                self.resize_corner = "top_left"
-                x1, x2 = x2, x1
-            if y1 > y2:
-                self.resize_corner = "bottom_right"
-                y1, y2 = y2, y1
-        elif self.resize_corner == "bottom_left":
-            x1 = pos.x()
-            y2 = pos.y()
-            if x1 > x2:
-                self.resize_corner = "bottom_right"
-                x1, x2 = x2, x1
-            if y2 < y1:
-                self.resize_corner = "top_left"
-                y1, y2 = y2, y1
-        elif self.resize_corner == "bottom_right":
-            x2 = pos.x()
-            y2 = pos.y()
-            if x2 < x1:
-                self.resize_corner = "bottom_left"
-                x1, x2 = x2, x1
-            if y2 < y1:
-                self.resize_corner = "top_right"
-                y1, y2 = y2, y1
-
-        elif self.resize_corner == "top":
-            y1 = pos.y()
-            if y1 > y2:
-                self.resize_corner = "bottom"
-                y1, y2 = y2, y1
-        elif self.resize_corner == "bottom":
-            y2 = pos.y()
-            if y2 < y1:
-                self.resize_corner = "top"
-                y1, y2 = y2, y1
-        elif self.resize_corner == "left":
-            x1 = pos.x()
-            if x1 > x2:
-                self.resize_corner = "right"
-                x1, x2 = x2, x1
-        elif self.resize_corner == "right":
-            x2 = pos.x()
-            if x2 < x1:
-                self.resize_corner = "left"
-                x1, x2 = x2, x1
-
-        if x1 <= 0: x1 = 1
-        if x2 >= self.width() : x2 = self.width() -1
-        if y1 <= 0: y1 = 1
-        if y2 >= self.height(): y2 = self.height() - 1
-
-        new_xc = ((x1 + x2) / 2) / self.width()
-        new_yc = ((y1 + y2) / 2) / self.height()
-        new_w = abs(x2 - x1) / self.width()
-        new_h = abs(y2 - y1) / self.height()
-        
-        self.label_list[self.selected_box] = [cls, new_xc, new_yc, new_w, new_h, color]
-        self.parent.label_buffer[self.parent.cnt][self.selected_box] = [cls, new_xc, new_yc, new_w, new_h]
 
     def create_new_box(self, end_pos):
         start_x = self.drag_start_pos.x()
@@ -416,6 +379,28 @@ class Labeling_Viewer(QLabel):
             # self.cls_bnt_list.append(self.make_cls_bnt(len(self.cls_bnt_list), 0, color))
 
             self.update()
+
+    def get_resize_corner(self, pos):
+        """Determine which corner is being dragged."""
+        if not self.label_list[self.selected_box]:
+            return None
+        cls, xc, yc, w, h, color = self.label_list[self.selected_box]
+        x1 = int((xc - w / 2) * self.width())
+        y1 = int((yc - h / 2) * self.height())
+        x2 = int((xc + w / 2) * self.width())
+        y2 = int((yc + h / 2) * self.height())
+        corners = {
+            'top_left': QPoint(x1, y1),
+            'top_right': QPoint(x2, y1),
+            'bottom_left': QPoint(x1, y2),
+            'bottom_right': QPoint(x2, y2)
+        }
+        for corner, point in corners.items():
+            if (point - pos).manhattanLength() < 10:  # Tolerance for detecting corner clicks
+                return corner
+        return False
+
+
 
 class LabelingDialog(QDialog):
     def __init__(self, parent=None):
@@ -582,19 +567,41 @@ class LabelingDialog(QDialog):
             self.label_ui.label_image_viewer.display_label_image()
             self.label_ui.img_cur_num.setText(str(self.cnt + 1))
 
-        if event.key() == Qt.Key_W:
+        elif event.key() == Qt.Key_W:
             self.label_ui.label_image_viewer.box_resize_mode = True
 
-        if event.key() == Qt.Key_F:
+        elif event.key() == Qt.Key_F:
             self.del_label_data()
             self.parent.create_fade_out_msg(std_window = self, msg="삭제 완료")
 
-        if (event.key() == Qt.Key_S and event.modifiers() == Qt.ControlModifier) or event.key() == Qt.Key_Space:
+        elif (event.key() == Qt.Key_S and event.modifiers() == Qt.ControlModifier) or event.key() == Qt.Key_Space:
             self.save_label_buffer()
             self.parent.create_fade_out_msg(std_window = self, msg="저장 완료")
 
-        if event.key() == Qt.Key_Q:
+        elif event.key() == Qt.Key_Q:
             self.del_all_label()
+
+        elif event.key() == Qt.Key_1:
+            self.label_ui.label_image_viewer.cls_bnt_list[0].setChecked(True)
+
+        elif event.key() == Qt.Key_2:
+            self.label_ui.label_image_viewer.cls_bnt_list[1].setChecked(True)
+
+        elif event.key() == Qt.Key_3:
+            self.label_ui.label_image_viewer.cls_bnt_list[2].setChecked(True)
+
+        elif event.key() == Qt.Key_4:
+            self.label_ui.label_image_viewer.cls_bnt_list[3].setChecked(True)
+
+        elif event.key() == Qt.Key_5:
+            self.label_ui.label_image_viewer.cls_bnt_list[4].setChecked(True)
+
+        elif event.key() == Qt.Key_6:
+            self.label_ui.label_image_viewer.cls_bnt_list[5].setChecked(True)
+
+        elif event.key() == Qt.Key_7:
+            self.label_ui.label_image_viewer.cls_bnt_list[6].setChecked(True)
+
 
     def keyReleaseEvent(self, event):
         if event.key() == Qt.Key_W:
@@ -663,7 +670,6 @@ class LabelingDialog(QDialog):
 
             if len(self.img_buffer):
                 self.label_ui.label_image_viewer.display_label_image()
-                self.label_ui.label_image_viewer.labeling_flag = True
                 self.label_ui.img_cur_num.setText(str(1))
                 self.label_ui.img_total_num.setText(str(len(self.img_buffer)))
 

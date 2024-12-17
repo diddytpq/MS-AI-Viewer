@@ -205,7 +205,7 @@ class Connect_Camera(QThread):
     ImageUpdated = Signal(QImage)
     doubleClicked = Signal()
 
-    def __init__(self, pipe, host, port, camera_name, viewer, plot_bbox = True, plot_label = True,  plot_roi = True,roi_thickness = 1, ai_active = False) -> None:
+    def __init__(self, pipe, host, port, camera_name, viewer, plot_bbox = True, plot_label = True,  plot_roi = True, roi_thickness = 1, ai_active = False) -> None:
         super(Connect_Camera, self).__init__()
         # Declare and initialize instance variables.
         self.pipe = pipe
@@ -252,7 +252,8 @@ class Connect_Camera(QThread):
                             receive_data = session.get(self.back_url, json={"msg" : self.camera_name}).json()
 
                             if receive_data[self.camera_name]:
-                                self.frame = plot_detect_info(img = self.frame, detect_info = receive_data[self.camera_name], line_thickness = 3, roi_thickness = self.roi_thickness, plot_bbox = self.plot_bbox, plot_label = self.plot_label, plot_roi = self.plot_roi)
+                                line_thickness = 3 if self.frame.shape[1] == 1920 else 1
+                                self.frame = plot_detect_info(img = self.frame, detect_info = receive_data[self.camera_name], line_thickness = line_thickness, roi_thickness = self.roi_thickness, plot_bbox = self.plot_bbox, plot_label = self.plot_label, plot_roi = self.plot_roi)
                         except:
                             pass                
                     self.disconnect_cnt = 0

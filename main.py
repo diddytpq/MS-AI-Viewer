@@ -181,6 +181,7 @@ class MainWindow(QMainWindow):
         self.ui_main.camera_remove_bn.hide()
         # self.ui_main.camera_add_bn.clicked.connect(self.add_camera_info)
         # self.ui_main.camera_remove_bn.clicked.connect(self.del_camera_info)
+        self.change_live_page_camera_fps(30)
 
 #---------------------------------------------------------------------------------------------------------#
     def connect_live_page_camera(self, reset=False):
@@ -692,8 +693,10 @@ class MainWindow(QMainWindow):
                 gc.collect()
 
             self.connect_live_page_camera()
+            self.check_window_active()
 
             time.sleep(0.5)
+            self.change_live_page_camera_fps(1)
 
         except Exception as e:
             print_error(e)
@@ -900,6 +903,20 @@ class MainWindow(QMainWindow):
 
             self.update_setting()
             self.ui_main.camera_refresh_bnt.hide()
+            self.ui_main.setting_alarm_bnt.setStyleSheet("""border-radius: 15px;
+                                                        color: rgb(255, 255, 255);
+                                                        background-color: rgb(30, 195, 55);
+                                                        """)
+            
+            self.ui_main.setting_ai_bnt.setStyleSheet("""border-radius: 15px;
+                                                        color: rgb(255, 255, 255);
+                                                        background-color: rgb(36, 39, 44);
+                                                        """)
+            
+            self.ui_main.setting_user_setting_bnt.setStyleSheet("""border-radius: 15px;
+                                                        color: rgb(255, 255, 255);
+                                                        background-color: rgb(36, 39, 44);
+                                                        """)
 
         except Exception as e:
             print_error(e)
@@ -1124,7 +1141,7 @@ class MainWindow(QMainWindow):
                     # 새 행에 데이터 채우기
                     label = QLabel()
                     # pixmap = QPixmap("./images/ico_video_off.svg").scaled(24, 24, Qt.KeepAspectRatio)
-                    pixmap = QPixmap(u":/ui/ui/images/ico_video_off.svg").scaled(24, 24, Qt.KeepAspectRatio)
+                    pixmap = QPixmap(u":/ui/ui/images/camera_off.png").scaled(24, 24, Qt.KeepAspectRatio)
 
                     label.setPixmap(pixmap)
                     label.setAlignment(Qt.AlignCenter)
@@ -1168,7 +1185,7 @@ class MainWindow(QMainWindow):
                         
                         self.camera_view_list[camera_name].doubleClicked.connect(self.check_camera_viewer_click)
                         # camera_viewer.setPixmap(QPixmap(u"images/ico_video_off.svg"))
-                        self.camera_view_list[camera_name].setPixmap(QPixmap(u":/ui/ui/images/ico_video_off.svg"))
+                        self.camera_view_list[camera_name].setPixmap(QPixmap(u":/ui/ui/images/camera_off.png"))
                         self.camera_view_list[camera_name].setAlignment(Qt.AlignCenter)
 
                     getattr(self.ui_main, f"camera_view_{num}").hide()
@@ -1265,7 +1282,7 @@ class MainWindow(QMainWindow):
             pass
         save_info(host=self.HOST, port=self.PORT, file_name="login_info", info=login_info)
         for camera_name, viewer in self.camera_view_list.items():
-            pixmap = QPixmap(u":/ui/ui/images//ico_video_off.svg")
+            pixmap = QPixmap(u":/ui/ui/images//camera_off.png")
             self.camera_view_list[camera_name].setAlignment(Qt.AlignCenter)
             viewer.setPixmap(pixmap)
 
