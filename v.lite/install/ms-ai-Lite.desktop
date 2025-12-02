@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=MS-AI-Viewer-Lite
+Type=Application
+Path=/home/ms-yang/workspace/MS-AI_viewer/MS-AI-Viewer_lite
+Icon=/home/ms-yang/workspace/MS-AI_viewer/MS-AI-Viewer_lite/ui/images/icon2.png
+Exec=/home/ms-yang/workspace/MS-AI_viewer/MS-AI-Viewer_lite/install/main.sh
+Terminal=True

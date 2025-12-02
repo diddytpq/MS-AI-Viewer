@@ -1,0 +1,24 @@
+{
+    "USER": {
+        "admin": "admin",
+        "user": "user"
+    },
+    "NVR": {
+    },
+    "AI_SERVER": {
+    },
+    "SETTING": {
+        "notice": {
+            "active": 1,
+            "duration": 0
+        },
+        "sms": {
+            "active": 1,
+            "user": {}
+        }
+    },
+    "ADMIN": {
+        "sms_active": 1,
+        "sms_allow_phone_num": 1
+    }
+}

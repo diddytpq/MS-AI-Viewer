@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=MS-AI-Viewer-Lite
+Type=Application
+Path=
+Icon=/ui/images/icon2.png
+Exec=/install/main.sh
+Terminal=false
