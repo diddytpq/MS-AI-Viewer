@@ -51,6 +51,64 @@ ALARM_TYPE_DIC = {2 : "침입", 1 : "배회", 6 : "쓰러짐", 4 : "방화", 7 :
 
 FIRST_NOTICE = True
 
+class UpdateCameraImageThread(QThread):
+    """카메라 이미지 업데이트를 위한 백그라운드 스레드"""
+    finished = Signal(dict)  # 완료 시 camera_img_temp dict를 전달
+    
+    def __init__(self, ai_server_camera_info_dict, ai_server_info_dict):
+        super().__init__()
+        self.ai_server_camera_info_dict = ai_server_camera_info_dict
+        self.ai_server_info_dict = ai_server_info_dict
+        self._is_running = True
+    
+    def run(self):
+        """백그라운드에서 카메라 이미지 가져오기"""
+        camera_img_temp = {}
+        
+        try:
+            for nvr_ip, camera_info_dict in self.ai_server_camera_info_dict.items():
+                if not self._is_running:
+                    break
+                    
+                nvr_id = self.ai_server_info_dict["NVR"][nvr_ip]["id"]
+                nvr_pw = self.ai_server_info_dict["NVR"][nvr_ip]["pw"]
+                auth = HTTPBasicAuth(nvr_id, nvr_pw)
+                
+                for camera_name, camera_info in camera_info_dict.items():
+                    if not self._is_running:
+                        break
+                        
+                    try:
+                        camera_id = self.ai_server_info_dict["NVR"][nvr_ip]["cameras"][camera_name]["id"]
+                        camera_img_url = f'http://{nvr_ip}/live/video{camera_id}.jpg'
+                        
+                        response = requests.get(camera_img_url, auth=auth, timeout=5)
+                        if response.status_code == 200:
+                            nparr = np.frombuffer(response.content, np.uint8)
+                            decoded_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+                            
+                            if decoded_img is not None:
+                                camera_img_temp[camera_name] = decoded_img
+                            else:
+                                print(f"Failed to decode image for camera {camera_name}")
+                                camera_img_temp[camera_name] = np.zeros((640, 480, 3), dtype=np.uint8)
+                        else:
+                            print(f"Failed to get image for camera {camera_name}: HTTP {response.status_code}")
+                            camera_img_temp[camera_name] = np.zeros((640, 480, 3), dtype=np.uint8)
+                    except Exception as e:
+                        print(f"Failed to get image for camera {camera_name}: {e}")
+                        camera_img_temp[camera_name] = np.zeros((640, 480, 3), dtype=np.uint8)
+            
+            if self._is_running:
+                self.finished.emit(camera_img_temp)
+                
+        except Exception as e:
+            print_error(e)
+    
+    def stop(self):
+        """스레드 중지"""
+        self._is_running = False
+
 def enable_shift_selection(table_widget):
     """테이블에서 Shift 키 누른 상태로 클릭 시 범위 선택 기능 추가"""
     table_widget.last_selected_row = None
@@ -305,6 +363,7 @@ class MainWindow(QMainWindow):
         self.setup_event_filters()
 
         self.ai_server_event_alarm_dict = {}
+        self.ai_server_disconnect_cnt = {}
 
         self.ai_server_event_alarm_connect_timer = QTimer(self)
         self.ai_server_event_alarm_connect_timer.timeout.connect(self.check_ai_event_alarm_fn)
@@ -317,11 +376,17 @@ class MainWindow(QMainWindow):
             self.camera_connect_timer.stop()
             del self.camera_connect_timer
 
-        if self.ai_server_event_alarm_connect_timer is not None :
-            self.ai_server_event_alarm_connect_timer.stop()
-            del self.ai_server_event_alarm_connect_timer
+        # 카메라 이미지 업데이트 스레드 중지
+        if self.update_camera_img_thread is not None:
+            self.update_camera_img_thread.stop()
+            self.update_camera_img_thread.wait()
+            self.update_camera_img_thread = None
 
-            self.ai_server_event_alarm_connect_timer = None
+        # if self.ai_server_event_alarm_connect_timer is not None :
+        #     self.ai_server_event_alarm_connect_timer.stop()
+        #     del self.ai_server_event_alarm_connect_timer
+
+        #     self.ai_server_event_alarm_connect_timer = None
 
         self.hide()
         self.tray_icon.showMessage("동작 중", "프로그램이 트레이에 최소화되었습니다.")
@@ -338,7 +403,20 @@ class MainWindow(QMainWindow):
 
                 alarm_url = f'http://{ai_server_ip}:{ai_server_port}/get-ai-alarm-data'
 
-                alarm_data = requests.get(alarm_url, timeout=1)
+                try:
+                    if self.ai_server_disconnect_cnt.get(ai_server_ip, 0) > 30 and self.ai_server_disconnect_cnt.get(ai_server_ip, 0) % 60 != 0:
+                        self.ai_server_disconnect_cnt[ai_server_ip] = self.ai_server_disconnect_cnt.get(ai_server_ip, 0) + 1
+                        continue
+
+                    alarm_data = requests.get(alarm_url, timeout=1)
+                    self.ai_server_disconnect_cnt[ai_server_ip] = 0
+
+                except Exception as e:
+                    print_error(e)
+                    self.ai_server_disconnect_cnt[ai_server_ip] = self.ai_server_disconnect_cnt.get(ai_server_ip, 0) + 1
+                    
+                    continue
+
                 """
                 {'192.168.0.102': {'창조관 앞1': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347217, 'rowid': 215188, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347161, 'rowid': 215181, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347141, 'rowid': 215177, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '산단 공터1': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347164, 'rowid': 215182, 'devices': [0], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346147, 'rowid': 215015, 'devices': [0], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345972, 'rowid': 215003, 'devices': [0], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '산단 주차장 BOT': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347165, 'rowid': 215183, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346146, 'rowid': 215014, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345972, 'rowid': 215002, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '함박관 정문1': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347224, 'rowid': 215189, 'devices': [6], 'micro_ai': {'type': 2, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347184, 'rowid': 215187, 'devices': [6], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347176, 'rowid': 215186, 'devices': [6], 'micro_ai': {'type': 2, 'object': 1, 'direction': 0}}]}, '5공학관 앞1': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347076, 'rowid': 215167, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347062, 'rowid': 215164, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347059, 'rowid': 215161, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '5공학관 앞2': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347076, 'rowid': 215168, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347062, 'rowid': 215163, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347055, 'rowid': 215159, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}}, '192.168.0.237': {'카메라 6': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346750, 'rowid': 5828, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346736, 'rowid': 5825, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346733, 'rowid': 5822, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 7': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346839, 'rowid': 5847, 'devices': [6], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345818, 'rowid': 5632, 'devices': [6], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345646, 'rowid': 5608, 'devices': [6], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 8': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346839, 'rowid': 5845, 'devices': [7], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345821, 'rowid': 5634, 'devices': [7], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345647, 'rowid': 5609, 'devices': [7], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 9': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346835, 'rowid': 5840, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346594, 'rowid': 5789, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346462, 'rowid': 5756, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 10': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346858, 'rowid': 5849, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346847, 'rowid': 5848, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346826, 'rowid': 5835, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 11': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346864, 'rowid': 5850, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346837, 'rowid': 5844, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346835, 'rowid': 5841, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 12': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346750, 'rowid': 5827, 'devices': [11], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346736, 'rowid': 5824, 'devices': [11], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346729, 'rowid': 5819, 'devices': [11], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 13': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346891, 'rowid': 5851, 'devices': [12], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346836, 'rowid': 5842, 'devices': [12], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346815, 'rowid': 5833, 'devices': [12], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 14': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346836, 'rowid': 5843, 'devices': [13], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346832, 'rowid': 5837, 'devices': [13], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346828, 'rowid': 5836, 'devices': [13], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 15': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346839, 'rowid': 5846, 'devices': [14], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345818, 'rowid': 5633, 'devices': [14], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345646, 'rowid': 5607, 'devices': [14], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}}}
                 {'192.168.0.102': {'창조관 앞1': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347217, 'rowid': 215188, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347161, 'rowid': 215181, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347141, 'rowid': 215177, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '산단 공터1': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347164, 'rowid': 215182, 'devices': [0], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346147, 'rowid': 215015, 'devices': [0], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345972, 'rowid': 215003, 'devices': [0], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '산단 주차장 BOT': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347165, 'rowid': 215183, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346146, 'rowid': 215014, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345972, 'rowid': 215002, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '함박관 정문1': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347224, 'rowid': 215189, 'devices': [6], 'micro_ai': {'type': 2, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347184, 'rowid': 215187, 'devices': [6], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347176, 'rowid': 215186, 'devices': [6], 'micro_ai': {'type': 2, 'object': 1, 'direction': 0}}]}, '5공학관 앞1': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347076, 'rowid': 215167, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347062, 'rowid': 215164, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347059, 'rowid': 215161, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '5공학관 앞2': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763347076, 'rowid': 215168, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347062, 'rowid': 215163, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763347055, 'rowid': 215159, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}}, '192.168.0.237': {'카메라 6': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346750, 'rowid': 5828, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346736, 'rowid': 5825, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346733, 'rowid': 5822, 'devices': [5], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 7': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346839, 'rowid': 5847, 'devices': [6], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345818, 'rowid': 5632, 'devices': [6], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345646, 'rowid': 5608, 'devices': [6], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 8': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346839, 'rowid': 5845, 'devices': [7], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345821, 'rowid': 5634, 'devices': [7], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345647, 'rowid': 5609, 'devices': [7], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 9': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346835, 'rowid': 5840, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346594, 'rowid': 5789, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346462, 'rowid': 5756, 'devices': [8], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 10': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346858, 'rowid': 5849, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346847, 'rowid': 5848, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346826, 'rowid': 5835, 'devices': [9], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 11': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346864, 'rowid': 5850, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346837, 'rowid': 5844, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346835, 'rowid': 5841, 'devices': [10], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 12': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346750, 'rowid': 5827, 'devices': [11], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346736, 'rowid': 5824, 'devices': [11], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346729, 'rowid': 5819, 'devices': [11], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 13': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346891, 'rowid': 5851, 'devices': [12], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346836, 'rowid': 5842, 'devices': [12], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346815, 'rowid': 5833, 'devices': [12], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 14': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346836, 'rowid': 5843, 'devices': [13], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346832, 'rowid': 5837, 'devices': [13], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763346828, 'rowid': 5836, 'devices': [13], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}, '카메라 15': {'total': 0, 'offset': 0, 'limit': 3, 'events': [{'type': 70, 'timestamp': 1763346839, 'rowid': 5846, 'devices': [14], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345818, 'rowid': 5633, 'devices': [14], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}, {'type': 70, 'timestamp': 1763345646, 'rowid': 5607, 'devices': [14], 'micro_ai': {'type': 1, 'object': 1, 'direction': 0}}]}}}
@@ -409,8 +487,18 @@ class MainWindow(QMainWindow):
 
         if self.ai_server_info_dict["SETTING"]["notice"]["active"]:
             duration = self.ai_server_info_dict["SETTING"]["notice"]["duration"]
-            # self.notification_manager.show(title, message, notification_data, duration=10000)
+            
+            # 커스텀 알림은 항상 표시
             self.notification_manager.show(title, message, notification_data, duration=NOTICE_DURATION[duration])
+            
+            # 윈도우가 숨겨진 상태(트레이)일 때는 추가로 시스템 트레이 알림도 표시
+            if not self.isVisible():
+                self.tray_icon.showMessage(
+                    title, 
+                    message.replace('\n(클릭하여 자세히 보기)', ''),  # 시스템 알림용 메시지 정리
+                    QSystemTrayIcon.Information,
+                    NOTICE_DURATION[duration] if NOTICE_DURATION[duration] != -1 else 10000
+                )
 
 
         if self.ai_server_info_dict["SETTING"]["sms"]["active"]:
@@ -470,10 +558,11 @@ class MainWindow(QMainWindow):
         self.camera_page_worker = None
         self.camera_connect_timer = None
         self.ai_server_event_alarm_connect_timer = None
+        self.update_camera_img_thread = None
 
 
-        # TODO 알림 메시지 클릭 시 검색 창 열기 (최근 알림 정보 사용)
-        # self.tray_icon.messageClicked.connect(self.on_notification_clicked)
+        # 알림 메시지 클릭 시 검색 창 열기 (최근 알림 정보 사용)
+        self.tray_icon.messageClicked.connect(self.on_notification_clicked)
 
         self.ui_main.shutdown_bnt.setStyleSheet("""background-color: rgb(255, 49, 38);
                                             color: rgb(255, 255, 255);
@@ -530,7 +619,6 @@ class MainWindow(QMainWindow):
     def open_main_window_tray(self):
         """메인 창 열기"""
         self.showNormal()
-        self.switch_main_display_to_camera()
 
     def open_main_window_tray_notify(self, camera_name=None, ai_server_ip=None, ai_server_port=None):
         """메인 창 열기"""
@@ -557,18 +645,18 @@ class MainWindow(QMainWindow):
         # 검색 창 열기
         self.open_main_window_tray_notify(camera_name = camera_name, ai_server_ip=ai_server_ip, ai_server_port=ai_server_port)
 
-    # def on_notification_clicked(self):
-    #     """트레이 알림 메시지 클릭 시 호출되는 함수"""
-    #     # 최근 알림 정보가 있으면 검색 창 열기
-    #     if self.last_notification_info:
-    #         camera_name = self.last_notification_info.get("camera_name")
-    #         alarm_time = self.last_notification_info.get("alarm_time")
-    #         ai_server_ip = self.last_notification_info.get("ai_server_ip")
-    #         ai_server_port = self.last_notification_info.get("ai_server_port")
-    #         print(f"클릭된 알림 - 카메라: {camera_name}, 시간: {alarm_time}, {ai_server_ip}, {ai_server_port}")
-    #         self.open_main_window_tray_notify(camera_name = camera_name, ai_server_ip=ai_server_ip, ai_server_port=ai_server_port)
-    #     else:
-    #         self.open_main_window_tray_notify()
+    def on_notification_clicked(self):
+        """트레이 알림 메시지 클릭 시 호출되는 함수"""
+        # 최근 알림 정보가 있으면 검색 창 열기
+        if self.last_notification_info:
+            camera_name = self.last_notification_info.get("camera_name")
+            alarm_time = self.last_notification_info.get("alarm_time")
+            ai_server_ip = self.last_notification_info.get("ai_server_ip")
+            ai_server_port = self.last_notification_info.get("ai_server_port")
+            print(f"클릭된 알림 - 카메라: {camera_name}, 시간: {alarm_time}, {ai_server_ip}, {ai_server_port}")
+            self.open_main_window_tray_notify(camera_name = camera_name, ai_server_ip=ai_server_ip, ai_server_port=ai_server_port)
+        else:
+            self.open_main_window_tray_notify()
 
     def make_table_draggable(self, table_widget, ai_server_info_dict=None, ):
         """테이블 위젯에 드래그&드롭 기능 추가
@@ -1149,36 +1237,27 @@ class MainWindow(QMainWindow):
         # print(f"[DEBUG] Viewer recreated and added to layout (no explicit show() like v1.6.0)")
 
     def update_camera_img_temp(self):
-        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : update_camera_img_temp")
-
-        for nvr_ip, camera_info_dict in self.ai_server_camera_info_dict.items():
-            nvr_id = self.ai_server_info_dict["NVR"][nvr_ip]["id"]
-            nvr_pw = self.ai_server_info_dict["NVR"][nvr_ip]["pw"]
-            auth = HTTPBasicAuth(nvr_id, nvr_pw) # NVR에 대한 ID / PW
-
-            for camera_name, camera_info in camera_info_dict.items():
-                camera_id = self.ai_server_info_dict["NVR"][nvr_ip]["cameras"][camera_name]["id"]
-
-                camera_img_url = f'http://{nvr_ip}/live/video{camera_id}.jpg'
-
-                try:
-                    response = requests.get(camera_img_url, auth=auth, timeout=5)
-                    if response.status_code == 200:
-                        # NVR에서 직접 JPG 이미지를 받아오므로 base64 디코딩 불필요
-                        nparr = np.frombuffer(response.content, np.uint8)
-                        decoded_img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-                        
-                        if decoded_img is not None:
-                            self.camera_img_temp[camera_name] = decoded_img
-                        else:
-                            print(f"Failed to decode image for camera {camera_name}")
-                            self.camera_img_temp[camera_name] = np.zeros((640, 480, 3), dtype=np.uint8)
-                    else:
-                        print(f"Failed to get image for camera {camera_name}: HTTP {response.status_code}")
-                        self.camera_img_temp[camera_name] = np.zeros((640, 480, 3), dtype=np.uint8)
-                except Exception as e:
-                    print(f"Failed to get image for camera {camera_name}: {e}")
-                    self.camera_img_temp[camera_name] = np.zeros((640, 480, 3), dtype=np.uint8)
+        """백그라운드 스레드에서 카메라 이미지 업데이트 시작"""
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : update_camera_img_temp (thread)")
+        
+        # 기존 스레드가 실행 중이면 중지
+        if self.update_camera_img_thread is not None:
+            self.update_camera_img_thread.stop()
+            self.update_camera_img_thread.wait()
+            self.update_camera_img_thread = None
+        
+        # 새 스레드 시작
+        self.update_camera_img_thread = UpdateCameraImageThread(
+            self.ai_server_camera_info_dict,
+            self.ai_server_info_dict
+        )
+        self.update_camera_img_thread.finished.connect(self.on_camera_img_updated)
+        self.update_camera_img_thread.start()
+    
+    def on_camera_img_updated(self, camera_img_temp):
+        """카메라 이미지 업데이트 완료 시 호출"""
+        print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : camera images updated ({len(camera_img_temp)} cameras)")
+        self.camera_img_temp = camera_img_temp
 
     def start_camera_connect_status_timer(self):
         self.last_notification_info = None  # 최근 알림 정보 저장 (카메라 이름, 시간)

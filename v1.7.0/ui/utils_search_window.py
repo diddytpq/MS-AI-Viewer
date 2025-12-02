@@ -386,9 +386,9 @@ class SearchDialog(QDialog):
         self.search_ui.event_table.setColumnWidth(1, 120)
         self.search_ui.event_table.setColumnWidth(2, 80)
 
-        # event_table 컨텍스트 메뉴 설정
-        self.search_ui.event_table.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.search_ui.event_table.customContextMenuRequested.connect(self.show_event_table_context_menu)
+        # event_table 컨텍스트 메뉴 설정(보고서 작성 기능 잠시 억제)
+        """self.search_ui.event_table.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.search_ui.event_table.customContextMenuRequested.connect(self.show_event_table_context_menu)"""
 
         self.search_detect_type = []
 
