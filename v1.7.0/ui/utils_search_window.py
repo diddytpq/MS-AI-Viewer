@@ -481,6 +481,8 @@ class SearchDialog(QDialog):
     def get_alarm_info(self, click):
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : get alarm info")
 
+        self.search_ui.event_table.setRowCount(0)
+
         day_start = self.search_ui.time_day_start_input.text()
         start_day = datetime.strptime(day_start, "%Y. %m. %d").strftime("%Y-%m-%d")
 
