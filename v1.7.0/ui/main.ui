@@ -218,7 +218,7 @@ border-radius: 19px;
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -3182,7 +3182,7 @@ width: 8px;
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>522</width>
+                    <width>1</width>
                     <height>50</height>
                    </size>
                   </property>
@@ -3647,7 +3647,7 @@ width: 8px;
 }</string>
                 </property>
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>1</number>
                 </property>
                 <widget class="QWidget" name="camera_page">
                  <layout class="QVBoxLayout" name="verticalLayout_47">

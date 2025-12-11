@@ -384,8 +384,8 @@ class LoginWindow(QDialog):
 
             if self.ui_login.id_input.text() in self.ai_sever_info["USER"].keys() and \
                 self.ui_login.pw_input.text() == self.ai_sever_info["USER"][self.ui_login.id_input.text()]:
-                receive_data = {self.ui_login.id_input.text(): self.ui_login.pw_input.text()}
-                self.handle_successful_login(receive_data)
+                user_info = self.ui_login.id_input.text()
+                self.handle_successful_login(user_info)
             else:
                 self.create_fade_out_msg(msg="아이디와 비밀번호가 일치하지 않습니다.")
                 return
@@ -393,12 +393,12 @@ class LoginWindow(QDialog):
         except Exception as e:
             print_error(e)
 
-    def handle_successful_login(self, receive_data):
+    def handle_successful_login(self, user_info):
         # 로그인 성공 처리
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : succese login")
 
         self.close()
-        self.main_window = MainWindow(user_info=receive_data, 
+        self.main_window = MainWindow(user_info=user_info, 
                                       ai_server_info_dict=self.ai_sever_info,
                                       client_ip = f"{self.client_ip}@{self.local_ip}")
         self.main_window.show()
@@ -453,7 +453,8 @@ class LoginWindow(QDialog):
 class MainWindow(QMainWindow):
     def __init__(self, user_info, ai_server_info_dict, client_ip):
         super(MainWindow, self).__init__()
-        self.user_info = user_info
+
+
         self.ai_server_info_dict = ai_server_info_dict
         self.client_ip = client_ip
         self.popup_alert_msg_list = []
@@ -475,6 +476,14 @@ class MainWindow(QMainWindow):
         self.check_alarm_thread = CheckAlarmThread(self.ai_server_info_dict)
         self.check_alarm_thread.new_alarm.connect(self.notify)
         self.check_alarm_thread.start()
+
+        self.user_info = user_info
+        if self.user_info == "admin":
+            self.admin_flag = True
+        else:
+            self.admin_flag = False
+            self.ui_main.admin_bnt.hide()
+            self.ui_main.tab_partion_4.hide()
 
     def shutdown(self):
         # QApplication.instance().quit()
@@ -919,7 +928,9 @@ class MainWindow(QMainWindow):
 
         self.ui_main.camera_bnt.clicked.connect(self.switch_main_display_to_camera)
         self.ui_main.setting_bnt.clicked.connect(self.switch_main_display_to_setting)
-        self.ui_main.admin_bnt.clicked.connect(self.switch_main_display_to_admin)
+        # self.ui_main.admin_bnt.clicked.connect(self.switch_main_display_to_admin)
+        self.ui_main.admin_bnt.clicked.connect(self.switch_main_display_to_admin_2)
+
 
         self.ui_main.server_list_setting_bnt.clicked.connect(lambda click, instance = self : open_server_setting_window(click, instance))
 

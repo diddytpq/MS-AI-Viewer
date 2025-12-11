@@ -1,3 +1,4 @@
+from typing import Any
 from PySide6.QtWidgets import QDialog
 from ui.ui_server_setting import Ui_server_setting_window
 from datetime import datetime
@@ -67,6 +68,9 @@ def open_server_setting_window(click, self):
 
     update_notion_detect_type_buttons(self)
     update_setting(self)
+
+    if self.admin_flag == False:
+        self.server_setting_ui.admin_setting_but.hide()
 
     self.server_setting_window.show()
 
@@ -138,7 +142,7 @@ def update_setting(self):
         self.server_setting_ui.setting_notice_phone_list.setItem(row, 0, item)
 
     self.server_setting_ui.admin_sms_alarm_allow_phone_num_input.setText(str(self.ai_server_info_dict["ADMIN"]["sms_allow_phone_num"]))
-    self.server_setting_ui.setting_user_id_input.setText(str(list(self.user_info.keys())[0]))
+    self.server_setting_ui.setting_user_id_input.setText(self.user_info)
 
 def setting_change_user_info(click, self):
     try:

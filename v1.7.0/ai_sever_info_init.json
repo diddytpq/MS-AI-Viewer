@@ -1,7 +1,7 @@
 {
     "USER": {
         "admin": "admin",
-        "user": "user"
+        "user": "1234"
     },
     "NVR": {
     },
@@ -9,11 +9,11 @@
     },
     "SETTING": {
         "notice": {
-            "active": 1,
+            "active": 0,
             "duration": 0
         },
         "sms": {
-            "active": 1,
+            "active": 0,
             "user": {}
         }
     },

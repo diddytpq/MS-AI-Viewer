@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'mainNNxpvE.ui'
+## Form generated from reading UI file 'mainEtWnDp.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.10.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -1554,7 +1554,7 @@ class Ui_MainWindow(object):
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.tab_backgournd.sizePolicy().hasHeightForWidth())
         self.tab_backgournd.setSizePolicy(sizePolicy2)
-        self.tab_backgournd.setMinimumSize(QSize(522, 50))
+        self.tab_backgournd.setMinimumSize(QSize(1, 50))
         self.tab_backgournd.setMaximumSize(QSize(12345, 50))
         self.tab_backgournd.setStyleSheet(u"background-color: rgb(16, 16, 16);\n"
 "\n"
@@ -3493,8 +3493,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
-        self.stackedWidget_2.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget_2.setCurrentIndex(1)
         self.setting_setting_ai_weight_box.setCurrentIndex(0)
         self.stackedWidget_3.setCurrentIndex(0)
 
