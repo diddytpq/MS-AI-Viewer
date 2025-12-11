@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'object_settingBTHpVB.ui'
+## Form generated from reading UI file 'object_settingDdRcCe.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.9.1
+## Created by: Qt User Interface Compiler version 6.10.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -111,6 +111,23 @@ class Ui_object_setting(object):
         self.person_active_bnt.setObjectName(u"person_active_bnt")
         self.person_active_bnt.setMinimumSize(QSize(61, 25))
         self.person_active_bnt.setMaximumSize(QSize(61, 25))
+        self.person_active_bnt.setStyleSheet(u"QPushButton {\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"    padding: 0px; /* \ud328\ub529\ub3c4 0\uc73c\ub85c \uc124\uc815 */\n"
+"    outline: none;\n"
+"}\n"
+"\n"
+"/* hover, pressed \uc0c1\ud0dc\uc5d0\ub3c4 \uc544\ubb34 \ud6a8\uacfc \uc5c6\uc74c */\n"
+"QPushButton:hover {\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"}")
         icon = QIcon()
         icon.addFile(u":/ui/ui/images/icon-switch-off.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         icon.addFile(u":/ui/ui/images/icon-switch-on.png", QSize(), QIcon.Mode.Normal, QIcon.State.On)
@@ -211,6 +228,23 @@ class Ui_object_setting(object):
         self.car_active_bnt.setMinimumSize(QSize(61, 25))
         self.car_active_bnt.setMaximumSize(QSize(61, 25))
         self.car_active_bnt.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
+        self.car_active_bnt.setStyleSheet(u"QPushButton {\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"    padding: 0px; /* \ud328\ub529\ub3c4 0\uc73c\ub85c \uc124\uc815 */\n"
+"    outline: none;\n"
+"}\n"
+"\n"
+"/* hover, pressed \uc0c1\ud0dc\uc5d0\ub3c4 \uc544\ubb34 \ud6a8\uacfc \uc5c6\uc74c */\n"
+"QPushButton:hover {\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"}")
         self.car_active_bnt.setIcon(icon)
         self.car_active_bnt.setIconSize(QSize(55, 103))
         self.car_active_bnt.setCheckable(True)
@@ -300,6 +334,23 @@ class Ui_object_setting(object):
         self.fire_active_bnt.setObjectName(u"fire_active_bnt")
         self.fire_active_bnt.setMinimumSize(QSize(61, 25))
         self.fire_active_bnt.setMaximumSize(QSize(61, 25))
+        self.fire_active_bnt.setStyleSheet(u"QPushButton {\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"    padding: 0px; /* \ud328\ub529\ub3c4 0\uc73c\ub85c \uc124\uc815 */\n"
+"    outline: none;\n"
+"}\n"
+"\n"
+"/* hover, pressed \uc0c1\ud0dc\uc5d0\ub3c4 \uc544\ubb34 \ud6a8\uacfc \uc5c6\uc74c */\n"
+"QPushButton:hover {\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color: transparent;\n"
+"    border: none;\n"
+"}")
         self.fire_active_bnt.setIcon(icon)
         self.fire_active_bnt.setIconSize(QSize(55, 103))
         self.fire_active_bnt.setCheckable(True)

@@ -185,6 +185,25 @@ background-color: rgba(255, 255, 255, 0);</string>
                 <height>25</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    background-color: transparent;
+    border: none;
+    padding: 0px; /* 패딩도 0으로 설정 */
+    outline: none;
+}
+
+/* hover, pressed 상태에도 아무 효과 없음 */
+QPushButton:hover {
+    background-color: transparent;
+    border: none;
+}
+
+QPushButton:pressed {
+    background-color: transparent;
+    border: none;
+}</string>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -375,6 +394,25 @@ background-color: rgba(255, 255, 255, 0);</string>
               <property name="contextMenuPolicy">
                <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    background-color: transparent;
+    border: none;
+    padding: 0px; /* 패딩도 0으로 설정 */
+    outline: none;
+}
+
+/* hover, pressed 상태에도 아무 효과 없음 */
+QPushButton:hover {
+    background-color: transparent;
+    border: none;
+}
+
+QPushButton:pressed {
+    background-color: transparent;
+    border: none;
+}</string>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -561,6 +599,25 @@ background-color: rgba(255, 255, 255, 0);</string>
                 <width>61</width>
                 <height>25</height>
                </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+    background-color: transparent;
+    border: none;
+    padding: 0px; /* 패딩도 0으로 설정 */
+    outline: none;
+}
+
+/* hover, pressed 상태에도 아무 효과 없음 */
+QPushButton:hover {
+    background-color: transparent;
+    border: none;
+}
+
+QPushButton:pressed {
+    background-color: transparent;
+    border: none;
+}</string>
               </property>
               <property name="text">
                <string/>
