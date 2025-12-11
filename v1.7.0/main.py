@@ -523,13 +523,13 @@ class MainWindow(QMainWindow):
             self.notification_manager.show(title, message, notification_data, duration=NOTICE_DURATION[duration])
             
             # 윈도우가 숨겨진 상태(트레이)일 때는 추가로 시스템 트레이 알림도 표시
-            if not self.isVisible():
-                self.tray_icon.showMessage(
-                    title, 
-                    message.replace('\n(클릭하여 자세히 보기)', ''),  # 시스템 알림용 메시지 정리
-                    QSystemTrayIcon.Information,
-                    NOTICE_DURATION[duration] if NOTICE_DURATION[duration] != -1 else 10000
-                )
+            # if not self.isVisible():
+            #     self.tray_icon.showMessage(
+            #         title, 
+            #         message.replace('\n(클릭하여 자세히 보기)', ''),  # 시스템 알림용 메시지 정리
+            #         QSystemTrayIcon.Information,
+            #         NOTICE_DURATION[duration] if NOTICE_DURATION[duration] != -1 else 10000
+            #     )
 
 
         if self.ai_server_info_dict["SETTING"]["sms"]["active"]:
@@ -1365,7 +1365,9 @@ class MainWindow(QMainWindow):
                     nvr_id = self.ai_server_info_dict["NVR"][nvr_ip]["id"]
                     nvr_pw = self.ai_server_info_dict["NVR"][nvr_ip]["pw"]
                     camera_id = self.ai_server_info_dict['NVR'][nvr_ip]['cameras'][camera_name]['id']
-                    pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_id}"
+                    # pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/video{camera_id}"
+                    pipe = f"{nvr_id}:{nvr_pw}@{nvr_ip}/normal{camera_id}"
+
 
                     # print(f"[DEBUG] camera_id: {camera_id}")
                     # print(f"[DEBUG] pipe: {pipe}")
