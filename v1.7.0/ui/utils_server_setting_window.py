@@ -70,6 +70,19 @@ def open_server_setting_window(click, self):
 
     self.server_setting_window.show()
 
+    # 메인 윈도우의 중앙에 팝업 윈도우 위치 계산
+    # mapToGlobal을 사용하여 다른 팝업(fadeout_window 등)의 영향을 받지 않도록 함
+    main_center = self.mapToGlobal(self.rect().center())
+
+    popupWindowGeometry = self.server_setting_window.frameGeometry()
+
+    # 팝업 윈도우의 좌상단 좌표를 계산
+    topLeftPoint = QPoint(
+        main_center.x() - popupWindowGeometry.width() // 2,
+        main_center.y() - popupWindowGeometry.height() // 2
+    )
+    self.server_setting_window.move(topLeftPoint)
+
 def shutdown(click, self):
     self.server_setting_window.close()
     self.dark_layer.hide()

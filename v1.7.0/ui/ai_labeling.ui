@@ -344,13 +344,13 @@ selection-background-color: rgb(53, 132, 228);
                <widget class="QComboBox" name="event_date_box">
                 <property name="minimumSize">
                  <size>
-                  <width>110</width>
+                  <width>120</width>
                   <height>39</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>110</width>
+                  <width>120</width>
                   <height>39</height>
                  </size>
                 </property>

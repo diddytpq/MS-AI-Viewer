@@ -438,7 +438,14 @@ class LoginWindow(QDialog):
 
             self.fadeout_window.show()
             self.fadeout_window.raise_()          # 윈도우를 최상위로 올림
-            self.fadeout_window.activateWindow()  # 윈도우를 활성화
+            
+            # 포커스를 원래 창으로 돌려줌 (단축키 유지를 위해)
+            if std_window is not None:
+                std_window.activateWindow()
+                std_window.setFocus()
+            else:
+                self.activateWindow()
+                self.setFocus()
 
         except Exception as e:
             print_error(e)
@@ -2025,7 +2032,14 @@ class MainWindow(QMainWindow):
 
             self.fadeout_window.show()
             self.fadeout_window.raise_()          # 윈도우를 최상위로 올림
-            self.fadeout_window.activateWindow()  # 윈도우를 활성화
+            
+            # 포커스를 원래 창으로 돌려줌 (단축키 유지를 위해)
+            if std_window is not None:
+                std_window.activateWindow()
+                std_window.setFocus()
+            else:
+                self.activateWindow()
+                self.setFocus()
 
         except Exception as e:
             print_error(e)
