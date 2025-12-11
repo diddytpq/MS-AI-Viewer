@@ -1325,22 +1325,25 @@ class MainWindow(QMainWindow):
                     camera_id = self.ai_server_info_dict["NVR"][nvr_ip]["cameras"][camera_name]["id"]
                     camera_post = f'http://{nvr_ip}/api/cameras/{camera_id}'
                     r = requests.get(camera_post,auth=auth, timeout= 1).json()
-                    if r["connected"] == True:
-                        for row_index in range(self.ui_main.camera_list_table.rowCount()):
-                            item = self.ui_main.camera_list_table.item(row_index, 1)  # 첫 번째 열의 항목 가져오기
-                            if item is not None and camera_name in item.text():
-                                row_index = row_index
-                                break
+                    for row_index in range(self.ui_main.camera_list_table.rowCount()):
+                        item = self.ui_main.camera_list_table.item(row_index, 1)  # 첫 번째 열의 항목 가져오기
 
+                        if item is not None and camera_name in item.text():
+                            row_index = row_index
+                            break
+                    
+                    if r["connected"] == True:
                         label = QLabel()
                         label.setAlignment(Qt.AlignCenter)
                         label.setPixmap(on_camera_pix)
                         self.ui_main.camera_list_table.setCellWidget(row_index, 0, label)
+
                     else:
                         label = QLabel()
                         label.setAlignment(Qt.AlignCenter)
                         label.setPixmap(off_camera_pix)
                         self.ui_main.camera_list_table.setCellWidget(row_index, 0, label)
+
 
 
         except Exception as e:
