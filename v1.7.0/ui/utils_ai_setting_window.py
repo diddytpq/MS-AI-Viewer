@@ -315,7 +315,7 @@ def open_ai_setting_window(click, self):
     start_time = time.time()
     
     self.dark_layer.show()
-    self.popup_window = QDialog()  # QDialog 인스턴스 생성
+    self.popup_window = QDialog(self)  # QDialog 인스턴스 생성 (메인 윈도우를 명시적으로 부모로 설정)
     self.popup_window.setWindowFlag(Qt.FramelessWindowHint)
 
     self.popup_ui = Ui_Ai_Setting_Window()
@@ -405,19 +405,21 @@ def open_ai_setting_window(click, self):
 
     self.popup_window.finished.connect(self.dark_layer.hide)
 
+    # 팝업 윈도우 먼저 표시 (위치 계산을 위해 geometry가 확정되어야 함)
+    self.popup_window.show()
+
     # 메인 윈도우의 중앙에 팝업 윈도우 위치 계산
-    mainWindowGeometry = self.frameGeometry()
-    centerPoint = mainWindowGeometry.center()
+    # mapToGlobal을 사용하여 다른 팝업(fadeout_window 등)의 영향을 받지 않도록 함
+    main_center = self.mapToGlobal(self.rect().center())
 
     popupWindowGeometry = self.popup_window.frameGeometry()
-    popupCenterPoint = popupWindowGeometry.center()
 
-    # 중앙점에서 팝업 윈도우의 절반 크기를 빼서 팝업 윈도우의 좌상단 좌표를 계산
-    topLeftPoint = centerPoint - (popupCenterPoint - popupWindowGeometry.topLeft())
+    # 팝업 윈도우의 좌상단 좌표를 계산
+    topLeftPoint = QPoint(
+        main_center.x() - popupWindowGeometry.width() // 2,
+        main_center.y() - popupWindowGeometry.height() // 2
+    )
     self.popup_window.move(topLeftPoint)
-
-    # 팝업 윈도우 표시
-    self.popup_window.show()
 
 def change_ai_setting_page(self, direction):
     """
