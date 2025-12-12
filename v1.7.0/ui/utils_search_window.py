@@ -550,41 +550,28 @@ class SearchDialog(QDialog):
             auth = HTTPBasicAuth(self.parent.ai_server_info_dict["NVR"][nvr_ip]["id"], self.parent.ai_server_info_dict["NVR"][nvr_ip]["pw"]) # NVR에 대한 ID / PW
             event_info_post = f'http://{nvr_ip}/api/events?types=70&since={start_day}t{time_start}&until={end_day}t{time_end}&devices={camera_id_input}&sort={order}&total=true&limit=1000&micro_ai_type={detect_type_list}'
             r = requests.get(event_info_post, auth=auth, timeout= 1)
-            event_info_ori_list.append(r.json())
-
-        """event_info_ori =>
+            """r.json() =>
             {'total': 2, 'offset': 0, 'limit': 10, 
             'events': [
                 {'type': 70, 'timestamp': 1761121687, 'rowid': 151944, 'devices': [0], 'micro_ai': {'type': 2, 'object': 1, 'direction': 0}}, 
                 {'type': 70, 'timestamp': 1761121687, 'rowid': 151943, 'devices': [0], 'micro_ai': {'type': 2, 'object': 1, 'direction': 0}}, 
-        """
-
-        all_events = [
-            event_info
-            for event_info_ori in event_info_ori_list
-            for event_info in event_info_ori.get("events", [])
-        ]
+            """
+            if r.status_code == 200:
+                # 데이터 파싱
+                for event_info in r.json()["events"]:
+                    camera_name = camera_id_list[str(event_info["devices"][0])]
+                    detect_time = datetime.fromtimestamp(event_info["timestamp"]).strftime("%y.%m.%d %H:%M:%S")
+                    # .get()을 사용하여 키가 없는 경우에도 안전하게 처리
+                    alarm_type = ALARM_TYPE_DIC.get(event_info.get("micro_ai", {}).get("type"), "Unknown Type")
+                    event_info_ori_list.append({"camera_name": camera_name, "detect_time": detect_time, "alarm_type": alarm_type})
 
         order = 1 if self.search_ui.sort_box.currentText() == "최신순" else 0
 
-        all_events.sort(key=lambda x: x['timestamp'], reverse=order)
+        event_info_ori_list.sort(key=lambda x: x['detect_time'], reverse=order)
+        print(event_info_ori_list)
 
-        for row_position, event_info in enumerate(all_events):
+        for row_position, event_info in enumerate(event_info_ori_list):
             self.search_ui.event_table.insertRow(row_position)
-
-            # 카메라 이름 찾기 (기존 로직과 동일)
-            camera_name = "Unknown"  # 기본값
-            for nvr_ip, camera_id_list in nvr_camera_name_dict.items():
-                if str(event_info["devices"][0]) in camera_id_list.keys():
-                    camera_name = camera_id_list[str(event_info["devices"][0])]
-                    break
-
-            # 데이터 파싱
-            detect_time = datetime.fromtimestamp(event_info["timestamp"]).strftime("%y.%m.%d %H:%M:%S")
-            # .get()을 사용하여 키가 없는 경우에도 안전하게 처리
-            alarm_type = ALARM_TYPE_DIC.get(event_info.get("micro_ai", {}).get("type"), "Unknown Type")
-
-            # 테이블 아이템 생성 및 설정 (기존 로직과 동일)
             
             # 0번 열: 순번 (정렬 후 순번)
             item_num = QTableWidgetItem(str(row_position + 1))
@@ -593,22 +580,60 @@ class SearchDialog(QDialog):
             self.search_ui.event_table.setItem(row_position, 0, item_num)
 
             # 1번 열: 카메라 이름
-            item_cam = QTableWidgetItem(str(camera_name))
+            item_cam = QTableWidgetItem(str(event_info["camera_name"]))
             item_cam.setTextAlignment(Qt.AlignCenter)
             item_cam.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             self.search_ui.event_table.setItem(row_position, 1, item_cam)
 
             # 2번 열: 알람 타입
-            item_alarm = QTableWidgetItem(str(alarm_type))
+            item_alarm = QTableWidgetItem(str(event_info["alarm_type"]))
             item_alarm.setTextAlignment(Qt.AlignCenter)
             item_alarm.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             self.search_ui.event_table.setItem(row_position, 2, item_alarm)
 
             # 3번 열: 감지 시간
-            item_time = QTableWidgetItem(str(detect_time))
+            item_time = QTableWidgetItem(str(event_info["detect_time"]))
             item_time.setTextAlignment(Qt.AlignCenter)
             item_time.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             self.search_ui.event_table.setItem(row_position, 3, item_time)
+
+        #     # 카메라 이름 찾기 (기존 로직과 동일)
+        #     camera_name = "Unknown"  # 기본값
+        #     for nvr_ip, camera_id_list in nvr_camera_name_dict.items():
+        #         if str(event_info["devices"][0]) in camera_id_list.keys():
+        #             camera_name = camera_id_list[str(event_info["devices"][0])]
+        #             break
+
+        #     # 데이터 파싱
+        #     detect_time = datetime.fromtimestamp(event_info["timestamp"]).strftime("%y.%m.%d %H:%M:%S")
+        #     # .get()을 사용하여 키가 없는 경우에도 안전하게 처리
+        #     alarm_type = ALARM_TYPE_DIC.get(event_info.get("micro_ai", {}).get("type"), "Unknown Type")
+
+        #     # 테이블 아이템 생성 및 설정 (기존 로직과 동일)
+            
+        #     # 0번 열: 순번 (정렬 후 순번)
+        #     item_num = QTableWidgetItem(str(row_position + 1))
+        #     item_num.setTextAlignment(Qt.AlignCenter)
+        #     item_num.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+        #     self.search_ui.event_table.setItem(row_position, 0, item_num)
+
+        #     # 1번 열: 카메라 이름
+        #     item_cam = QTableWidgetItem(str(camera_name))
+        #     item_cam.setTextAlignment(Qt.AlignCenter)
+        #     item_cam.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+        #     self.search_ui.event_table.setItem(row_position, 1, item_cam)
+
+        #     # 2번 열: 알람 타입
+        #     item_alarm = QTableWidgetItem(str(alarm_type))
+        #     item_alarm.setTextAlignment(Qt.AlignCenter)
+        #     item_alarm.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+        #     self.search_ui.event_table.setItem(row_position, 2, item_alarm)
+
+        #     # 3번 열: 감지 시간
+        #     item_time = QTableWidgetItem(str(detect_time))
+        #     item_time.setTextAlignment(Qt.AlignCenter)
+        #     item_time.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+        #     self.search_ui.event_table.setItem(row_position, 3, item_time)
 
         self.parent.create_fade_out_msg(std_window=self, msg="이벤트 검색 완료")
 
