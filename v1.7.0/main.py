@@ -15,6 +15,8 @@ from ui.utils_search_window import open_search_window
 from ui.utils_labeling_window import open_labeling_window
 from ui.utils_server_setting_window import open_server_setting_window
 
+import resourece_rc  # Qt Resource 파일 import (PyInstaller 빌드 시 필요)
+
 import numpy as np
 
 import socket
@@ -589,8 +591,8 @@ class MainWindow(QMainWindow):
         self.dark_layer.setStyleSheet("background-color: rgba(0, 0, 0, 178);")  # 70% 투명도
         self.dark_layer.hide()  # 기본적으로 숨김
 
-        # 트레이 아이콘 설정
-        self.tray_icon = QSystemTrayIcon(QIcon("ui/images/icon2.ico"), self)
+        # 트레이 아이콘 설정 (Qt Resource 경로 사용 - PyInstaller 빌드 호환)
+        self.tray_icon = QSystemTrayIcon(QIcon(":/ui/ui/images/icon2.ico"), self)
         self.tray_icon.show()
         tray_menu = QMenu()
         restore_action = QAction("열기", self)
@@ -609,7 +611,7 @@ class MainWindow(QMainWindow):
 
 
         # 알림 메시지 클릭 시 검색 창 열기 (최근 알림 정보 사용)
-        self.tray_icon.messageClicked.connect(self.on_notification_clicked)
+        # self.tray_icon.messageClicked.connect(self.on_notification_clicked)
 
         self.ui_main.shutdown_bnt.setStyleSheet("""background-color: rgb(255, 49, 38);
                                             color: rgb(255, 255, 255);
@@ -676,9 +678,11 @@ class MainWindow(QMainWindow):
             self.ai_server_ip = ai_server_ip
             self.ai_server_port = ai_server_port
 
-            self.switch_ai_viewer(self.ai_server_ip, self.ai_server_port, tray_notify = True)
-
+            self.switch_ai_viewer(self.ai_server_ip, self.ai_server_port)
             self.ui_main.camera_page_name_box.setCurrentText(camera_name)
+
+            self.switch_main_display_to_camera(tray_notify = True)
+
 
         # self.switch_main_display_to_camera(tray_notify=True)
 
@@ -692,18 +696,18 @@ class MainWindow(QMainWindow):
         # 검색 창 열기
         self.open_main_window_tray_notify(camera_name = camera_name, ai_server_ip=ai_server_ip, ai_server_port=ai_server_port)
 
-    def on_notification_clicked(self):
-        """트레이 알림 메시지 클릭 시 호출되는 함수"""
-        # 최근 알림 정보가 있으면 검색 창 열기
-        if self.last_notification_info:
-            camera_name = self.last_notification_info.get("camera_name")
-            alarm_time = self.last_notification_info.get("alarm_time")
-            ai_server_ip = self.last_notification_info.get("ai_server_ip")
-            ai_server_port = self.last_notification_info.get("ai_server_port")
-            print(f"클릭된 알림 - 카메라: {camera_name}, 시간: {alarm_time}, {ai_server_ip}, {ai_server_port}")
-            self.open_main_window_tray_notify(camera_name = camera_name, ai_server_ip=ai_server_ip, ai_server_port=ai_server_port)
-        else:
-            self.open_main_window_tray_notify()
+    # def on_notification_clicked(self):
+    #     """트레이 알림 메시지 클릭 시 호출되는 함수"""
+    #     # 최근 알림 정보가 있으면 검색 창 열기
+    #     if self.last_notification_info:
+    #         camera_name = self.last_notification_info.get("camera_name")
+    #         alarm_time = self.last_notification_info.get("alarm_time")
+    #         ai_server_ip = self.last_notification_info.get("ai_server_ip")
+    #         ai_server_port = self.last_notification_info.get("ai_server_port")
+    #         print(f"클릭된 알림 기능 2 - 카메라: {camera_name}, 시간: {alarm_time}, {ai_server_ip}, {ai_server_port}")
+    #         self.open_main_window_tray_notify(camera_name = camera_name, ai_server_ip=ai_server_ip, ai_server_port=ai_server_port)
+    #     else:
+    #         self.open_main_window_tray_notify()
 
     def make_table_draggable(self, table_widget, ai_server_info_dict=None, ):
         """테이블 위젯에 드래그&드롭 기능 추가
@@ -909,6 +913,11 @@ class MainWindow(QMainWindow):
         self.ui_main.ai_server_table.setItem(self.ui_main.ai_server_table.rowCount() - 1, 1, item2)
         self.ui_main.ai_server_table.setItem(self.ui_main.ai_server_table.rowCount() - 1, 2, item3)
 
+    def clicked_switch_ai_viewer(self):
+        self.switch_ai_viewer()
+        self.switch_main_display_to_camera(tray_notify = False)
+        self.connect_camera_page_camera()
+
     def setup_slot_connect(self):
         self.ui_main.shutdown_bnt.clicked.connect(self.back_window)
 
@@ -924,7 +933,9 @@ class MainWindow(QMainWindow):
 
         self.ui_main.nvr_list_table.itemClicked.connect(self.load_nvr_server_info)
         self.ui_main.ai_server_table.itemClicked.connect(self.load_ai_server_info_to_table)
-        self.ui_main.ai_server_table.itemDoubleClicked.connect(self.switch_ai_viewer)
+        # self.ui_main.ai_server_table.itemDoubleClicked.connect(self.switch_ai_viewer)
+        self.ui_main.ai_server_table.itemDoubleClicked.connect(self.clicked_switch_ai_viewer)
+
 
         self.ui_main.camera_bnt.clicked.connect(self.switch_main_display_to_camera)
         self.ui_main.setting_bnt.clicked.connect(self.switch_main_display_to_setting)
@@ -1139,8 +1150,9 @@ class MainWindow(QMainWindow):
         else:
             self.shutdown()
             
-    def switch_ai_viewer(self, ai_server_ip=None, ai_server_port=None, tray_notify = False):
+    def switch_ai_viewer(self, ai_server_ip=None, ai_server_port=None):
         self.stop_camera_page_worker()
+        self.ui_main.camera_page_name_box.currentTextChanged.disconnect()
 
         if ai_server_ip is not None and ai_server_port is not None:
             self.ai_server_ip = ai_server_ip
@@ -1224,8 +1236,11 @@ class MainWindow(QMainWindow):
 
         self.update_camera_img_temp()
         self.start_camera_connect_status_timer()#NVR 카메라 연결상태 확인
-        
-        self.switch_main_display_to_camera(tray_notify = tray_notify)
+
+        # self.switch_main_display_to_camera(tray_notify = tray_notify)
+
+        self.ui_main.camera_page_name_box.currentTextChanged.connect(lambda: (self.connect_camera_page_camera(), self.set_camera_page_viewer()))
+
 
     def camera_page_add_detect_area_point(self, point): #마우스 클릭으로 생성된 포인트를 viewer에 표시
         try:
@@ -1373,6 +1388,7 @@ class MainWindow(QMainWindow):
             self.stop_camera_page_worker()
 
             print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : connect_camera_page_camera")
+            print("live_viewer_blcok_active", tray_notify)
             if camera_name == None:
                 camera_name = self.ui_main.camera_page_name_box.currentText()
 
@@ -1402,6 +1418,9 @@ class MainWindow(QMainWindow):
                     else:
                         live_viewer_blcok_active = self.ai_server_info_dict["ADMIN"]["live_viewer_block_active"]
 
+                    print(tray_notify)
+                    print(self.ai_server_info_dict["ADMIN"]["live_viewer_block_active"])
+                    print("live_viewer_blcok_active" ,live_viewer_blcok_active)
                     self.camera_page_worker = Connect_Camera(pipe = pipe,
                                                             host=self.ai_server_ip, 
                                                             port=self.ai_server_port, 

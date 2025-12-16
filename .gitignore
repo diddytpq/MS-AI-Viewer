@@ -1,3 +1,9 @@
 */__pycache__/*
 */vscode/*
 */MS-AI-env/*
+
+*/build/*
+*/dist/*
+*/lib/*
+
+*/gstreamer-1.0-msvc-x86_64-1.26.7.msi

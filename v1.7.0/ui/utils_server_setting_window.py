@@ -104,7 +104,7 @@ def change_setting_info(click, self):
     with open(os.path.join(os.getcwd(), "ai_sever_info.json"), "w", encoding="UTF-8") as f:
         json.dump(self.ai_server_info_dict, f, ensure_ascii=False, indent=4)
 
-    self.create_fade_out_msg(msg="설정 정보가 저장되었습니다")
+    self.create_fade_out_msg(std_window=self.server_setting_window, msg="설정 정보가 저장되었습니다")
 
 def update_setting(self):
     """기존 저장된 설정 정보 불러오는 함수"""
@@ -156,14 +156,14 @@ def setting_change_user_info(click, self):
                         self.ai_server_info_dict["USER"][user_id] = self.server_setting_ui.setting_user_new_pw_input.text()
                         break
                     else:
-                        self.create_fade_out_msg(msg="비밀번호가 일치하지 않습니다")
+                        self.create_fade_out_msg(std_window=self.server_setting_window, msg="비밀번호가 일치하지 않습니다")
                         return
                 else:
-                    self.create_fade_out_msg(msg="비밀번호가 일치하지 않습니다")
+                    self.create_fade_out_msg(std_window=self.server_setting_window, msg="비밀번호가 일치하지 않습니다")
                     return
 
 
-        self.create_fade_out_msg(msg="사용자 정보가 저장되었습니다")
+        self.create_fade_out_msg(std_window=self.server_setting_window, msg="사용자 정보가 저장되었습니다")
         with open(os.path.join(os.getcwd(), "ai_sever_info.json"), "w", encoding="UTF-8") as f:
             json.dump(self.ai_server_info_dict, f, ensure_ascii=False, indent=4)
 
@@ -178,7 +178,7 @@ def add_notice_phone_number(click, self):
         phone_input = self.server_setting_ui.setting_notice_phone_num_input.text().strip()
         
         if not phone_input:
-            self.create_fade_out_msg(msg="전화번호를 입력해주세요")
+            self.create_fade_out_msg(std_window=self.server_setting_window, msg="전화번호를 입력해주세요")
             return
 
         # 최대 허용 전화번호 개수 체크
@@ -186,7 +186,7 @@ def add_notice_phone_number(click, self):
         max_allowed = self.ai_server_info_dict["ADMIN"]["sms_allow_phone_num"]
         
         if current_phone_count >= max_allowed:
-            self.create_fade_out_msg(msg=f"최대 전화번호 개수({max_allowed}개)를 초과했습니다")
+            self.create_fade_out_msg(std_window=self.server_setting_window, msg=f"최대 전화번호 개수({max_allowed}개)를 초과했습니다")
             return
             
         # 전화번호 형식 검증 (정규표현식)
@@ -196,7 +196,7 @@ def add_notice_phone_number(click, self):
         pattern = r'^(\d{3}[-.]?\d{4}[-.]?\d{4})$'
         
         if not re.match(pattern, phone_input):
-            self.create_fade_out_msg(msg="올바른 전화번호 형식이 아닙니다")
+            self.create_fade_out_msg(std_window=self.server_setting_window, msg="올바른 전화번호 형식이 아닙니다")
             return
         
         # 전화번호를 숫자만 추출 (구분자 제거)
@@ -204,7 +204,7 @@ def add_notice_phone_number(click, self):
         
         # 이미 존재하는 전화번호인지 확인
         if phone_number in self.ai_server_info_dict["SETTING"]["sms"]["user"]:
-            self.create_fade_out_msg(msg="이미 등록된 전화번호입니다")
+            self.create_fade_out_msg(std_window=self.server_setting_window, msg="이미 등록된 전화번호입니다")
             return
         
         # 모든 detect_type 가져오기
@@ -219,7 +219,7 @@ def add_notice_phone_number(click, self):
         with open(os.path.join(os.getcwd(), "ai_sever_info.json"), "w", encoding="UTF-8") as f:
             json.dump(self.ai_server_info_dict, f, ensure_ascii=False, indent=4)
         update_setting(self)
-        self.create_fade_out_msg(msg="전화번호가 추가되었습니다")
+        self.create_fade_out_msg(std_window=self.server_setting_window, msg="전화번호가 추가되었습니다")
         
     except Exception as e:
         print_error(e)
@@ -230,7 +230,7 @@ def del_notice_phone_number(click, self):
         selected_items = self.server_setting_ui.setting_notice_phone_list.selectedItems()
         
         if not selected_items:
-            self.create_fade_out_msg(msg="삭제할 전화번호를 선택해주세요")
+            self.create_fade_out_msg(std_window=self.server_setting_window, msg="삭제할 전화번호를 선택해주세요")
             return
         
         # 선택된 행의 인덱스를 수집 (역순으로 정렬)
@@ -253,7 +253,7 @@ def del_notice_phone_number(click, self):
             json.dump(self.ai_server_info_dict, f, ensure_ascii=False, indent=4)
         
         update_setting(self)
-        self.create_fade_out_msg(msg="전화번호가 삭제되었습니다")
+        self.create_fade_out_msg(std_window=self.server_setting_window, msg="전화번호가 삭제되었습니다")
         print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : Deleted phone numbers: {selected_phones}")
     except Exception as e:
         print_error(e)
@@ -362,7 +362,7 @@ def on_notion_detect_type_button_clicked(checked, self, detect_type, button):
             selected_items = self.server_setting_ui.setting_notice_phone_list.selectedItems()
             
             if not selected_items:
-                self.create_fade_out_msg(msg="전화번호를 선택해주세요")
+                self.create_fade_out_msg(std_window=self.server_setting_window, msg="전화번호를 선택해주세요")
                 # 버튼 상태를 원래대로 되돌림
                 button.setChecked(not checked)
                 return
@@ -378,7 +378,7 @@ def on_notion_detect_type_button_clicked(checked, self, detect_type, button):
                     json.dump(self.ai_server_info_dict, f, ensure_ascii=False, indent=4)
                 print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} : Updated {phone_number} - {detect_type}: {1 if checked else 0}")
             else:
-                self.create_fade_out_msg(msg="전화번호 정보를 찾을 수 없습니다")
+                self.create_fade_out_msg(std_window=self.server_setting_window, msg="전화번호 정보를 찾을 수 없습니다")
                 # 버튼 상태를 원래대로 되돌림
                 button.setChecked(not checked)
                 
@@ -404,7 +404,7 @@ def save_admin_info(click, self):
 
         with open(os.path.join(os.getcwd(), "ai_sever_info.json"), "w", encoding="UTF-8") as f:
             json.dump(self.ai_server_info_dict, f, ensure_ascii=False, indent=4)
-        self.create_fade_out_msg(msg="save admin info")
+        self.create_fade_out_msg(std_window=self.server_setting_window, msg="save admin info")
 
     except Exception as e:
         print_error(e)

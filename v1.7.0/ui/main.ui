@@ -3647,7 +3647,7 @@ width: 8px;
 }</string>
                 </property>
                 <property name="currentIndex">
-                 <number>1</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="camera_page">
                  <layout class="QVBoxLayout" name="verticalLayout_47">

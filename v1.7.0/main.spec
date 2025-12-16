@@ -5,8 +5,11 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
-    hiddenimports=['cv2', 'numpy'],
+    datas=[
+        ('ui/images/*', 'ui/images'),  # 이미지 파일 포함
+        ('resourece_rc.py', '.'),  # Qt Resource 파일 포함
+    ],
+    hiddenimports=['cv2', 'numpy', 'resourece_rc'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -26,7 +29,7 @@ exe = EXE(
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
@@ -42,4 +45,5 @@ coll = COLLECT(
     upx=True,
     upx_exclude=[],
     name='MS-AI',
+    contents_directory='.'
 )
