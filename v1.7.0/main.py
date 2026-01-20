@@ -557,7 +557,7 @@ class MainWindow(QMainWindow):
                     current_time = alarm_time
 
                     message_service = SolapiMessageService(
-                        api_key="NCSV30HGFAONWEPN", api_secret="KTNWYZVICVQ7XU5AFUZGNC8OQXT9AACT"
+                        api_key="api key", api_secret="api key"
                     )
 
                     kakao_option = KakaoOption(
