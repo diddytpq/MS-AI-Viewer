@@ -1,5 +1,301 @@
 # MS-AI-Viewer
-MS-AI-Viewer
+# MS-AI-Viewer
+
+이 프로젝트는 **산업용 영상 감시 시스템**의 클라이언트로서, **실시간 영상 처리**, **AI 연동**, **멀티스레딩 GUI** 등 다양한 기술적 도전을 포함한 프로젝트입니다
+
+## **📌 프로젝트 개요**
+
+| 항목 | 내용 |
+| --- | --- |
+| **프로젝트명** | MS-AI-Viewer (지능형 영상 감시 시스템 클라이언트) |
+| **버전** | v1.7.0 |
+| **개발 플랫폼** | Windows, Linux (Raspberry Pi 호환) |
+| **개발 언어** | Python |
+
+## **🎯 프로젝트 목적**
+
+AI 기반 영상 분석 서버와 연동하여 **실시간 CCTV 영상 모니터링** 및 **이상 행동 감지 알림**을 제공하는 **데스크탑 클라이언트 애플리케이션**입니다.
+
+## **🛠️ 기술 스택**
+
+**Frontend (GUI)**
+
+| 기술 | 용도 |
+| --- | --- |
+| **PySide6 (Qt6)** | 데스크탑 GUI 프레임워크 |
+| **Qt Designer** | UI 레이아웃 설계 (.ui 파일) |
+| **QThread** | 비동기 멀티스레딩 처리 |
+| **QPropertyAnimation** | UI 애니메이션 효과 |
+
+**Backend / 영상 처리**
+
+| 기술 | 용도 |
+| --- | --- |
+| **GStreamer (GI)** | RTSP 실시간 영상 스트리밍 |
+| **OpenCV** | 영상 처리 및 이미지 변환 |
+| **NumPy** | 프레임 데이터 처리 |
+
+**통신 / 보안**
+
+| 기술 | 용도 |
+| --- | --- |
+| **RESTful API (requests)** | AI 서버 통신 |
+| **Fernet (cryptography)** | 설정 파일 암호화 |
+| **HTTPBasicAuth** | NVR 인증 |
+
+**외부 연동**
+
+| 기술 | 용도 |
+| --- | --- |
+| **Solapi** | SMS/카카오 알림톡 발송 |
+| **System Tray** | 백그라운드 실행 |
+
+## **💡 핵심 기능**
+
+**1. 실시간 RTSP 영상 스트리밍# GStreamer 파이프라인을 활용한 저지연 영상 처리**
+
+```python
+# GStreamer 파이프라인을 활용한 저지연 영상 처리
+class Video_Buffer:
+    def __init__(self, pipe, appsink_name, resolution, fps):
+        self.video_source = f'rtspsrc location=rtsp://{pipe} latency=10'
+        self.video_decode = f'! decodebin ! videorate ! videoscale ! videoconvert'
+        # H.264 디코딩 → OpenCV BGR 변환
+```
+
+**특징:**
+
+- 저지연(latency=10ms) RTSP 스트리밍
+- 동적 프레임레이트 변경 지원
+- 자동 재연결 메커니즘 (EOS/Error 감지)
+- 타임아웃 기반 비디오 리더 (네트워크 장애 대응)
+
+**2. AI 감지 결과 시각화**
+
+```python
+# 6가지 이벤트 유형별 색상 구분
+COLOR = {
+    0: (0, 150, 95),    # person - 초록
+    1: (0, 242, 255),   # bicycle - 노랑
+    2: (180, 130, 70),  # car - 파랑
+    6: (147, 20, 255),  # fire - 핑크
+}
+```
+
+**지원 감지 유형:**
+
+- 👤 **침입 (Intrusion)** - ROI 영역 내 사람 감지
+- 🚶 **배회 (Loitering)** - 일정 시간 체류 감지
+- 🔻 **쓰러짐 (Falldown)** - 낙상 감지
+- 🔥 **방화 (Fire)** - 화재 감지
+- 👊 **싸움 (Fight)** - 격투 행위 감지
+- 🗑️ **무단투기 (Trash)** - 불법 투기 감지
+
+**3. 멀티스레딩 아키텍처**
+
+```python
+class CheckAlarmThread(QThread):
+    """AI 서버 알람 체크를 위한 백그라운드 스레드"""
+    new_alarm = Signal(str, str, str, str, str, str, str)
+    
+    def run(self):
+        while self._is_running:
+            # 1초 주기로 AI 서버 알람 체크
+            alarm_data = requests.get(alarm_url, timeout=1)
+            # 새로운 알람 발생 시 Signal 발신
+            self.new_alarm.emit(title, message, ...)
+```
+
+**스레드 구조:**
+
+| 스레드 | 역할 |
+| --- | --- |
+| Connect_Camera | 카메라별 영상 수신 |
+| CheckAlarmThread | AI 서버 알람 폴링 (1초 주기) |
+| UpdateCameraImageThread | 썸네일 이미지 업데이트 |
+| RtspVideoReader | 타임아웃 기반 영상 읽기 |
+
+**4. 커스텀 알림 시스템**
+
+```python
+class CustomNotification(QWidget):
+    """모던 디자인 알림 위젯 (Windows/라즈베리파이 호환)"""
+    def slide_in(self, target_pos):
+        # 화면 하단에서 슬라이드 인 애니메이션
+        self.animation_geometry.setStartValue(start_rect)
+        self.animation_geometry.setEndValue(end_rect)
+        
+    def fade_out(self):
+        # 오른쪽으로 슬라이드 아웃 (투명도 대신 - 라즈베리파이 호환)
+```
+
+**특징:**
+
+- 최대 10개 알림 스태킹
+- 자동 위치 재정렬 애니메이션
+- 클릭 시 해당 카메라 화면으로 이동
+- 라즈베리파이 X11 환경 호환 (투명도 → 위치 애니메이션)
+
+**5. ROI(관심영역) 설정**
+
+```python
+class Plot_Camera_Viewer(QLabel):
+    def paintEvent(self, event):
+        # 활성 영역: 초록색 반투명
+        fillColor = QColor(129, 215, 66, 127)
+        painter.drawPolygon(polygon)
+        
+        # 비활성 영역: 회색 반투명
+        gray_fillColor = QColor(84, 84, 84, 127)
+```
+
+- 마우스 클릭으로 다각형 ROI 지정
+- 실시간 영역 시각화
+- 다중 ROI 지원 (활성/비활성 구분)
+
+**6. 드래그 & 드롭 카메라 관리**
+
+```python
+def make_tree_draggable_with_data(tree_widget, ai_server_info_dict):
+    """Tree에서 테이블로 카메라 드래그 & 드롭"""
+    # NVR Tree → AI 서버 카메라 테이블 등록
+    # 테이블 외부로 드롭 → 카메라 삭제
+```
+
+**7. 암호화된 설정 관리**
+
+```python
+def load_crypography_json(info_filename):
+    fernet = Fernet(KEY)
+    with open(info_filename, "rb") as f:
+        file_tran = fernet.decrypt(f.read())
+        return json.loads(file_tran.decode())
+```
+
+**📊 시스템 아키텍처**
+
+```python
+┌─────────────────────────────────────────────────────────────┐
+│                    MS-AI-Viewer (Client)                    │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │  Login UI   │  │  Main UI    │  │  Popup Windows      │  │
+│  │  (인증)     │→ │  (메인화면) │  │  - AI 설정          │  │
+│  └─────────────┘  └──────┬──────┘  │  - 스케줄           │  │
+│                          │         │  - 검색             │  │
+│                          ▼         │  - 라벨링           │  │
+│  ┌─────────────────────────────┐   │  - 객체 설정        │  │
+│  │       QThread Workers       │   └─────────────────────┘  │
+│  │  - Connect_Camera (영상)    │                            │
+│  │  - CheckAlarmThread (알람)  │                            │
+│  │  - UpdateCameraImageThread  │                            │
+│  └──────────────┬──────────────┘                            │
+└─────────────────┼───────────────────────────────────────────┘
+                  │
+         ┌───────┴───────┐
+         ▼               ▼
+┌─────────────┐   ┌─────────────┐
+│  NVR Server │   │  AI Server  │
+│  (RTSP)     │   │  (REST API) │
+│  - H.264    │   │  - 알람     │
+│  - 카메라   │   │  - 설정     │
+└─────────────┘   └─────────────┘
+```
+
+## **🖥️ UI 구성**
+
+| 화면 | 파일 | 기능 |
+| --- | --- | --- |
+| 로그인 | ui_login.py | 사용자 인증 |
+| 메인 | ui_main.py | 대시보드, NVR/AI서버 관리 |
+| AI 설정 | ui_ai_setting.py | 감지 유형별 설정 |
+| 검색 | ui_search.py | 이벤트 로그 조회 |
+| 스케줄 | ui_schedule.py | 감지 스케줄 설정 |
+| 라벨링 | ui_ai_labeling.py | AI 학습 데이터 라벨링 |
+| 객체 설정 | ui_object_setting.py | 감지 객체 설정 |
+| 서버 설정 | ui_server_setting.py | NVR/AI서버 관리 |
+
+## **🔔 외부 연동**
+
+**SMS / 카카오 알림톡**
+
+```python
+from solapi import SolapiMessageService
+
+# 이벤트 감지 시 알림 발송
+kakao_option = KakaoOption(
+    pf_id="KA01PF...",
+    template_id="KA01TP...",
+    variables={
+        "#{detect_type}": str(ai_type),
+        "#{camera_name}": str(camera_name),
+        "#{current_time}": str(current_time)
+    }
+)
+```
+
+**⚙️ 설치 환경**
+
+```bash
+# Conda 환경
+conda install conda-forge::pygobject
+conda install conda-forge::cryptography
+conda install conda-forge::pyside6
+conda install conda-forge::gst-plugins-base
+conda install conda-forge::gst-plugins-good
+conda install conda-forge::gst-plugins-bad
+
+# pip
+pip install opencv-python numpy requests solapi
+```
+
+## **📈 프로젝트 규모**
+
+| 항목 | 수치 |
+| --- | --- |
+| 메인 코드 라인 | ~2,300 lines (main.py) |
+| 유틸리티 코드 라인 | ~1,300 lines (utils.py) |
+| UI 파일 | 10개 (.ui / .py) |
+| 지원 감지 유형 | 6종 |
+| 리소스 이미지 | 56개 |
+
+---
+
+## **🎖️ 핵심 역량**
+
+### **1. 실시간 영상 처리**
+
+- GStreamer 파이프라인 설계 및 최적화
+- 저지연 RTSP 스트리밍 구현
+- 네트워크 장애 대응 (타임아웃, 자동 재연결)
+
+### **2. GUI 애플리케이션 개발**
+
+- PySide6/Qt6 기반 데스크탑 앱 개발
+- 멀티스레딩 UI (QThread + Signal/Slot)
+- 커스텀 위젯 및 애니메이션 구현
+
+### **3. 시스템 통합**
+
+- REST API 기반 서버 통신
+- NVR/AI 서버 연동
+- 외부 알림 서비스 연동 (SMS/카카오톡)
+
+### **4. 보안**
+
+- 설정 파일 암호화 (Fernet)
+- 사용자 인증 및 권한 관리
+
+---
+
+## **📝 개선 가능 영역**
+
+1. **비동기 처리 개선** - asyncio 도입으로 I/O 효율화
+2. **테스트 코드** - pytest 기반 단위 테스트 추가
+3. **로깅 시스템** - 체계적인 로깅 인프라 구축
+4. **Docker 지원** - 컨테이너 기반 배포 환경
+
+---
 
 ## 로그인
 ![Image](https://github.com/user-attachments/assets/0b0714c5-84ca-426f-aa03-65699909d12d)
